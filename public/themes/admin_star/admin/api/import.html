@@ -1,0 +1,35 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <div class="row">
+            <div class="offset-md-3 col-md-6">
+                <div class="card" style="margin: 10% 0">
+                    <div class="card-header">
+                        <b>{:lang('Please install and enable the Swagger plugin.')}</b>
+                    </div>
+                    <div class="card-body">
+                        <div style="line-height: 60px;">
+                            {:lang('Please install and enable the Swagger plugin.')}
+                        </div>
+                        <div>
+                            <a href="javascript: openInstallSwaggerDialog();"
+                               class="btn btn-primary pull-right">{:lang('Go to install')}</a>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        function openInstallSwaggerDialog() {
+            parent.openIframeLayer("{:url('admin/Plugin/index')}", "{:lang('Install Swagger plugin')}", {
+                end: function () {
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+</block>

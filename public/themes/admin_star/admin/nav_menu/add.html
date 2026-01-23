@@ -1,0 +1,141 @@
+<!--
+ * @Desc: Add navigation menu
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('NavMenu/add',['nav_id'=>$nav_id])}">{:lang('ADMIN_NAVMENU_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form" action="admin/nav/menus">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Parent')}</label>
+                            <div class="layui-input-block">
+                                <select name="parent_id" class="layui-select">
+                                    <option value="0">/</option>
+                                    {$nav_trees}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                {:lang('Url')}
+                            </label>
+                            <style>
+                                .layui-form-radio{
+                                    display: inline-block;
+                                    vertical-align: middle;
+                                    line-height: 28px;
+                                    margin: 0 0 0 0;
+                                    padding-right: 0;
+                                    cursor: pointer;
+                                    font-size: 0;
+                                }
+                            </style>
+                            <div class="layui-input-inline">
+                                <div class="layui-input-group">
+                                    <div class="layui-input-split">
+                                        <input type="radio" name="url_type" value="select" checked>
+                                    </div>
+                                    <select name="href" class="layui-select" id="select-href">
+                                        <option value="{:base64_encode('home')}" data-name="{:lang('HOME')}">{:lang('HOME')}</option>
+                                        <foreach name="navs" item="vo">
+                                            <optgroup label="{$vo.name}">
+                                                {$vo.html}
+                                            </optgroup>
+                                        </foreach>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div class="layui-input-inline">
+                                <div class="layui-input-group">
+                                    <div class="layui-input-split">
+                                        <input type="radio" name="url_type" value="custom">
+                                    </div>
+                                    <input type="text" class="layui-input" name="external_href" id="external-href">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                {:lang('Name')}
+                            </label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="name" id="name-input" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Url Target')}</label>
+                            <div class="layui-input-block">
+                                <select class="layui-select" name="target">
+                                    <option value="">{:lang('Default')}</option>
+                                    <option value="_blank">_blank</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Icon')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="icon" value="">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Status')}</label>
+                            <div class="layui-input-block">
+                                <select name="status" class="layui-select">
+                                    <option value="1">{:lang('DISPLAY')}</option>
+                                    <option value="0">{:lang('HIDDEN')}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="hidden" name="nav_id" value="{$nav_id}"/>
+                                <button type="submit" class="layui-btn js-ajax-submit">
+                                    <i class="layui-icon layui-icon-success"></i> {:lang('ADD')}
+                                </button>
+                                <a class="layui-btn layui-btn-primary" href="{:url('NavMenu/index',['nav_id'=>$nav_id])}">
+                                    {:lang('BACK')}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    
+    // URL选择和手动输入切换
+    form.on('radio(url_type)', function(data){
+        if(data.value === 'select') {
+            $('#select-href').attr('name', 'href').removeAttr('disabled');
+            $('#external-href').attr('name', 'external_href').attr('disabled', 'disabled');
+        } else {
+            $('#external-href').attr('name', 'href').removeAttr('disabled');
+            $('#select-href').attr('name', 'external_href').attr('disabled', 'disabled');
+        }
+    });
+
+    // 选择URL时自动填充名称
+    form.on('select(select-href)', function(data){
+        var name = $(data.elem).find("option:selected").data('name');
+        $('#name-input').val(name);
+    });
+});
+</script>
+</body>
+</html>

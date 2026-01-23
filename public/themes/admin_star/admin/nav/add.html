@@ -1,0 +1,52 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('Nav/index')}">{:lang('ADMIN_NAV_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('Nav/add')}">{:lang('ADMIN_NAV_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form" action="admin/navs">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="form-required">*</span>{:lang('Name')}
+                            </label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="name" value="" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Remark')}</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Main Navigation')}</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="is_main" value="1" lay-skin="switch" lay-text="YES|NO">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn js-ajax-submit">
+                                    <i class="layui-icon layui-icon-success" style="color: #FFF;"></i> {:lang('ADD')}
+                                </button>
+                                <a class="layui-btn layui-btn-primary" href="{:url('Nav/index')}">
+                                    {:lang('BACK')}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

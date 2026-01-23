@@ -1,0 +1,96 @@
+<!--
+ * @Desc: 菜单管理
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header" />
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this"><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+                        <li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+                        <li><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <form class="js-ajax-form" action="admin/menus/list/order" method="post">
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-xs js-ajax-submit" type="submit" title="{:lang('Sort')}">
+                                    <i class="layui-icon layui-icon-sort"></i> {:lang('Sort')}
+                                </button>
+                            </div>
+                            <table class="layui-table" id="menus-table">
+                                <thead>
+                                    <tr>
+                                        <th width="80">{:lang('SORT')}</th>
+                                        <th width="50">ID</th>
+                                        <th>{:lang('NAME')}</th>
+                                        <th>{:lang('APP_CONTROLLER_ACTION')}</th>
+                                        <th width="80">{:lang('STATUS')}</th>
+                                        <th width="150">{:lang('ACTIONS')}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tree name="menus" item="menu">
+                                        <tr id="node-{$menu.id}"
+                                            class="{$menu.parent_id?'child-of-node-'.$menu.parent_id:''}"
+                                            style="{$menu.parent_id?'display:none;':''}">
+                                            <td style="padding-left:20px;">
+                                                <input name="list_orders[{$menu.id}]" type="text" value="{$menu.list_order}"
+                                                    class="layui-input layui-input-sm" style="width:50px;height:26px;line-height:26px;padding:0 5px;display: inline-block;">
+                                            </td>
+                                            <td>{$menu.id}</td>
+                                            <td>{$menu._spacer}{$menu.name}</td>
+                                            <td>{$menu.app}/{$menu.controller}/{$menu.action}</td>
+                                            <td>
+                                                <empty name="menu.status">
+                                                    <span class="layui-badge">{:lang('HIDDEN')}</span>
+                                                    <else />
+                                                    <span class="layui-badge layui-bg-green">{:lang('DISPLAY')}</span>
+                                                </empty>
+                                            </td>
+                                            <td>
+                                                <a class="layui-btn layui-btn-xs"
+                                                    href="{:url('Menu/add', ['parent_id' =>$menu.id])}"
+                                                    title="{:lang('ADD_SUB_MENU')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-add-1"></i>
+                                                </a>
+                                                <a class="layui-btn layui-btn-xs layui-btn-normal"
+                                                    href="{:url('Menu/edit', ['id' =>$menu.id])}"
+                                                    title="{:lang('EDIT')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-edit"></i>
+                                                </a>
+                                                <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                                    href="javascript:void(0);" data-href="admin/menus/{$menu.id}"
+                                                    title="{:lang('DELETE')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-delete"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tree>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<block name="scripts">
+    <script>
+        $(document).ready(function () {
+            Wind.css('treeTable');
+            Wind.use('treeTable', function () {
+                $("#menus-table").treeTable({
+                    indent: 20
+                });
+            });
+        });
+    </script>
+</block>

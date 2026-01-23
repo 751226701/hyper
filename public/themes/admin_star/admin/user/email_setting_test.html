@@ -1,0 +1,52 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form method="post" class="layui-form js-ajax-form" action="admin/my/email/setting/test">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            {:lang('Recipient')}<span class="form-required">*</span>
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" name="to" lay-verify="required" 
+                                   placeholder="请输入收件人邮箱">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            {:lang('Title')}<span class="form-required">*</span>
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" name="subject" lay-verify="required" 
+                                   placeholder="请输入邮件标题">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">
+                            {:lang('Content')}<span class="form-required">*</span>
+                        </label>
+                        <div class="layui-input-block">
+                            <textarea class="layui-textarea" name="content" lay-verify="required" 
+                                      placeholder="请输入邮件内容"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item text-center">
+                        <button type="submit" class="layui-btn js-ajax-submit">
+                            <i class="layui-icon layui-icon-release"></i> {:lang('Send')}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

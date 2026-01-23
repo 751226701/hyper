@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<title>{$category.name} {$category.seo_title} {$site_info.site_name|default=''}</title>
+		<meta name="keywords" content="{$category.seo_keywords},{$site_info.site_seo_keywords|default=''}"/>
+		<meta name="description" content="{$category.seo_description},{$site_info.site_seo_description|default=''}">
+		<include file="public@head"/>
+		<hook name="before_head_end"/>
+		<style type="text/css" media="all">
+        .tab-link{display:flex;justify-content:space-between;border-bottom:1px solid #dfdfdf;}
+        .tab-link a{display:inline-block;padding:10px 30px;}
+        .tab-link a:nth-child(1){border-top:1px solid #dfdfdf;border-left:1px solid #dfdfdf;border-right:1px solid #dfdfdf;border-bottom:1px solid #fff;border-top-left-radius:;}
+        #categoryList a{border:1px solid #dfdfdf;padding:2px 15px;margin:5px;display:inline-block;border-radius:5px;}
+        #categoryList a.active{background-color:#ff1949;border:1px solid #ff1949;color:#fff;}
+        .media{padding:10px;border-bottom:1px solid #eaeeef;}
+        .media:nth-last-child(1){border-bottom:none;}
+        .media-body h4{font-size:18px;margin-bottom:10px;}
+        .media-body div a{                /**/}
+        .media-body .tag span{background:#00b42a;padding:2px 6px;color:#fff;margin-right:5px;font-weight:normal;font-size:12px;border-radius:3px;}
+        .hide{display:none}
+		</style>
+</head>
+
+<body>
+	<include file="public@nav"/>
+    <!-- Start Breadcrumb 
+    ============================================= -->
+    <!--<div class="breadcrumb-area bg-gray text-center shadow dark text-light bg-cover" style="background-image: url(__TMPL__/public/assets/img/banner/26.jpg);">-->
+    <!--    <div class="container">-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-lg-8 offset-lg-2">-->
+    <!--                <h1>{$category.name}</h1>-->
+    <!--                <ul class="breadcrumb">-->
+    <!--                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>-->
+    <!--                    <li class="active">{$category.name}</li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!-- End Breadcrumb -->
+
+    <!-- Start Blog
+    ============================================= -->
+    <div class="blog-area full-blog right-sidebar full-blog default-padding">
+        <div class="container">
+            <div class="blog-items">
+                <div class="row">
+                    <div class="blog-content col-lg-8 col-md-12">
+                        <div class="blog-item-box">
+                            
+                            <php>
+                                
+                                $categoryId = $category['id'];
+                                
+                                $parentId = _wien_discussParentCategoriesId($category['id']);
+                                //echo $parentId;
+                                if($parentId==0){
+                                    $subCats = \app\discuss\service\ApiService::allSubCategories("$categoryId");
+                                }else{
+                                    
+                                    $subCats = \app\discuss\service\ApiService::allSubCategories($parentId);
+                                    $categoryId = $parentId;
+                                }
+                                
+                                
+                            </php>
+                            <div id="categoryList">
+                                <a href="{:cmf_url('discuss/List/index',array('id'=>$categoryId))}">全部</a>
+                                <foreach name="subCats"  item="vo">
+                                <a href="{:cmf_url('discuss/List/index',array('id'=>$vo['id']))}">{$vo.name}</a>
+                                </foreach>
+                            </div>
+                            <br />
+                            <form method="post" action="{:cmf_url('discuss/List/index',array('id'=>$category['id']))}">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" placeholder="Search for..."
+                                           value="{$keyword|default=''}">
+                                    <span class="input-group-btn">
+                                        <input type="submit" class="btn btn-primary" value="搜索" style="width:100px;border-radius:0"/>
+                                    </span>
+                                </div>
+                            </form>
+                            <br />
+                            <ul class="tab-link">
+                                <a href="javascript:;"><i class="fa fa-list"></i>&nbsp;最新发布</a></li>
+                                <a href="{:url('user/discuss/add')}"><i class="fa fa-plus-circle"></i>&nbsp;发布话题</a>
+                            </ul>
+                            <div style="border: 1px solid #eaeeef;border-top: none;">
+                             
+                                <php>
+                                    $where=function($query)use($keyword){
+                    				    $query->where('post.create_time','>=',0)->where('post.post_title','like',"%$keyword%");
+                    				};
+                                    $page=[
+                                        'list_rows'=>20,
+                                        'next'=>'下一页',
+                                        'prev'=>'上一页'
+                                    ];
+                                </php>
+                                <discuss:articles item="vo" where="$where" order="post.create_time DESC" page="$page"
+                                                 relation="categories"
+                                                 categoryIds="$category.id"
+                                                 returnVarName="articles_data">
+                                    
+                                    
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="javascript:;" style="margin-right:10px" >
+                                             <if condition="empty($vo.user.avatar)">
+                                                <img src="__TMPL__/public/assets/img/headicon_one.png" class="media-object" alt="{$vo.post_title}" style="width:80px;height:80px"/>
+                                                <else/>
+                                                <img src="{:cmf_get_image_url($vo.user.avatar)}" class="media-object" alt="{$vo.post_title}" style="width:100px;height:100px"/>
+                                            </if>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <a href="{:cmf_url('discuss/Article/index',array('id'=>$vo['id'],'cid'=>$category['id']))}" style="color:#333;margin-bottom:10px">{$vo.post_title}</a>
+                                        </h4>
+                                        <!--<p>{$vo.post_excerpt}</p>-->
+                                        <div>
+                                            <div>
+                                                <foreach name="vo.categories" item="voo">
+                                                    <a href="javascript:;" class="tag"><span class="label label-success">{$voo.name}</span></a>
+                                                </foreach>
+                                                <!--<a href="javascript:;"><span class="label label-warning">{$vo.user.user_nickname}</span></a>-->
+                                                <a href="javascript:;"><i class="fa fa-eye"></i><span>&nbsp;{$vo.post_hits}</span></a>
+                                            </div>
+                                            <span class="pull-right" style="color:#8d8d8d">{:date('Y-m-d H:i',$vo.published_time)}</span>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                </discuss:articles>
+                                <script type="text/javascript" charset="utf-8">
+                                    $(".media-body a span").each(function() {
+                                        // console.log($(this).text());
+                                    	if ($(this).text() == '全部') {
+                                    	    $(this).addClass('hide');
+                                    	}
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="row">
+                            <div class="col-md-12 pagi-area text-center">
+                                
+                                <nav aria-label="navigation">
+                                    <ul class="pagination">
+                                        <page/>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Start Sidebar -->
+                    <div class="sidebar col-lg-4 col-md-12">
+                        <aside>
+                            <!--<div class="sidebar-item search">-->
+                            <!--    <div class="sidebar-info">-->
+                            <!--        <form method="post" action="{:cmf_url('portal/Search/index')}">-->
+                            <!--            <input type="text" class="form-control" value="{:input('param.keyword','')}" name="keyword" id="keyword">-->
+                            <!--            <button type="submit"><i class="fas fa-search"></i></button>-->
+                            <!--        </form>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+                            <!-- 热门文章 -->
+						    <widget name="hottest_articles">
+                            <div class="sidebar-item recent-post">
+                                <div class="title">
+                                    <h4>{$widget.title}</h4>
+                                </div>
+                                <ul>
+                                    <portal:articles limit="5" order="post.post_hits DESC" categoryIds="$widget.vars.category_id">
+                                    <li>
+                                        <div class="thumb">
+                                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">
+                                                <if condition="empty($vo.more.thumbnail)">
+    											    <img src="__TMPL__/public/assets/img/common/news.png">
+    											<else/>
+    												<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+    											</if>
+                                            </a>
+                                        </div>
+                                        <div class="info">
+                                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+                                            <div class="meta-title">
+                                                <span class="post-date"><i class="fas fa-clock"></i> {:date('Y-m-d',$vo.published_time)}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </portal:articles>
+                                    
+                                </ul>
+                            </div>
+                            </widget>
+                            <!-- 分类 -->
+                            <widget name="categories">
+                            <php>
+                                $productsId=$category['id'];
+                                $subC = _wien_subCategories("$productsId");
+                            </php>
+                            <div class="sidebar-item category">
+                                <div class="title">
+                                    <h4>category 分类列表</h4>
+                                </div>
+                                <div class="sidebar-info">
+                                    <ul>
+                                        <foreach name="subC" item="vo">
+                                            <li><a href="{:cmf_url('portal/List/index',array('id'=>$vo['id']))}">{$vo.name}<!--<span>69</span>--></a></li>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </div>
+                            </widget>
+                            <!-- 热门图片 -->
+						    <widget name="hottest_img">
+                            <div class="sidebar-item gallery">
+                                <div class="title">
+                                    <h4>Gallery 图片</h4>
+                                </div>
+                                <div class="sidebar-info">
+                                    <ul>
+                                        <portal:articles limit="6" order="post.post_hits DESC" categoryIds="$widget.vars.category_id">
+                                        <li>
+                                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">
+                                                <if condition="empty($vo.more.thumbnail)">
+    											    <img src="__TMPL__/public/assets/img/common/news.png">
+    											<else/>
+    												<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+    											</if>
+                                            </a>
+                                        </li>
+                                        </portal:articles>
+                                    </ul>
+                                </div>
+                            </div>
+                            </widget>
+                        </aside>
+                    </div>
+                    <!-- End Start Sidebar -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<include file="public@footer"/>
+<include file="public@scripts"/>
+<script type="text/javascript" charset="utf-8">
+$("#categoryList a").each(function() {
+	if ($(this)[0].href == String(window.location)) {
+	    $(this).addClass("active");
+	}
+});
+</script>
+<hook name="before_body_end"/>
+</body>
+</html>

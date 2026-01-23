@@ -1,0 +1,140 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="javascript:void(0)">{:lang('ADMIN_RECYCLEBIN_INDEX')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form class="js-ajax-form" method="post">
+                        <div class="table-toolbar">
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-xs layui-btn-danger js-ajax-submit" type="submit"
+                                        data-method="delete"
+                                        data-action="admin/recycle/bin/items" data-subcheck="true">
+                                    <i class="layui-icon layui-icon-delete"></i>{:lang('DELETE')}
+                                </button>
+                                <button class="layui-btn layui-btn-xs layui-btn-normal js-ajax-submit" type="submit"
+                                        data-action="admin/recycle/bin/restore" data-subcheck="true">
+                                    <i class="layui-icon layui-icon-refresh"></i>{:lang('Restore')}
+                                </button>
+                                <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                   href="admin/recycle/bin/clear"
+                                   data-msg="{:lang('EMPTY_RECYCLE_BIN_CONFIRM_MSG')}">
+                                    <i class="layui-icon layui-icon-delete"></i>{:lang('Empty Recycle Bin')}
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th width="40">
+                                        <input type="checkbox" lay-skin="primary" lay-filter="allChoose" 
+                                               class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                                    </th>
+                                    <th width="60">ID</th>
+                                    <th>{:lang('Name')}</th>
+                                    <th>{:lang('Type')}</th>
+                                    <th>{:lang('Delete Time')}</th>
+                                    <th>{:lang('Operator')}</th>
+                                    <th width="150">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <foreach name="list" item="vo">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" lay-skin="primary" class="js-check" 
+                                                   data-yid="js-check-y" data-xid="js-check-x"
+                                                   name="ids[]" value="{$vo.id}" title="ID:{$vo.id}">
+                                        </td>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.name}</td>
+                                        <td>{:lang('TABLE_'.strtoupper($vo['table_name']))}</td>
+                                        <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                                        <td>{$vo.user.user_login|default=''}</td>
+                                        <td>
+                                            <div class="layui-btn-group">
+                                                <a class="layui-btn layui-btn-xs layui-btn-normal js-ajax-dialog-btn"
+                                                   data-href="admin/recycle/bin/restore?ids={$vo.id}"
+                                                   data-msg="{:lang('RESTORE_CONFIRM_MSG')}">
+                                                    <i class="layui-icon layui-icon-refresh"></i>还原
+                                                </a>
+                                                <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                                   data-href="admin/recycle/bin/items?ids={$vo.id}">
+                                                    <i class="layui-icon layui-icon-delete"></i>删除
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                            </tbody>
+                        </table>
+                        <div id="pagination" class="pagination">
+                            {$page}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    
+    // 全选
+    form.on('checkbox(allChoose)', function(data){
+        var child = $(data.elem).closest('table').find('tbody input[type="checkbox"]');
+        child.each(function(index, item){
+            item.checked = data.elem.checked;
+        });
+        form.render('checkbox');
+    });
+    
+    // 给所有checkbox添加lay-skin属性
+    $('input[type="checkbox"]').attr('lay-skin', 'primary');
+    
+    // 给所有js-check类的checkbox添加lay-filter属性
+    $('.js-check').attr('lay-filter', 'itemChoose');
+    
+    // 重新渲染表单元素
+    form.render();
+});
+</script>
+<style>
+/* 移除选项卡边框 */
+.layui-tab {
+    margin: 0;
+}
+.layui-tab-brief > .layui-tab-title {
+    border-bottom-color: #f6f6f6;
+}
+
+/* 工具栏样式 */
+.table-toolbar {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 调整表格样式 */
+.layui-table {
+    margin: 0;
+}
+
+/* 调整分页样式 */
+.pagination {
+    margin-top: 10px;
+    text-align: center;
+}
+</style>
+</body>
+</html>

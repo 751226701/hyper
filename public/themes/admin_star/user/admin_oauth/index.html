@@ -1,0 +1,64 @@
+<!--
+ * @Desc: 第三方用户
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">{:lang('USER_ADMINOAUTH_INDEX')}</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="js-ajax-form">
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>{:lang('USER_FROM')}</th>
+                                    <th>{:lang('AVATAR')}</th>
+                                    <th>{:lang('BINGDING_ACCOUNT')}</th>
+                                    <th>{:lang('FIRST_LOGIN_TIME')}</th>
+                                    <th>{:lang('LAST_LOGIN_TIME')}</th>
+                                    <th>{:lang('LAST_LOGIN_IP')}</th>
+                                    <th>{:lang('LOGIN_TIMES')}</th>
+                                    <th width="150">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <foreach name="lists" item="vo">
+                                    <tr>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.third_party}</td>
+                                        <td><img width="25" height="25" src="{$vo.avatar}"/></td>
+                                        <td>{$vo.user_nickname}</td>
+                                        <td>{:date('Y-m-d H:i:s',$vo['create_time'])}</td>
+                                        <td>{:date('Y-m-d H:i:s',$vo['last_login_time'])}</td>
+                                        <td>{$vo.last_login_ip}</td>
+                                        <td>{$vo.login_times}</td>
+                                        <td>
+                                            <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                               href="javascript:"
+                                               data-href="admin/user/oauth/users/{$vo.id}"
+                                               title="{:lang('DELETE')}" data-toggle="tooltip">
+                                                <i class="layui-icon layui-icon-delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                            </tbody>
+                        </table>
+                        <div class="pagination">{$page}</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>编辑站点</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<form action="{:cmf_plugin_url('HiTheme://AdminIndex/edit_post')}" method="post" class="form-horizontal js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<tr>
+					<th width="100">站点域名<span class="form-required">*</span></th>
+					<td>
+						<input class="form-control" type="hidden" value="{$data.id}" name="id" />
+						<input class="form-control" type="text" name="theme_url" value="{$data.theme_url}" placeholder="不用输入http://" required autocomplete="off" />
+					</td>
+				</tr>
+				<tr>
+					<th>电脑端模板<span class="form-required">*</span></th>
+					<td>
+						<select class="form-control" name="pc_theme">
+							<option value="">请选择模板</option>
+							<foreach name="themes" item="vo">
+								<option value="{$vo.theme}" {$vo.theme==$data.pc_theme?'selected' : ''}>{$vo.theme} | {$vo.description}</option>
+							</foreach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>手机端模板</th>
+					<td>
+						<select class="form-control" name="mobile_theme">
+							<option value="">请选择模板</option>
+							<foreach name="themes" item="vo">
+								<option value="{$vo.theme}" {$vo.theme==$data.mobile_theme?'selected' : ''}>{$vo.theme} | {$vo.description}</option>
+							</foreach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>是否开启</th>
+					<td>
+						<select class="form-control" name="status">
+							<option value="1" {$data.status?'selected' : ''}>开启</option>
+							<option value="0" {$data.status?'' : 'selected'}>关闭</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>备注</th>
+					<td>
+						<textarea class="form-control" name="msg" placeholder="备注" rows="8">{$data.msg}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+					</td>
+				</tr>
+			</table>
+
+		</form>
+	</div>
+
+    <include file="public/scripts"/>
+</body>
+</html>
+

@@ -1,0 +1,103 @@
+<!--
+ * @Desc: Add slide item
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form action="admin/slide/items" method="post" class="layui-form js-ajax-form">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md9">
+                                <div class="layui-card">
+                                    <div class="layui-card-body">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">
+                                                <span class="layui-badge-dot"></span> {:lang('Title')}
+                                            </label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="title" lay-verify="required">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{:lang('Url')}</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="url">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{:lang('Url Target')}</label>
+                                            <div class="layui-input-block">
+                                                <select name="target" class="layui-select">
+                                                    <option value="_blank" selected="selected">_blank</option>
+                                                    <option value="_self">_self</option>
+                                                    <option value="_parent">_parent</option>
+                                                    <option value="_top">_top</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{:lang('Description')}</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="description">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">{:lang('Content')}</label>
+                                            <div class="layui-input-block">
+                                                <textarea class="layui-textarea" name="content"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3">
+                                <div class="layui-card">
+                                    <div class="layui-card-header"><b>{:lang('Thumbnail')}</b></div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-upload-drag" id="upload-thumb">
+                                            <input type="hidden" name="image" id="thumb">
+                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                 id="thumb-preview" style="max-width: 100%;">
+                                        </div>
+                                        <div class="layui-btn-container" style="margin-top: 10px;">
+                                            <button type="button" class="layui-btn layui-btn-sm" onclick="uploadOneImage('{:lang('Upload Image')}','#thumb')">
+                                                <i class="layui-icon layui-icon-upload"></i> {:lang('Upload')}
+                                            </button>
+                                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary" onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');">
+                                                {:lang('Cancel')}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="hidden" name="slide_id" value="{$slide_id}">
+                                <button type="submit" class="layui-btn js-ajax-submit">
+                                    <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>{:lang('ADD')}
+                                </button>
+                                <a class="layui-btn layui-btn-primary" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">
+                                    {:lang('BACK')}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

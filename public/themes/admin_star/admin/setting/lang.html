@@ -1,0 +1,331 @@
+<!--
+ * @Desc: Language settings
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<style>
+    .layui-form-item {
+        position: relative;
+        margin-bottom: 15px;
+        clear: unset;
+        }
+    .layui-form-radio{
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 28px;
+        margin: 0 0 0 0;
+        padding-right: 0;
+        cursor: pointer;
+        font-size: 0;
+    }
+    .layui-form-item .layui-form-checkbox[lay-skin=primary]{
+        margin-top: 0;
+    }
+    .layui-form-item {
+        position: relative;
+        margin-bottom: 15px;
+        clear: unset;
+    }
+    .layui-tab-content {
+        padding: 20px;
+    }
+
+    .layui-form-label {
+        width: 150px;
+    }
+
+    .layui-input-block {
+        margin-left: 150px;
+    }
+
+    .home-lang-row,
+    .admin-lang-row {
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #f8f8f8;
+        border-radius: 4px;
+    }
+</style>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">{:lang('ADMIN_SETTING_LANG')}</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="put" class="layui-form js-ajax-form" action="admin/setting/lang">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Home multi-language mode')}</label>
+                            <div class="layui-input-block">
+                                <select name="multi_lang_mode">
+                                    <php>
+                                        $multi_lang_mode=empty($lang_setting['multi_lang_mode'])?1:$lang_setting['multi_lang_mode'];
+                                    </php>
+                                    <option value="1">{:lang('URL Mode')}</option>
+                                    <option value="2" {$multi_lang_mode==2?'selected':''}>{:lang('Domain Mode')}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Home multi-language')}</label>
+                            <div class="layui-input-block">
+                                <php>
+                                    $home_multi_lang=empty($lang_setting['home_multi_lang'])?0:$lang_setting['home_multi_lang'];
+                                </php>
+                                <select name="home_multi_lang">
+                                    <option value="0" {$home_multi_lang==0?'selected':''}>{:lang('DISABLED')}</option>
+                                    <option value="1" {$home_multi_lang==1?'selected':''}>{:lang('ENABLED')}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Home Lang List')}</label>
+                            <div class="layui-input-block">
+                                <php>
+                                    $default_lang=empty($lang_setting['default_lang'])?'zh-cn':$lang_setting['default_lang'];
+                                </php>
+                                
+                                <notempty name="lang_setting.allow_lang_list">
+                                    <foreach name="lang_setting.allow_lang_list" item="allow_lang">
+                                        <div class="layui-form-item home-lang-row">
+                                            <div class="layui-inline" style="width: 400px;">
+                                                <div class="layui-input-inline" style="width: 400px;">
+                                                    <div class="layui-input-group">
+                                                        <div class="layui-input-split">
+                                                            <input type="radio" name="default_lang" value="{$allow_lang.lang}" 
+                                                                    title="{:lang('Default')}" {$default_lang==$allow_lang.lang?'checked':''}>
+                                                        </div>
+                                                        <div class="layui-input-split">
+                                                            <input type="checkbox" name="allow_lang_list[{$key}][enable]" 
+                                                                    value="1" title="{:lang('ENABLED')}" 
+                                                                    {:empty($allow_lang.enable)?'':'checked'}>
+                                                        </div>
+                                                        <input type="text" class="layui-input" name="allow_lang_list[{$key}][lang]" 
+                                                                value="{$allow_lang.lang}" placeholder="{:lang('Lang')}" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline" style="width: 200px;">
+                                                <input type="text" class="layui-input" name="allow_lang_list[{$key}][alias]" 
+                                                        value="{$allow_lang.alias}" placeholder="{:lang('Lang Alias')}">
+                                            </div>
+                                            <div class="layui-inline" style="width: 200px;">
+                                                <input type="text" class="layui-input" name="allow_lang_list[{$key}][domain]" 
+                                                        value="{$allow_lang.domain}" placeholder="{:lang('Lang Domain')}">
+                                            </div>
+                                            <div class="layui-inline" style="width: 200px;">
+                                                <input type="text" class="layui-input" name="allow_lang_list[{$key}][name]" 
+                                                        value="{$allow_lang.name|default=''}" placeholder="{:lang('Name')}">
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button type="button" class="layui-btn layui-btn-danger home-lang-delete-btn">
+                                                    <i class="layui-icon layui-icon-delete"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </foreach>
+                                </notempty>
+                                <div class="layui-form-item">
+                                    <button type="button" class="layui-btn" id="home-lang-add-btn">
+                                        <i class="layui-icon layui-icon-add-1"></i> {:lang('ADD')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                {:lang('Admin multi-language')}
+                            </label>
+                            <div class="layui-input-block">
+                                <select name="admin_multi_lang">
+                                    <option value="0">{:lang('DISABLED')}</option>
+                                    <php>
+                                        $admin_multi_lang=empty($lang_setting['admin_multi_lang'])?0:$lang_setting['admin_multi_lang'];
+                                    </php>
+                                    <option value="1" {$admin_multi_lang==1?'selected':''}>{:lang('ENABLED')}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                {:lang('Admin Lang List')}
+                            </label>
+                            <div class="layui-input-block">
+                                <php>
+                                    $admin_default_lang=empty($lang_setting['admin_default_lang'])?'zh-cn':$lang_setting['admin_default_lang'];
+                                </php>
+                                <notempty name="lang_setting.admin_allow_lang_list">
+                                    <foreach name="lang_setting.admin_allow_lang_list" item="allow_lang">
+                                        <div class="layui-form-item admin-lang-row">
+                                            <div class="layui-inline" style="width: 400px;">
+                                                <div class="layui-input-inline" style="width: 400px;">
+                                                    <div class="layui-input-group">
+                                                        <div class="layui-input-split">
+                                                            <input type="radio" name="admin_default_lang" value="{$allow_lang.lang}" 
+                                                                    title="{:lang('Default')}" {$admin_default_lang==$allow_lang.lang?'checked':''}>
+                                                        </div>
+                                                        <div class="layui-input-split">
+                                                            <input type="checkbox" name="admin_allow_lang_list[{$key}][enable]" 
+                                                                    value="1" title="{:lang('ENABLED')}" 
+                                                                    {:empty($allow_lang.enable)?'':'checked'}>
+                                                        </div>
+                                                        <input type="text" class="layui-input" name="admin_allow_lang_list[{$key}][lang]" 
+                                                                value="{$allow_lang.lang}" placeholder="{:lang('Lang')}" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline" style="width: 200px;">
+                                                <input type="text" class="layui-input" name="admin_allow_lang_list[{$key}][name]" 
+                                                        value="{$allow_lang.name|default=''}" placeholder="{:lang('Name')}">
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button type="button" class="layui-btn layui-btn-danger admin-lang-delete-btn">
+                                                    <i class="layui-icon layui-icon-delete"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </foreach>
+                                </notempty>
+                                <div class="layui-form-item">
+                                    <button type="button" class="layui-btn" id="admin-lang-add-btn">
+                                        <i class="layui-icon layui-icon-add-1"></i> {:lang('ADD')}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div>
+                                <button type="submit" class="layui-btn layui-btn-fluid js-ajax-submit">
+                                    <i class="layui-icon layui-icon-success"></i> {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="home-lang-item-tpl">
+    <div class="layui-form-item home-lang-row">
+        <div class="layui-inline" style="width: 400px;">
+            <div class="layui-input-inline" style="width: 400px;">
+                <div class="layui-input-group">
+                    <div class="layui-input-split">
+                        <input type="radio" name="default_lang" value="" title="{:lang('Default')}">
+                    </div>
+                    <div class="layui-input-split">
+                        <input type="checkbox" name="allow_lang_list[{key}][enable]" value="1" 
+                               title="{:lang('ENABLED')}" checked>
+                    </div>
+                    <input type="text" class="layui-input" name="allow_lang_list[{key}][lang]" 
+                           placeholder="{:lang('Lang')}" required>
+                </div>
+            </div>
+        </div>
+        <div class="layui-inline" style="width: 200px;">
+            <input type="text" class="layui-input" name="allow_lang_list[{key}][alias]" 
+                   placeholder="{:lang('Lang Alias')}">
+        </div>
+        <div class="layui-inline" style="width: 200px;">
+            <input type="text" class="layui-input" name="allow_lang_list[{key}][domain]" 
+                   placeholder="{:lang('Lang Domain')}">
+        </div>
+        <div class="layui-inline" style="width: 200px;">
+            <input type="text" class="layui-input" name="allow_lang_list[{key}][name]" 
+                   placeholder="{:lang('Name')}">
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn layui-btn-danger home-lang-delete-btn">
+                <i class="layui-icon layui-icon-delete"></i>
+            </button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="admin-lang-item-tpl">
+    <div class="layui-form-item admin-lang-row">
+        <div class="layui-inline" style="width: 400px;">
+            <div class="layui-input-inline" style="width: 400px;">
+                <div class="layui-input-group">
+                    <div class="layui-input-split">
+                        <input type="radio" name="admin_default_lang" value="" title="{:lang('Default')}">
+                    </div>
+                    <div class="layui-input-split">
+                        <input type="checkbox" name="admin_allow_lang_list[{key}][enable]" value="1" 
+                               title="{:lang('ENABLED')}" checked>
+                    </div>
+                    <input type="text" class="layui-input" name="admin_allow_lang_list[{key}][lang]" 
+                           placeholder="{:lang('Lang')}" required>
+                </div>
+            </div>
+        </div>
+        <div class="layui-inline" style="width: 200px;">
+            <input type="text" class="layui-input" name="admin_allow_lang_list[{key}][name]" 
+                   placeholder="{:lang('Name')}">
+        </div>
+        <div class="layui-inline">
+            <button type="button" class="layui-btn layui-btn-danger admin-lang-delete-btn">
+                <i class="layui-icon layui-icon-delete"></i>
+            </button>
+        </div>
+    </div>
+</script>
+
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    
+    // 添加前台语言
+    $('#home-lang-add-btn').click(function () {
+        var tpl = $('#home-lang-item-tpl').html();
+        tpl = tpl.replace(/\{key\}/g, new Date().getTime());
+        var $tpl = $(tpl);
+        $(this).parent('.layui-form-item').before($tpl);
+        form.render(); // 重新渲染表单元素
+    });
+
+    // 删除前台语言
+    $(document).on('click', '.home-lang-delete-btn', function () {
+        $(this).parents('.home-lang-row').remove();
+    });
+
+    // 添加后台语言
+    $('#admin-lang-add-btn').click(function () {
+        var tpl = $('#admin-lang-item-tpl').html();
+        tpl = tpl.replace(/\{key\}/g, new Date().getTime());
+        var $tpl = $(tpl);
+        $(this).parent('.layui-form-item').before($tpl);
+        form.render(); // 重新渲染表单元素
+    });
+
+    // 删除后台语言
+    $(document).on('click', '.admin-lang-delete-btn', function () {
+        $(this).parents('.admin-lang-row').remove();
+    });
+
+    // 语言代码值变化时同步到radio
+    $(document).on('change', '[name^="allow_lang_list"][name$="[lang]"]', function () {
+        var $parent = $(this).parents('.home-lang-row');
+        $parent.find('[name="default_lang"]').val($(this).val());
+    });
+
+    $(document).on('change', '[name^="admin_allow_lang_list"][name$="[lang]"]', function () {
+        var $parent = $(this).parents('.admin-lang-row');
+        $parent.find('[name="admin_default_lang"]').val($(this).val());
+    });
+});
+</script>
+</body>
+</html>

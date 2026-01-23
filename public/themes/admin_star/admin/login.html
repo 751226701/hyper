@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<php>
+    $_admin_setting=cmf_get_option('admin_settings');
+</php>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>{$_admin_setting.admin_name|default='ThinkCMF'}</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="__TMPL__/public/assets/layui/css/layui.css" rel="stylesheet">
+    <link href="__STATIC__/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__TMPL__/public/layuiadmin/style/login.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="animated-bg"></div>
+        <div class="stars" id="starsContainer"></div>
+        <div class="theme-toggle" id="themeToggle">
+            <i class="layui-icon layui-icon-theme"></i>
+        </div>
+        <div class="theme-picker">
+            <div class="color-item">
+                <span class="color-label">起始颜色：</span>
+                <input type="color" class="color-input" id="startColor" value="#3494e6">
+            </div>
+            <div class="color-item">
+                <span class="color-label">结束颜色：</span>
+                <input type="color" class="color-input" id="endColor" value="#ec6ead">
+            </div>
+            <div class="theme-actions">
+                <button type="button" class="layui-btn layui-btn-primary" id="resetTheme">重置</button>
+                <button type="button" class="layui-btn" id="saveTheme">确定</button>
+            </div>
+        </div>
+        <div class="login-container">
+            <div class="login-title">
+                <h2>{$_admin_setting.admin_name|default='ThinkCMF'}</h2>
+                <p>欢迎登录官网后台管理系统</p>
+            </div>
+
+            <form class="layui-form js-ajax-form" method="post" action="{:url('admin/public/doLogin')}">
+                <div class="layui-form-item">
+                    <i class="login-icon layui-icon layui-icon-username"></i>
+                    <input type="text" name="username" required lay-verify="required"
+                        placeholder="{:lang('USERNAME_OR_EMAIL')}" value="{:cookie('admin_username')}"
+                        class="layui-input" id="input_username">
+                </div>
+
+                <div class="layui-form-item">
+                    <i class="login-icon layui-icon layui-icon-password"></i>
+                    <input type="password" name="password" required lay-verify="required"
+                        placeholder="{:lang('PASSWORD')}" class="layui-input">
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="captcha-item">
+                        <div class="captcha-input">
+                            <i class="login-icon layui-icon layui-icon-vercode"></i>
+                            <input type="text" name="captcha" required lay-verify="required" placeholder="验证码"
+                                class="layui-input" maxlength="4">
+                        </div>
+                        <captcha class="captcha-img" id="captcha" height="40" width="130" font-size="18" />
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <input type="hidden" name="redirect" value="">
+                    <button class="layui-btn layui-btn-normal layui-btn-fluid login-btn js-ajax-submit" type="submit"
+                        data-loadingmsg="{:lang('LOADING')}" data-success_refresh="successRefreshCallback">
+                        {:lang('LOGIN')}
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="footer-info">
+            <p>Copyright © 2015-{:date('Y')} hyperionrobot All Rights Reserved</p>
+            <p>
+                <a href="https://www.thinkcmf.com" target="_blank">海伯利安智能</a>
+                <span class="divider">|</span>
+                <a href="https://beian.miit.gov.cn/" target="_blank">苏ICP备2021000249号-1</a>
+                <span class="divider">|</span>
+                Version:8.0
+            </p>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var GV = {
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/",
+            APP: ''/*当前应用名*/
+        };
+    </script>
+    <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+    <script src="__STATIC__/js/wind.js"></script>
+    <script src="__STATIC__/js/admin.js"></script>
+    <script src="__TMPL__/public/assets/layui/layui.js"></script>
+    <script>
+        if (window.parent !== window.self) {
+            document.write = '';
+            window.parent.location.href = window.self.location.href;
+            setTimeout(function () {
+                document.body.innerHTML = '';
+            }, 0);
+        }
+        (function () {
+            // 创建星星
+            function createStars() {
+                const container = document.getElementById('starsContainer');
+                const starCount = 100; // 星星数量
+
+                for (let i = 0; i < starCount; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+
+                    // 随机位置
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    star.style.left = x + '%';
+                    star.style.top = y + '%';
+
+                    // 随机动画时长和延迟
+                    const duration = 2 + Math.random() * 3; // 2-5秒
+                    const delay = Math.random() * 3; // 0-3秒
+                    star.style.setProperty('--duration', `${duration}s`);
+                    star.style.setProperty('--delay', `${delay}s`);
+
+                    // 随机大小
+                    const size = 1 + Math.random() * 2;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+
+                    container.appendChild(star);
+                }
+            }
+
+            // 页面加载时创建星星
+            createStars();
+
+            const startColorInput = document.getElementById('startColor');
+            const endColorInput = document.getElementById('endColor');
+            const animatedBg = document.querySelector('.animated-bg');
+            const themeToggle = document.getElementById('themeToggle');
+            const themePicker = document.querySelector('.theme-picker');
+            const saveThemeBtn = document.getElementById('saveTheme');
+            const resetThemeBtn = document.getElementById('resetTheme');
+
+            // 默认颜色
+            const defaultColors = {
+                start: '#3494e6',
+                end: '4D3C77'
+            };
+
+            // 临时存储当前选择的颜色
+            let currentColors = {
+                start: defaultColors.start,
+                end: defaultColors.end
+            };
+
+            // 切换调色板显示/隐藏
+            themeToggle.addEventListener('click', function () {
+                const isVisible = themePicker.style.display === 'block';
+                themePicker.style.display = isVisible ? 'none' : 'block';
+                // 切换图标旋转
+                this.style.transform = isVisible ? '' : 'rotate(30deg)';
+
+                // 打开时恢复之前保存的颜色
+                if (!isVisible) {
+                    startColorInput.value = currentColors.start;
+                    endColorInput.value = currentColors.end;
+                    updateGradient(false);
+                }
+            });
+
+            // 点击其他区域关闭调色板
+            document.addEventListener('click', function (e) {
+                if (!themePicker.contains(e.target) && !themeToggle.contains(e.target)) {
+                    themePicker.style.display = 'none';
+                    themeToggle.style.transform = '';
+                }
+            });
+
+            function updateGradient(save = false) {
+                const startColor = startColorInput.value;
+                const endColor = endColorInput.value;
+
+                const newGradient = `linear-gradient(45deg, ${startColor}, ${endColor})`;
+                animatedBg.style.background = newGradient;
+
+                if (save) {
+                    localStorage.setItem('loginBgColors', JSON.stringify({
+                        start: startColor,
+                        end: endColor
+                    }));
+                    currentColors = {
+                        start: startColor,
+                        end: endColor
+                    };
+                }
+            }
+
+            // 保存主题
+            saveThemeBtn.addEventListener('click', function () {
+                updateGradient(true);
+                themePicker.style.display = 'none';
+                themeToggle.style.transform = '';
+            });
+
+            // 重置主题
+            resetThemeBtn.addEventListener('click', function () {
+                startColorInput.value = defaultColors.start;
+                endColorInput.value = defaultColors.end;
+                updateGradient(true);
+            });
+
+            // 加载保存的颜色
+            const savedColors = localStorage.getItem('loginBgColors');
+            if (savedColors) {
+                try {
+                    const colors = JSON.parse(savedColors);
+                    startColorInput.value = colors.start;
+                    endColorInput.value = colors.end;
+                    updateGradient(true);
+                } catch (e) {
+                    console.error('加载保存的颜色失败:', e);
+                }
+            }
+
+            // 实时预览颜色变化
+            startColorInput.addEventListener('input', () => updateGradient(false));
+            endColorInput.addEventListener('input', () => updateGradient(false));
+        })();
+
+        (function () {
+            document.getElementById('input_username').focus();
+        })();
+
+        function successRefreshCallback(data, statusText, xhr, $form) {
+            localStorage.setItem('token', data.data.token);
+            if (data.url) {
+                window.location.href = data.url;
+            }
+        }
+    </script>
+</body>
+
+</html>

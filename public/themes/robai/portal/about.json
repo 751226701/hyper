@@ -1,0 +1,332 @@
+{
+    "name": "关于我们",
+    "action": "portal/Page/index",
+    "description": "关于我们页面模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+
+        },
+        "widgets":{
+			"about_one": {
+				"title": "板块一",
+				"display": "1",
+				"vars": {
+					"title": {
+						"title": "标题",
+						"value": "Wien Designs<br>(韦恩设计工作室)",
+						"type": "text",
+						"tip": "",
+						"rule": []
+					},
+					"about_images": {
+						"title": "图片",
+						"value": "",
+						"type": "image",
+						"tip": "",
+						"rule": []
+					},
+					"about_link": {
+						"title": "视频链接",
+						"value": "",
+						"type": "text",
+						"tip": "",
+						"rule": []
+					},
+					"about_info": {
+						"title": "简介",
+						"value": "Wien Designs(维恩设计工作室)，成立于2016年10月，是一家专业从事技术开发及设计的工作室，主要项目有平面设计、Web开发、UI/UX设计、App开发、小程序开发、网络推广等互联网信息技术开发与销售。",
+						"type": "textarea",
+						"tip": "",
+						"rule": []
+					},
+					"about_list1": {
+						"title": "Online Courses",
+						"value": "168",
+						"type": "text",
+						"tip": "",
+						"rule": []
+					},
+					"about_list2": {
+						"title": "Students",
+						"value": "454",
+						"type": "text",
+						"tip": "",
+						"rule": []
+					}
+				}
+			},
+			"about_tow": {
+				"title": "板块二",
+				"display": "1",
+				"vars": {
+					"title": {
+						"title": "标题",
+						"value": "WHY CHOSE US",
+						"type": "text",
+						"placeholder": "请输入标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"sub_title": {
+						"title": "副标题",
+						"value": "Everything you Need for your<br>Institute or University",
+						"type": "textarea",
+						"placeholder": "请输入副标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"about_images": {
+						"title": "图片",
+						"value": "",
+						"type": "image",
+						"tip": "",
+						"rule": []
+					},
+					"about_link": {
+						"title": "视频链接",
+						"value": "",
+						"type": "text",
+                        "tip": "例：http://blog.wien.ren",
+						"rule": []
+					},
+					"features": {
+						"title": "详细信息",
+						"value": [
+							{
+								"title": "Books & Library",
+								"icon":"flaticon-library",
+								"content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。是指使用电视及互联网等传播媒体的教学模式，它突破了时空的界线，有别于传统的在校住宿的教学模式。",
+								"text_one": "Carrel Booking",
+								"text_tow": "Student Reading Room",
+								"text_three": "Science library"
+							},
+							{
+								"title": "Certified Teachers",
+								"icon":"flaticon-teacher-2",
+								"content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。是指使用电视及互联网等传播媒体的教学模式，它突破了时空的界线，有别于传统的在校住宿的教学模式。",
+								"text_one": "Professional training",
+								"text_tow": "Present content to students",
+								"text_three": "Students responsibility"
+							}
+						],
+						"type": "array",
+						"item": {
+							"title": {
+								"title": "标题",
+								"value": "",
+								"type": "text",
+								"rule": {
+									"require": true
+								}
+							},
+							"icon": {
+								"title": "图标",
+								"value": "",
+								"type": "text"
+							},
+							"content": {
+								"title": "描述",
+								"value": "",
+								"type": "textarea"
+							},
+							"text_one": {
+								"title": "特性01",
+								"value": "",
+								"type": "text"
+							},
+							"text_tow": {
+								"title": "特性02",
+								"value": "",
+								"type": "text"
+							},
+							"text_three": {
+								"title": "特性03",
+								"value": "",
+								"type": "text"
+							}
+						},
+						"tip": ""
+					}
+				}
+			},
+			"about_three": {
+				"title": "板块三",
+				"display": "1",
+				"vars": {
+					"title": {
+						"title": "标题",
+						"value": "COURSE ADVISOR",
+						"type": "text",
+						"placeholder": "请输入标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"sub_title": {
+						"title": "副标题",
+						"value": "Our professional & Expert Course advisor",
+						"type": "textarea",
+						"placeholder": "请输入副标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"content": {
+						"title": "描述",
+						"value": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。是指使用电视及互联网等传播媒体的教学模式，它突破了时空的界线，有别于传统的在校住宿的教学模式。",
+						"type": "textarea",
+						"placeholder": "请输入描述"
+					},
+					"links": {
+						"title": "链接",
+						"value": "",
+						"type": "text",
+                        "tip": "例：http://blog.wien.ren",
+						"rule": []
+					},
+					"features": {
+						"title": "详细信息",
+						"value": [
+							{
+								"name": "Prof. Deol Jones",
+								"image":"",
+								"job":"Science specialist"
+							},
+							{
+								"name": "Busel park",
+								"image":"",
+								"job":"Programmer"
+							},
+							{
+								"name": "Jnoes Sari",
+								"image":"",
+								"job":"Chemistry specialist"
+							},
+							{
+								"name": "Dr. Anil Dev",
+								"image":"",
+								"job":"Developer"
+							}
+						],
+						"type": "array",
+						"item": {
+							"name": {
+								"title": "姓名",
+								"value": "",
+								"type": "text",
+								"rule": {
+									"require": true
+								}
+							},
+							"image": {
+								"title": "照片",
+								"value": "",
+								"type": "image"
+							},
+							"job": {
+								"title": "职业",
+								"value": "",
+								"type": "text"
+							}
+						},
+						"tip": ""
+					}
+				}
+			},
+			"about_four": {
+				"title": "板块四",
+				"display": "1",
+				"vars": {
+					"title": {
+						"title": "标题",
+						"value": "Take a short tour in our campus",
+						"type": "text",
+						"placeholder": "请输入标题"
+					},
+					"content": {
+						"title": "描述",
+						"value": "Tolerably behaviour may admitting daughters offending her ask own. Praise effect wishes change way and any wanted. Lively use looked latter regard had. Do he it part more last in. Merits ye if mr narrow points. Melancholy particular devonshire alteration it favourable appearance",
+						"type": "textarea",
+						"placeholder": "请输入描述"
+					},
+					"links": {
+						"title": "链接",
+						"value": "",
+						"type": "text",
+						"placeholder": "请输入视频链接",
+                        "tip": "例：http://blog.wien.ren"
+					}
+				}
+			},
+			"about_gallery": {
+				"title": "GALLERY",
+				"display": "1",
+				"vars": {
+					"sub_title": {
+						"title": "副标题",
+						"value": "Recent Gallery",
+						"type": "textarea",
+						"placeholder": "请输入副标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"features": {
+						"title": "详细信息",
+						"value": [
+							{
+								"title": "展示01",
+								"image":""
+							},
+							{
+								"title": "展示01",
+								"image":""
+							},
+							{
+								"title": "展示01",
+								"image":""
+							},
+							{
+								"title": "展示01",
+								"image":""
+							},
+							{
+								"title": "展示01",
+								"image":""
+							},
+							{
+								"title": "展示01",
+								"image":""
+							}
+						],
+						"type": "array",
+						"item": {
+							"title": {
+								"title": "标题",
+								"value": "",
+								"type": "text",
+								"rule": {
+									"require": true
+								}
+							},
+							"image": {
+								"title": "图片",
+								"value": "",
+								"type": "image"
+							}
+						},
+						"tip": ""
+					}
+				}
+			}
+        }
+    }
+}

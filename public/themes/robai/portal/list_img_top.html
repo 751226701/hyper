@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{$category.name} {$category.seo_title} {$site_info.site_name|default=''}</title>
+		<meta name="keywords" content="{$category.seo_keywords},{$site_info.site_seo_keywords|default=''}"/>
+		<meta name="description" content="{$category.seo_description},{$site_info.site_seo_description|default=''}">
+		<include file="public@head"/>
+		<hook name="before_head_end"/>
+		<style type="text/css" media="all">
+    		.courses-ul{
+    		    display: flex;
+    		    justify-content: center;
+    		    margin-bottom: 60px;
+    		    border: none;
+    		}
+		    .courses-ul li{
+		        display: inline-block;
+                position: relative;
+                margin: 0 10px 10px 0;
+               
+		    }
+		    .courses-ul li a{
+		        font-weight: normal;
+		        padding: 11px 35px;
+		        background: #eee;
+		    }
+		    .courses-ul li a.active{
+		        color: #ff1949!important;
+		        /*border: 1px solid #e7e7e7;*/
+		    }
+		</style>
+	</head>
+	<body>
+		<include file="public@nav"/>
+
+        <!-- Start Breadcrumb 
+        ============================================= -->
+        <div class="breadcrumb-area bg-gray text-center shadow dark text-light bg-cover" style="background-image: url(https://src.hyperionrobot.com/hyper-web/banner_case_video.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <h1>{$category.name}</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="__ROOT__/"><i class="fas fa-home"></i> 首页</a></li>
+                            <li class="active">{$category.name}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb -->
+
+        <!-- Star Courses Area
+        ============================================= -->
+        <div class="courses-area trend-layout  default-padding">
+            
+            
+            
+            
+            
+            <div class="center-tabs">
+                <ul id="tabs" class="nav courses-ul">
+                    <php>
+                        $categories = _wien_subCategories($category['id']);
+                    </php>
+                    <foreach name="$categories" item="vo">
+                    <li class="">
+                        <a href="" data-target="#tab{$vo['id']}" data-toggle="tab" class="nav-link">{$vo['name']}</a>
+                    </li>
+                    </foreach>
+                    <!--<li class="nav-item">-->
+                    <!--    <a href="" data-target="#tab2" data-toggle="tab" class="nav-link active">Curriculum</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                    <!--    <a href="" data-target="#tab3" data-toggle="tab" class="nav-link">Advisor</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                    <!--    <a href="" data-target="#tab4" data-toggle="tab" class="nav-link">Reviews</a>-->
+                    <!--</li>-->
+                </ul>
+                <div id="tabsContent" class="tab-content">
+                    <foreach name="$categories" item="vo">
+                    <div id="tab{$vo['id']}" class="tab-pane overview fade ">
+                        
+            <div class="container">
+                <div class="courses-items">
+                    <div class="row">
+                        
+                        <!-- Single item -->
+                        <php>
+						$where= function($query){
+							$query->where('post.create_time','>=',0);
+						};
+						$page=[
+							'list_rows'=>12,
+							'next'=>'下一页',
+							'prev'=>'上一页'
+						];
+						</php>
+						<portal:articles where="$where" order="post.published_time DESC" page="$page"
+						        relation="categories"
+                                categoryIds="$vo.id"
+                                returnVarName="articles_data">
+						                 <!--<div class="single-item thumb col-lg-5">-->
+                       <!--     <div class="thumb-box">-->
+                       <!--         <img src="__TMPL__/public/assets/img/about/1.jpg">-->
+                                
+                       <!--     </div>-->
+                       <!-- </div>-->
+						    
+						    
+                        <div class="single-item col-lg-4 col-md-6">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="javascript:;">
+                                        <if condition="empty($vo.more.thumbnail)">
+										    <img src="__TMPL__/public/assets/img/common/picture_2.png" alt="Thumb">
+										<else/>
+											<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+										</if>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                    <!--<div class="top-info">
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span>4.8 (867)</span>
+                                        </div>
+                                        <div class="price">
+                                            $15.00
+                                        </div>
+                                    </div>-->
+                                    <!--<div class="meta">
+                                        <ul>
+                                            <li>
+                                                <if condition="empty($vo.avatar)">
+        										    <img src="__TMPL__/public/assets/img/common/square.png" alt="Advisor">
+        										<else/>
+        											<img src="{:cmf_get_image_url($vo.avatar)}">
+        										</if>
+                                                <a href="#"> by {$vo.user.user_nickname}</a>
+                                            </li>
+                                        </ul>
+                                    </div>-->
+                                    <h4>
+                                        <a href="javascript:;">{$vo.post_title}</a>
+                                    </h4>
+                                    <p>
+                                        {$vo.post_excerpt}
+                                    </p>
+                                    <div class="bottom-info">
+                                        <div class="course-info">
+                                            <ul>
+                                                <li><i class="fas fa-clock"></i> {:date('Y-m-d',$vo.published_time)}</li>
+                                                <li><i class="fas fa-list-ul"></i> {$vo.post_like}</li>
+                                                <li><i class="fas fa-user"></i> {$vo.post_hits}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="enroll">
+                                            <if condition="empty($vo.more.video)">
+    										    <a href="javascript:;" class="btn btn-theme effect btn-sm" style="background-color:#5f5f5f;border-color:#5f5f5f">立即播放</a>
+    										<else/>
+    											<a href="{:cmf_get_image_url($vo.more.video)}" class="btn btn-theme effect btn-sm popup-youtube light item-center">立即播放</a>
+    										</if>
+                                            
+                                            <!--<a class="btn btn-theme effect btn-sm" href="{:cmf_url('portal/Article/index',array('id'=>$vo.id))}">立即播放</a>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </portal:articles>
+                        <!-- End Single item -->
+                    </div>
+                    <!-- Pagination -->
+                    <div class="row">
+                        <div class="col-md-12 pagi-area text-center">
+                            <nav aria-label="navigation">
+                                <ul class="pagination" id="pagination">
+                                    <page/>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        <!-- End Courses Area -->
+                        
+                        
+                        
+                    </div>
+                    </foreach>
+                    <!--<div id="tab2" class="tab-pane curriculum fade"></div>-->
+            </div>
+            
+            
+            
+            
+            
+            
+        </div>
+		
+		<include file="public@footer"/>
+		<include file="public@scripts"/>
+		<script type="text/javascript" charset="utf-8">
+		    $('#tabs li:first a').addClass('active');
+		    $('#tabsContent div:first').addClass('active show');
+		</script>
+		<hook name="before_body_end"/>
+	</body>
+</html>

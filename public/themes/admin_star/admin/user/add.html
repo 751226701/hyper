@@ -1,0 +1,91 @@
+<!--
+ * @Desc: 用户添加
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('User/index')}">{:lang('ADMIN_USER_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('User/add')}">{:lang('ADMIN_USER_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form class="layui-form js-ajax-form" method="post" action="admin/users">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('USERNAME')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="user_login" lay-verify="required" 
+                                       lay-reqtext="{:lang('USERNAME')} {:lang('NOT_EMPTY')}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('PASSWORD')}</label>
+                            <div class="layui-input-block">
+                                <input type="password" class="layui-input" name="user_pass" lay-verify="required"
+                                       lay-reqtext="{:lang('PASSWORD')} {:lang('NOT_EMPTY')}" placeholder="******">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('EMAIL')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="user_email" lay-verify="required|email"
+                                       lay-reqtext="{:lang('EMAIL')} {:lang('NOT_EMPTY')}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('ROLE')}</label>
+                            <div class="layui-input-block">
+                                <foreach name="roles" item="vo">
+                                    <php>
+                                        $disabled='';
+                                        if(cmf_get_current_admin_id() != 1 && $vo['id'] == 1){
+                                            $disabled='disabled';
+                                        }
+                                    </php>
+                                    <input type="checkbox" name="role_ids[]" value="{$vo.id}" title="{$vo.name}" 
+                                           lay-skin="primary" {$disabled}>
+                                </foreach>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn js-ajax-submit" lay-submit lay-filter="userAdd">
+                                    <i class="layui-icon layui-icon-add-1"></i>{:lang('ADD')}
+                                </button>
+                                <button type="reset" class="layui-btn layui-btn-primary">
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    
+    //表单验证
+    form.verify({
+        email: [
+            /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+            '{:lang("EMAIL_FORMAT_ERROR")}'
+        ]
+    });
+    
+    //监听提交
+    form.on('submit(userAdd)', function(data){
+        return true;
+    });
+});
+</script>
+</body>
+</html>

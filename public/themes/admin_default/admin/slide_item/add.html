@@ -1,0 +1,90 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a>
+            </li>
+        </ul>
+        <form action="admin/slide/items" method="post" class="form-horizontal js-ajax-form margin-top-20">
+            <div class="row">
+                <div class="col-md-9">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="100">{:lang('Title')}<span class="form-required">*</span></th>
+                            <td>
+                                <input class="form-control" type="text" name="title" id="title"
+                                       required value="" placeholder=""/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Url')}</th>
+                            <td>
+                                <input class="form-control" type="text" name="url" id="keywords" value=""
+                                       placeholder="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Url Target')}</th>
+                            <td>
+                                <select class="form-control" name="target" id="target">
+                                    <option value="_blank" selected="selected">_blank</option>
+                                    <option value="_self">_self</option>
+                                    <option value="_parent">_parent</option>
+                                    <option value="_top">_top</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Description')}</th>
+                            <td><input class="form-control" type="text" name="description" id="source" value=""
+                                       placeholder="{:lang('Description')}"></td>
+                        </tr>
+                        <tr>
+                            <th>{:lang('Content')}</th>
+                            <td>
+                            <textarea class="form-control" name="content" id="description"
+                                      style="min-height: 100px;" placeholder=""></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th><b>{:lang('Thumbnail')}</b></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="text-align: center;">
+                                    <input type="hidden" name="image" id="thumb" value="">
+                                    <a href="javascript:uploadOneImage('{:lang('Upload Image')}','#thumb');">
+                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                             id="thumb-preview"
+                                             width="135" style="cursor: hand"/>
+                                    </a>
+                                    <input type="button" class="btn btn-sm"
+                                           onclick="$('#thumb-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;"
+                                           value="{:lang('Cancel')}">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="offset-md-2 col-sm-10">
+                    <input type="hidden" name="slide_id" value="{$slide_id}">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('ADD')}
+                    </button>
+                    <a class="btn btn-secondary"
+                       href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('BACK')}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>

@@ -1,0 +1,219 @@
+<!--
+ * @Desc: 插件管理
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+
+<include file="public@header"/>
+<style type="text/css" media="all">
+    .layui-nav .layui-nav-more{
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('Plugin/index')}">{:lang('ADMIN_PLUGIN_INDEX')}</a></li>
+                    <if condition="class_exists('\app\admin\controller\AppStoreController')">
+                        <li><a href="{:url('AppStore/plugins')}">{:lang('ADMIN_APPSTORE_PLUGINS')}</a></li>
+                    </if>
+                    <li>
+                        <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493510"
+                           target="_blank">{:lang('Plugin offline installation')}    <i class="fa fa-question-circle"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.thinkcmf.com/topic/index/index/cat/9.html"
+                           target="_blank">{:lang('Plugin discussion')}</a>
+                    </li>
+                    <li>
+                        <a href="https://www.thinkcmf.com/docs/cmf8/#/%E6%8F%92%E4%BB%B6"
+                           target="_blank">{:lang('Plugin doc')}</a>
+                    </li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="js-ajax-form">
+                        <php>
+                            $status=array("1"=>lang('ENABLED'),"0"=>lang('DISABLED'),"3"=>lang('Not Installed'));
+                        </php>
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>{:lang('Name')}</th>
+                                    <th>{:lang('Key')}</th>
+                                    <th>{:lang('Description')}</th>
+                                    <th>{:lang('Author')}</th>
+                                    <th>{:lang('Version')}</th>
+                                    <th>{:lang('Status')}</th>
+                                    <th width="250">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <foreach name="plugins" item="vo">
+                                    <tr>
+                                        <td>{$vo.title}</td>
+                                        <td><span class="layui-badge layui-bg-blue">{$vo.name}</span></td>
+                                        <td>{$vo.description}</td>
+                                        <td>{$vo.author}</td>
+                                        <td><span class="layui-badge layui-bg-green">{$vo.version}</span></td>
+                                        <td>
+                                            <switch name="vo.status">
+                                                <case value="0">
+                                                    <span class="layui-badge layui-bg-orange">{$status[$vo['status']]}</span>
+                                                </case>
+                                                <case value="1">
+                                                    <span class="layui-badge layui-bg-green">{$status[$vo['status']]}</span>
+                                                </case>
+                                                <case value="3">
+                                                    <span class="layui-badge layui-bg-blue">{$status[$vo['status']]}</span>
+                                                </case>
+                                            </switch>
+                                        </td>
+                                        <td>
+                                            <if condition="$vo['status']==3">
+                                                <a class="layui-btn layui-btn-xs js-ajax-dialog-btn"
+                                                   href="javascript:void(0);"
+                                                   data-href="admin/plugins/{$vo.name}"
+                                                   data-msg="{:lang('INSTALL_PLUGIN_CONFIRM_MSG')}"
+                                                   title="{:lang('Install')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-add-1"></i>
+                                                </a>
+                                            <else/>
+                                                <php>$config=$vo['config'];</php>
+                                                <if condition="!empty($vo['has_admin']) && $vo['status']==1">
+                                                    <a class="layui-btn layui-btn-xs"
+                                                       href="{:cmf_plugin_url($vo['name'].'://AdminIndex/index')}"
+                                                       title="{:lang('Manage')}"
+                                                       data-toggle="tooltip">
+                                                        <i class="fa fa-window-maximize fa-fw"></i>
+                                                    </a>
+                                                <else/>
+                                                    <a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-disabled">
+                                                        <i class="layui-icon layui-icon-template"></i>
+                                                    </a>
+                                                </if>
+                                                <div class="layui-btn-group">   
+                                                    <ul class="layui-nav" style="padding:0;">
+                                                        <li class="layui-nav-item">
+                                                            <a class="layui-btn layui-btn-xs" href="javascript:;" style="padding:0 5px"><i class="layui-icon layui-icon-set"></i></a>
+                                                            <dl class="layui-nav-child" style="top:27px">
+                                                                <if condition="!empty($config)">
+                                                                    <empty name="config.custom_config">
+                                                                        <dd>
+                                                                            <a class="dropdown-item"
+                                                                               data-href="{:url('Plugin/setting',array('id'=>$vo['id']))}"
+                                                                               href="javascript:;" onclick="openPluginSettingDialog(this)">
+                                                                                <i class="fa fa-cog fa-fw"></i> {:lang('Plugin Setting')}
+                                                                            </a>
+                                                                        </dd>
+                                                                        <else/>
+                                                                        <dd>
+                                                                            <a class="dropdown-item"
+                                                                               data-href="{:cmf_plugin_url($vo['name'].'://AdminIndex/setting')}"
+                                                                               href="javascript:;" onclick="openPluginSettingDialog(this)">
+                                                                                <i class="fa fa-cog fa-fw"></i> {:lang('Plugin Setting')}
+                                                                            </a>
+                                                                        </dd>
+                                                                    </empty>
+                                                                </if>
+                                                                <dd>
+                                                                    <a class="dropdown-item"
+                                                                       data-href="{:url('admin/Plugin/hooks',['id'=>$vo.id])}"
+                                                                       href="javascript:;" onclick="openPluginHooksDialog(this)">
+                                                                        <i class="fa fa-sort-numeric-asc fa-fw"></i> {:lang('Execution order')}
+                                                                    </a>
+                                                                </dd>
+                                                            </dl>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <a class="layui-btn layui-btn-xs layui-btn-normal js-ajax-dialog-btn"
+                                                   href="javascript:void(0);"
+                                                   data-method="put"
+                                                   data-href="admin/plugins/{$vo.name}"
+                                                   data-msg="{:lang('UPDATE_PLUGIN_CONFIRM_MSG')}"
+                                                   title="{:lang('Update')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-refresh"></i>
+                                                </a>
+
+                                                <if condition="$vo['status']==0">
+                                                    <a class="layui-btn layui-btn-xs layui-btn-normal js-ajax-dialog-btn"
+                                                       href="javascript:void(0);"
+                                                       data-href="admin/plugins/{$vo.id}/status/1"
+                                                       data-msg="{:lang('ENABLE_PLUGIN_CONFIRM_MSG')}"
+                                                       title="{:lang('Enable')}" data-toggle="tooltip">
+                                                        <i class="layui-icon layui-icon-ok"></i>
+                                                    </a>
+                                                <else/>
+                                                    <a class="layui-btn layui-btn-xs layui-btn-warm js-ajax-dialog-btn"
+                                                       href="javascript:void(0);"
+                                                       data-href="admin/plugins/{$vo.id}/status/0"
+                                                       data-msg="{:lang('Are you sure you want to disable this plugin?')}"
+                                                       title="{:lang('Disable')}" data-toggle="tooltip">
+                                                        <i class="layui-icon layui-icon-close"></i>
+                                                    </a>
+                                                </if>
+
+                                                <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                                   href="javascript:void(0);"
+                                                   data-href="admin/plugins/{$vo.id}"
+                                                   data-msg="{:lang('UNINSTALL_PLUGIN_CONFIRM_MSG')}"
+                                                   title="{:lang('Uninstall')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-delete"></i>
+                                                </a>
+                                            </if>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<block name="scripts">
+  
+    
+    <script>
+        function openPluginSettingDialog(obj) {
+            var $obj = $(obj);
+            var href = $obj.data('href');
+            parent.openIframeLayer(href, "{:lang('Plugin Setting')}", {
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+                yes: function (index, layero) {
+                    console.log(layero);
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    parent.layer.close(index);
+                },
+                end: function () {
+                }
+            });
+        }
+
+        function openPluginHooksDialog(obj) {
+            var $obj = $(obj);
+            var href = $obj.data('href');
+            parent.openIframeLayer(href, "{:lang('Plugin hooks')}", {
+                area: GV.IS_MOBILE ? ['100%', '100%'] : ['95%', '95%'],
+                offset: GV.IS_MOBILE ? ['0px', '0px'] : 'auto',
+                yes: function (index, layero) {
+                    console.log(layero);
+                    var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+                    parent.layer.close(index);
+                },
+                end: function () {
+                }
+            });
+        }
+    </script>
+</block>
+</body>
+</html>

@@ -1,0 +1,754 @@
+<include file="public@header" />
+<style type="text/css">
+    .pic-list li {
+        margin-bottom: 5px;
+    }
+
+    .btn-cancel-thumbnail {
+        margin-top: 5px;
+    }
+
+    #photos,
+    #files {
+        margin-bottom: 0;
+    }
+
+    /* 添加固定底部按钮样式 */
+    .form-fixed-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        padding: 10px;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, .1);
+        z-index: 999;
+    }
+
+    .form-fixed-footer .layui-btn {
+        width: calc((100% - 20px) / 2);
+        margin: 0;
+        border-radius: 0;
+        float: left;
+    }
+
+    .form-fixed-footer .layui-btn:first-child {
+        margin-right: 20px;
+    }
+
+    /* 为底部按钮留出空间 */
+    .layui-fluid {
+        padding-bottom: 60px;
+    }
+</style>
+<!-- 开始修改Vditor -->
+<link rel="stylesheet" href="__STATIC__/css/index.css?v=3.11.1" />
+<!-- 结束修改Vditor -->
+<script type="text/html" id="photos-item-tpl">
+   <li id="saved-image{id}" class="layui-form-item" style="margin-bottom: 5px;">
+       <input id="photo-{id}" type="hidden" name="photo_urls[]" value="{filepath}">
+       <div class="layui-input-block" style="margin-left: 0; display: flex; align-items: center;">
+           <input class="layui-input" id="photo-{id}-name" type="text" name="photo_names[]" value="{name}"
+                  style="width: 300px; margin-right: 8px;" title="图片名称">
+           <img id="photo-{id}-preview" src="{url}" 
+                style="height:36px; width:36px; object-fit: cover; border-radius: 2px; margin-right: 8px; cursor: pointer;"
+                onclick="imagePreviewDialog(this.src);">
+           <div class="layui-btn-group">
+               <a class="layui-btn layui-btn-normal" href="javascript:uploadOneImage('图片上传','#photo-{id}');" title="上传">
+                   <i class="layui-icon layui-icon-upload"></i>
+               </a>
+               <a class="layui-btn layui-btn-danger" href="javascript:(function(){$('#saved-image{id}').remove();})();" title="删除">
+                   <i class="layui-icon layui-icon-delete"></i>
+               </a>
+               <a class="layui-btn layui-btn-warm" href="javascript:(function(){$('#saved-image{id}').before($('#saved-image{id}').next());})();" title="下移">
+                   <i class="layui-icon layui-icon-down"></i>
+               </a>
+           </div>
+       </div>
+   </li>
+</script>
+<script type="text/html" id="files-item-tpl">
+   <li id="saved-file{id}" class="layui-form-item" style="margin-bottom: 5px;">
+       <input id="file-{id}" type="hidden" name="file_urls[]" value="{filepath}">
+       <div class="layui-input-block" style="margin-left: 0; display: flex; align-items: center;">
+           <input class="layui-input" id="file-{id}-name" type="text" name="file_names[]" value="{name}"
+                  style="width: 300px; margin-right: 8px;" title="文件名称">
+           <a class="layui-btn layui-btn-primary" id="file-{id}-preview" 
+              href="{preview_url}" target="_blank" title="下载">
+               <i class="layui-icon layui-icon-download"></i>
+           </a>
+           <div class="layui-btn-group">
+               <a class="layui-btn layui-btn-normal" href="javascript:uploadOne('文件上传','#file-{id}','file');" title="上传">
+                   <i class="layui-icon layui-icon-upload"></i>
+               </a>
+               <a class="layui-btn layui-btn-danger" href="javascript:(function(){$('#saved-file{id}').remove();})();" title="删除">
+                   <i class="layui-icon layui-icon-delete"></i>
+               </a>
+               <a class="layui-btn layui-btn-warm" href="javascript:(function(){$('#saved-file{id}').before($('#saved-file{id}').next());})();" title="下移">
+                   <i class="layui-icon layui-icon-down"></i>
+               </a>
+           </div>
+       </div>
+   </li>
+</script>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        <li><a href="{:url('AdminArticle/index')}">文章管理</a></li>
+                        <li><a href="{:url('AdminArticle/add')}">添加文章</a></li>
+                        <li class="layui-this"><a href="#" data-toggle="tab">编辑文章</a></li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <form class="layui-form layui-form-pane js-ajax-form" action="{:url('AdminArticle/editPost')}"
+                            method="post">
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-md9">
+                                    <div class="layui-card">
+                                        <div class="layui-card-body">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">分类<span
+                                                        class="form-required">*</span></label>
+                                                <div class="layui-input-block">
+                                                    <input class="layui-input" type="text" required
+                                                        value="{:implode(' ',$post_categories)}" placeholder="请选择分类"
+                                                        onclick="doSelectCategory();" id="js-categories-name-input"
+                                                        readonly />
+                                                    <input class="layui-input" type="hidden"
+                                                        value="{$post_category_ids}" name="post[categories]"
+                                                        id="js-categories-id-input" />
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">标题<span
+                                                        class="form-required">*</span></label>
+                                                <div class="layui-input-block">
+                                                    <input id="post-id" type="hidden" name="post[id]"
+                                                        value="{$post.id}">
+                                                    <input class="layui-input" type="text" name="post[post_title]"
+                                                        required value="{$post.post_title}" placeholder="请输入标题" />
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">副标题</label>
+                                                <div class="layui-input-block">
+                                                    <input class="layui-input" type="text" name="post[more][post_title]"
+                                                        id="sub_title" value="{$post.more.post_title|default=''}" placeholder="请输入副标题" />
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">关键词</label>
+                                                <div class="layui-input-block">
+                                                    <input class="layui-input" type="text" name="post[post_keywords]"
+                                                        value="{$post['post_keywords']}"
+                                                        placeholder="请输入关键字,多关键词之间用英文逗号隔开">
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">文章来源</label>
+                                                <div class="layui-input-block">
+                                                    <input class="layui-input" type="text" name="post[post_source]"
+                                                        value="{$post['post_source']}" placeholder="请输入文章来源">
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item layui-form-text">
+                                                <label class="layui-form-label">摘要</label>
+                                                <div class="layui-input-block">
+                                                    <textarea class="layui-textarea" name="post[post_excerpt]"
+                                                        placeholder="请填写摘要">{$post.post_excerpt}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item layui-form-text">
+                                                <label class="layui-form-label">内容</label>
+                                                <div class="layui-input-block">
+                                                    <div id="vditor"></div>
+                                                    <textarea  name="post[post_content]" id="content" style="display:none;">{$post.post_content}</textarea>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="layui-row">
+                                                <div class="layui-col-md6">
+                                                    <div class="layui-form-item">
+                                                        <div class="layui-inline" style="margin-right: 0;">
+                                                            <label class="layui-form-label">相册</label>
+                                                            <div class="layui-input-inline" style="width: auto;">
+                                                                <ul id="photos" class="pic-list list-unstyled">
+                                                                    <notempty name="post.more.photos">
+                                                                        <foreach name="post.more.photos" item="vo">
+                                                                            <php>$img_url=cmf_get_image_preview_url($vo['url']);
+                                                                            </php>
+                                                                            <li id="saved-image{$key}" class="layui-form-item"
+                                                                                style="margin-bottom: 5px;">
+                                                                                <input id="photo-{$key}" type="hidden"
+                                                                                    name="photo_urls[]" value="{$vo.url}">
+                                                                                <div class="layui-input-block"
+                                                                                    style="margin-left: 0; display: flex; align-items: center;">
+                                                                                    <input class="layui-input"
+                                                                                        id="photo-{$key}-name" type="text"
+                                                                                        name="photo_names[]"
+                                                                                        value="{$vo.name|default=''}"
+                                                                                        style="width: 300px; margin-right: 8px;"
+                                                                                        title="图片名称">
+                                                                                    <img id="photo-{$key}-preview"
+                                                                                        src="{:cmf_get_image_preview_url($vo['url'])}"
+                                                                                        style="height:36px; width:36px; object-fit: cover; border-radius: 2px; margin-right: 8px; cursor: pointer;"
+                                                                                        onclick="imagePreviewDialog(this.src);">
+                                                                                    <div class="layui-btn-group">
+                                                                                        <a class="layui-btn layui-btn-normal"
+                                                                                            href="javascript:uploadOneImage('图片上传','#photo-{$key}');"
+                                                                                            title="上传">
+                                                                                            <i
+                                                                                                class="layui-icon layui-icon-upload"></i>
+                                                                                        </a>
+                                                                                        <a class="layui-btn layui-btn-danger"
+                                                                                            href="javascript:(function(){$('#saved-image{$key}').remove();})();"
+                                                                                            title="删除">
+                                                                                            <i
+                                                                                                class="layui-icon layui-icon-delete"></i>
+                                                                                        </a>
+                                                                                        <a class="layui-btn layui-btn-warm"
+                                                                                            href="javascript:(function(){$('#saved-image{$key}').before($('#saved-image{$key}').next());})();"
+                                                                                            title="下移">
+                                                                                            <i
+                                                                                                class="layui-icon layui-icon-down"></i>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </foreach>
+                                                                    </notempty>
+                                                                </ul>
+                                                                <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-tpl');"
+                                                                    class="layui-btn">
+                                                                    <i class="layui-icon layui-icon-upload"></i> 选择图片
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6">
+                                                    <div class="layui-form-item">
+                                                        <div class="layui-inline" style="margin-right: 0;">
+                                                            <label class="layui-form-label">附件</label>
+                                                            <div class="layui-input-inline" style="width: auto;">
+                                                                <ul id="files" class="pic-list list-unstyled">
+                                                                    <notempty name="post.more.files">
+                                                                        <foreach name="post.more.files" item="vo">
+                                                                            <php>
+                                                                                $file_url=cmf_get_file_download_url($vo['url']);
+                                                                            </php>
+                                                                            <li id="saved-file{$key}" class="layui-form-item"
+                                                                                style="margin-bottom: 5px;">
+                                                                                <input id="file-{$key}" type="hidden"
+                                                                                    name="file_urls[]" value="{$vo.url}">
+                                                                                <div class="layui-input-block"
+                                                                                    style="margin-left: 0; display: flex; align-items: center;">
+                                                                                    <input class="layui-input"
+                                                                                        id="file-{$key}-name" type="text"
+                                                                                        name="file_names[]" value="{$vo.name}"
+                                                                                        style="width: 300px; margin-right: 8px;"
+                                                                                        title="文件名称">
+                                                                                    <a class="layui-btn layui-btn-primary"
+                                                                                        id="file-{$key}-preview"
+                                                                                        href="{$file_url}" target="_blank"
+                                                                                        title="下载">
+                                                                                        <i
+                                                                                            class="layui-icon layui-icon-download"></i>
+                                                                                    </a>
+                                                                                    <div class="layui-btn-group">
+                                                                                        <a class="layui-btn layui-btn-normal"
+                                                                                            href="javascript:uploadOne('文件上传','#file-{$key}','file');"
+                                                                                            title="上传">
+                                                                                            <i
+                                                                                                class="layui-icon layui-icon-upload"></i>
+                                                                                        </a>
+                                                                                        <a class="layui-btn layui-btn-danger"
+                                                                                            href="javascript:(function(){$('#saved-file{$key}').remove();})();"
+                                                                                            title="删除">
+                                                                                            <i
+                                                                                                class="layui-icon layui-icon-delete"></i>
+                                                                                        </a>
+                                                                                        <a class="layui-btn layui-btn-warm"
+                                                                                            href="javascript:(function(){$('#saved-file{$key}').before($('#saved-file{$key}').next());})();"
+                                                                                            title="下移">
+                                                                                            <i
+                                                                                                class="layui-icon layui-icon-down"></i>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </foreach>
+                                                                    </notempty>
+                                                                </ul>
+                                                                <a href="javascript:uploadMultiFile('附件上传','#files','files-item-tpl','file');"
+                                                                    class="layui-btn">
+                                                                    <i class="layui-icon layui-icon-upload"></i> 选择文件
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6">
+                                                    <div class="layui-form-item">
+                                                        <div class="layui-inline" style="margin-right: 0;">
+                                                            <label class="layui-form-label">音频</label>
+                                                            <div class="layui-input-inline" style="width: auto;">
+                                                                <div class="layui-input-block"
+                                                                    style="margin-left: 0; display: flex; align-items: center;">
+                                                                    <input class="layui-input" id="file-audio" type="text"
+                                                                        name="post[more][audio]"
+                                                                        value="{$post.more.audio|default=''}"
+                                                                        placeholder="请上传音频文件"
+                                                                        style="width: 300px; margin-right: 8px;">
+                                                                    <notempty name="post.more.audio">
+                                                                        <a class="layui-btn layui-btn-primary"
+                                                                            id="file-audio-preview"
+                                                                            href="{:cmf_get_file_download_url($post.more.audio)}"
+                                                                            target="_blank" title="播放">
+                                                                            <i class="layui-icon layui-icon-play"></i>
+                                                                        </a>
+                                                                    </notempty>
+                                                                    <div class="layui-btn-group">
+                                                                        <a class="layui-btn layui-btn-normal"
+                                                                            href="javascript:uploadOne('文件上传','#file-audio','audio');"
+                                                                            title="上传">
+                                                                            <i class="layui-icon layui-icon-upload"></i>
+                                                                        </a>
+                                                                        <a class="layui-btn layui-btn-danger"
+                                                                            href="javascript:(function(){$('#file-audio').val('');})();"
+                                                                            title="删除">
+                                                                            <i class="layui-icon layui-icon-delete"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6">
+                                                    <div class="layui-form-item">
+                                                        <div class="layui-inline" style="margin-right: 0;">
+                                                            <label class="layui-form-label">视频</label>
+                                                            <div class="layui-input-inline" style="width: auto;">
+                                                                <div class="layui-input-block"
+                                                                    style="margin-left: 0; display: flex; align-items: center;">
+                                                                    <input class="layui-input" id="file-video" type="text"
+                                                                        name="post[more][video]"
+                                                                        value="{$post.more.video|default=''}"
+                                                                        placeholder="请上传视频文件"
+                                                                        style="width: 300px; margin-right: 8px;">
+                                                                    <notempty name="post.more.video">
+                                                                        <a class="layui-btn layui-btn-primary"
+                                                                            id="file-video-preview"
+                                                                            href="{:cmf_get_file_download_url($post.more.video)}"
+                                                                            target="_blank" title="播放">
+                                                                            <i class="layui-icon layui-icon-play"></i>
+                                                                        </a>
+                                                                    </notempty>
+                                                                    <div class="layui-btn-group">
+                                                                        <a class="layui-btn layui-btn-normal"
+                                                                            href="javascript:uploadOne('文件上传','#file-video','video');"
+                                                                            title="上传">
+                                                                            <i class="layui-icon layui-icon-upload"></i>
+                                                                        </a>
+                                                                        <a class="layui-btn layui-btn-danger"
+                                                                            href="javascript:(function(){$('#file-video').val('');})();"
+                                                                            title="删除">
+                                                                            <i class="layui-icon layui-icon-delete"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                            
+
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md3">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">缩略图</div>
+                                        <div class="layui-card-body">
+                                            <div class="text-center">
+                                                <input type="hidden" name="post[more][thumbnail]" id="thumbnail"
+                                                    value="{$post.more.thumbnail|default=''}">
+                                                <div style="width: 135px; margin: 0 auto;">
+                                                    <a href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                                                        <if condition="empty($post.more.thumbnail)">
+                                                            <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                                id="thumbnail-preview" width="135"
+                                                                style="cursor: pointer" />
+                                                            <else />
+                                                            <img src="{:cmf_get_image_preview_url($post.more.thumbnail)}"
+                                                                id="thumbnail-preview" width="135"
+                                                                style="cursor: pointer" />
+                                                        </if>
+                                                    </a>
+                                                    <button type="button"
+                                                        class="layui-btn layui-btn-primary layui-btn-sm btn-cancel-thumbnail"
+                                                        style="width: 135px; margin-top: 8px;">
+                                                        取消图片
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">发布时间</div>
+                                        <div class="layui-card-body">
+                                            <input class="layui-input" type="text" name="post[published_time]"
+                                                value="{:date('Y-m-d H:i',$post['published_time'])}"
+                                                id="published-time">
+                                        </div>
+                                    </div>
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">状态</div>
+                                        <div class="layui-card-body">
+                                            <php>
+                                                $status_yes=$post['post_status']==1?"checked":"";
+                                                $is_top_yes=$post['is_top']==1?"checked":"";
+                                                $recommended_yes=$post['recommended']==1?"checked":"";
+                                            </php>
+                                            <div class="layui-form-item" pane>
+                                                <div class="layui-input-block" style="margin-left: 0;">
+                                                    <input type="checkbox" name="post[post_status]" value="1" title="发布"
+                                                        lay-skin="primary" lay-filter="post-status" {$status_yes}>
+                                                    <div id="post-status-error" style="color: red;display: none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item" pane>
+                                                <div class="layui-input-block" style="margin-left: 0;">
+                                                    <input type="checkbox" name="post[is_top]" value="1" title="置顶"
+                                                        lay-skin="primary" lay-filter="is-top" {$is_top_yes}>
+                                                    <div id="is-top-error" style="color: red;display: none"></div>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item" pane>
+                                                <div class="layui-input-block" style="margin-left: 0;">
+                                                    <input type="checkbox" name="post[recommended]" value="1" title="推荐"
+                                                        lay-skin="primary" lay-filter="recommended" {$recommended_yes}>
+                                                    <div id="recommended-error" style="color: red;display: none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">文章模板</div>
+                                        <div class="layui-card-body">
+                                            <select class="layui-select" name="post[more][template]"
+                                                id="more-template-select">
+                                                <option value="">请选择模板</option>
+                                                <foreach name="article_theme_files" item="vo">
+                                                    <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                                    <option value="{$value}">{$vo.name} {$vo.file}.html</option>
+                                                </foreach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 修改按钮容器 -->
+                            <div class="form-fixed-footer">
+                                <button type="submit" class="layui-btn js-ajax-submit"><i
+                                        class="layui-icon layui-icon-success"></i>{:lang('SAVE')}</button>
+                                <a class="layui-btn layui-btn-primary"
+                                    href="{:url('AdminArticle/index')}">{:lang('BACK')}</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+    <!-- 开始修改Vditor -->
+    <script src="__STATIC__/js/index.min.js?v=3.11.1"></script>
+    <script type="text/javascript">
+        var vditor; // 全局变量声明
+        $(function () {
+            vditor = new Vditor('vditor', {
+                height: 500,
+                width: '100%',
+                placeholder: '输入Markdown内容...',
+                mode: 'sv',  // 分屏模式，支持实时预览
+                counter: {
+                    enable: true,
+                    type: 'markdown'
+                },
+                // 全局Markdown配置
+                markdown: {
+                    toc: true,
+                    footnotes: true,
+                    autoSpace: true,
+                    fixTermTypo: true,
+                    listStyle: true,
+                    gfm: true,
+                    breaks: true,
+                    tasklists: true,
+                    math: {
+                        engine: 'KaTeX'
+                    }
+                },
+                preview: {
+                    delay: 500,
+                    mode: 'both',  // 分屏预览模式
+                    markdown: {
+                        toc: true,  // 启用目录
+                        autoSpace: true,  // 自动空格
+                        listStyle: true,  // 启用列表样式
+                        fixTermTypo: true,  // 修复术语拼写
+                        footnotes: true,  // 启用脚注
+                        gfm: true,  // GitHub Flavored Markdown
+                        breaks: true,  // 支持换行
+                        tasklists: true  // 支持任务列表
+                    },
+                    hljs: {
+                        enable: true,
+                        style: 'github'
+                    }
+                },
+                // 禁用缓存功能
+                cache: {
+                    enable: false
+                },
+                // 工具栏配置
+                toolbar: [
+                    'emoji',
+                    'headings',
+                    'bold',
+                    'italic',
+                    '|',
+                    'line',
+                    'quote',
+                    'list',
+                    'ordered-list',
+                    'check',
+                    'outdent',
+                    'indent',
+                    'code',
+                    'inline-code',
+                    'insert-after',
+                    'insert-before',
+                    'undo',
+                    'redo',
+                    'upload',
+                    'link',
+                    'table',
+                    'record',
+                    'edit-mode',
+                    'both',
+                    'preview',
+                    'fullscreen',
+                    'outline',
+                    'code-theme',
+                    'content-theme',
+                    'export',
+                    'devtools',
+                    'info',
+                    'help',
+                    'br'
+                ],
+                input: function (value) {
+                    $('#content').val(value);
+                    console.log('Vditor内容变化，已同步:', value);
+
+                    // 确保列表marker正确渲染
+                    setTimeout(function () {
+                        if (vditor && vditor.preview) {
+                            vditor.preview.render();
+                        }
+                    }, 100);
+                },
+                blur: function (value) {
+                    $('#content').val(value);
+                    console.log('Vditor失焦，内容已同步:', value);
+                },
+                after: function () {
+                    console.log('Vditor编辑器初始化完成');
+                    // 如果隐藏域有内容，则设置到编辑器
+                    var hiddenContent = $('#content').val();
+                    if (hiddenContent) {
+                        vditor.setValue(hiddenContent);
+                    }
+
+                    // 强制刷新预览以确保列表正确渲染
+                    setTimeout(function () {
+                        if (vditor && vditor.preview) {
+                            vditor.preview.render();
+                        }
+                    }, 200);
+                }, upload: {
+                    handler(files) {
+                        // 支持多图循环上传并回显
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            const formData = new FormData();
+                            formData.append('file', file);
+
+                            $.ajax({
+                                url: '/user/asset/vditor',
+                                type: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success(data) {
+                                    if (data && data.code === 1 && data.data && data.data.url) {
+                                        // 自定义Markdown格式
+                                        const markdownContent = `\n![${data.data.name}](${data.data.url})\n`;
+                                        vditor.insertValue(markdownContent);
+                                    } else {
+                                        layer.msg('图片上传失败');
+                                    }
+                                },
+                                error() {
+                                    layer.msg('图片上传出错');
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+            // 监听提交按钮点击事件
+            $('.js-ajax-submit').on('click', function (e) {
+                // 在按钮点击时同步内容
+                if (typeof vditor !== 'undefined' && vditor && vditor.getValue) {
+                    var content = vditor.getValue();
+                    $('#content').val(content);
+                    console.log('提交按钮点击，内容已同步到隐藏域:', content);
+                }
+            });
+
+            // 表单提交前再次确保vditor内容同步到隐藏域
+            $('.js-ajax-form').on('submit', function (e) {
+                // 获取vditor的内容并同步到隐藏域
+                if (typeof vditor !== 'undefined' && vditor && vditor.getValue) {
+                    var content = vditor.getValue();
+                    $('#content').val(content);
+                    console.log('表单提交，内容已同步到隐藏域:', content);
+                }
+            });
+        });
+    </script>
+    <!-- 结束修改Vditor -->
+    <script>
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+        $('#more-template-select').val("{$post.more.template|default=''}");
+        function doSelectCategory() {
+            var selectedCategoriesId = $('#js-categories-id-input').val();
+            openIframeLayer("{:url('AdminCategory/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+                area: ['700px', '400px'],
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    //do something
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
+                    var selectedCategories = iframeWin.confirm();
+                    if (selectedCategories.selectedCategoriesId.length == 0) {
+                        layer.msg('请选择分类');
+                        return;
+                    }
+                    $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
+                    $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
+                    //console.log(layer.getFrameIndex(index));
+                    layer.close(index); //如果设定yes回调，需进行手工关闭
+                }
+            });
+        }
+    </script>
+    <script>
+        layui.use(['form', 'laydate'], function () {
+            var form = layui.form,
+                laydate = layui.laydate;
+
+            //日期时间选择器
+            laydate.render({
+                elem: '#published-time',
+                type: 'datetime',
+                trigger: 'click'
+            });
+
+            // 状态切换事件处理
+            form.on('checkbox(post-status)', function (data) {
+                var url = data.elem.checked ? publishYesUrl : publishNoUrl;
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    dataType: "json",
+                    data: { ids: postId },
+                    success: function (data) {
+                        if (data.code != 1) {
+                            data.elem.checked = !data.elem.checked;
+                            form.render('checkbox');
+                            $('#post-status-error').html(data.msg).show();
+                        } else {
+                            $('#post-status-error').hide();
+                        }
+                    }
+                });
+            });
+
+            // 置顶切换事件处理
+            form.on('checkbox(is-top)', function (data) {
+                var url = data.elem.checked ? topYesUrl : topNoUrl;
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    dataType: "json",
+                    data: { ids: postId },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code != 1) {
+                            data.elem.checked = !data.elem.checked;
+                            form.render('checkbox');
+                            $('#is-top-error').html(data.msg).show();
+                        } else {
+                            $('#is-top-error').hide();
+                        }
+                    }
+                });
+            });
+
+            // 推荐切换事件处理
+            form.on('checkbox(recommended)', function (data) {
+                var url = data.elem.checked ? recommendYesUrl : recommendNoUrl;
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    dataType: "json",
+                    data: { ids: postId },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.code != 1) {
+                            data.elem.checked = !data.elem.checked;
+                            form.render('checkbox');
+                            $('#recommended-error').html(data.msg).show();
+                        } else {
+                            $('#recommended-error').hide();
+                        }
+                    }
+                });
+            });
+        });
+        
+        var postId = $('#post-id').val();
+        
+        var publishYesUrl = "{:url('AdminArticle/publish',array('yes'=>1))}";
+        var publishNoUrl = "{:url('AdminArticle/publish',array('no'=>1))}";
+        var topYesUrl = "{:url('AdminArticle/top',array('yes'=>1))}";
+        var topNoUrl = "{:url('AdminArticle/top',array('no'=>1))}";
+        var recommendYesUrl = "{:url('AdminArticle/recommend',array('yes'=>1))}";
+        var recommendNoUrl = "{:url('AdminArticle/recommend',array('no'=>1))}";
+    </script>

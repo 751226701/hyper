@@ -1,0 +1,120 @@
+<!--
+ * @Desc: 菜单添加
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+                    <li><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form class="layui-form js-ajax-form" method="post" action="admin/menus">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('Parent')}</label>
+                            <div class="layui-input-block">
+                                <select name="parent_id" lay-verify="required">
+                                    <option value="0">{:lang('Root Menu')}</option>
+                                    {$select_category}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('Name')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="name" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('App')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="app" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('Controller')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="controller" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>{:lang('Controller Action')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="action" lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Params')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="param" placeholder="id=3&amp;p=3">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Icon')}</label>
+                            <div class="layui-input-block">
+                                <div class="input-upload-wrap-btn"> 
+                                    <input type="text" class="layui-input" name="icon">
+                                    <a  class="layui-btn" href="http://www.thinkcmf.com/font/font_awesome/icons.html" target="_blank">
+                                        <i class="layui-icon layui-icon-upload"></i>{:lang('Select icon')}
+                                    </a>
+                                </div>
+                                <div class="layui-form-mid">
+                                    <span class="layui-badge">fa fa-user</span>
+                                    <span class="layui-badge">fa-regular fa-calendar-days</span>
+                                    <span class="layui-badge">fa-solid fa-align-justify</span>
+                                    <span class="layui-badge">fa-brands fa-alipay</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">{:lang('Remark')}</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="remark"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Status')}</label>
+                            <div class="layui-input-block">
+                                <select name="status">
+                                    <option value="1">{:lang('ADMIN_MENU_STATUS_1_TEXT')}</option>
+                                    <option value="0">{:lang('ADMIN_MENU_STATUS_0_TEXT')}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Type')}</label>
+                            <div class="layui-input-block">
+                                <select name="type">
+                                    <option value="1">{:lang('ADMIN_MENU_TYPE_1_TEXT')}</option>
+                                    <option value="2">{:lang('ADMIN_MENU_TYPE_2_TEXT')}</option>
+                                    <option value="0">{:lang('ADMIN_MENU_TYPE_0_TEXT')}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                                <button type="submit" class="layui-btn js-ajax-submit layui-btn-fluid" lay-submit>
+                                    <i class="layui-icon layui-icon-success"></i> {:lang('ADD')}
+                                </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    form.render();
+});
+</script>
+</body>
+</html>

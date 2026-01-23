@@ -1,0 +1,60 @@
+<!--
+ * @Desc: 
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('mailer/index')}">{:lang('ADMIN_MAILER_INDEX')}</a></li>
+                    <li class="layui-this"><a href="#" data-toggle="tab">{:lang('ADMIN_MAILER_TEMPLATE')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form" role="form"
+                        action="{:url('admin/mailer/templatePost')}">
+                        <div class="layui-form-item">
+                            <label for="input-title" class="layui-form-label"><span class="form-required">*</span>{:lang('EMAIL_SUBJECT')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="subject" id="input-title" value="{$subject|default=''}" required lay-verify="required">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="input-title" class="layui-form-label"><span class="form-required">*</span>{:lang('EMAIL_TEMPLATE')}</label>
+                            <div class="layui-input-block">
+                                <script type="text/plain" id="content" name="template">{$template|default=""|htmlspecialchars_decode}</script>
+                                <span style="color: #ffb752;">{:lang('EMAIL_TEMPLATE_HELP_TEXT')}</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="hidden" name="template_key" value="verification_code">
+                                <button type="submit" class="layui-btn js-ajax-submit" data-refresh="1">
+                                    <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    var editorcontent = new baidu.editor.ui.Editor();
+    editorcontent.render('content');
+</script>
+</body>
+</html>

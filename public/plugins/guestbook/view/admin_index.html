@@ -1,0 +1,53 @@
+<include file="public@head" />
+<style>
+.nowrap{max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>留言板管理</a></li>
+    </ul>
+    <br />
+    <div class="common-form">
+        <form method="post" class="js-ajax-form" action="#">
+            <div class="table_list">
+                <table width="100%" class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th width="50">ID</th>
+                        <th width="90">姓名</th>
+                        <th width="120">手机</th>
+						<th width="150">邮箱</th>
+                        <th>页面地址</th>
+						<th>留言内容</th>
+                        <th width="150">时间</th>
+                        <th width="100">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="guestbook" item="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.phone}</td>
+							<td>{$vo.email}</td>
+                            <td class="nowrap"><a href="{$vo.siteUrl}" target="_blank">{$vo.siteUrl}</a></td>
+							<td class="nowrap">{$vo.message}</td>
+                            <td>{:date('Y-m-d H:i',$vo['create_time'])}</td>
+                            <td>
+                                <a class="btn btn-xs btn-primary" href="javascript:parent.openIframeLayer('{:cmf_plugin_url('Guestbook://AdminIndex/detail',['id'=>$vo['id']])}','{$vo.name}的留言详细信息',{area:['60%','70%']});">查看</a>
+                               <a class="btn btn-xs btn-danger js-ajax-delete" href="{:cmf_plugin_url('Guestbook://AdminIndex/delete',['id'=>$vo['id']])};" class="js-ajax-delete">删除</a>
+                            </td>
+                        </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+                <if condition="empty($page)"><else /><ul class="pagination">{$page}</ul></if>
+            </div>
+        </form>
+    </div>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>

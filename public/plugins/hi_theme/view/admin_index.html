@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>ThinkCMF插件演示首页</title>
+    <meta name="description" content="ThinkCMF插件演示首页">
+    <meta name="keywords" content="ThinkCMF插件演示首页">
+</head>
+<body>
+    
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>站点管理</a></li>
+        <li><a href="javascript:parent.openIframeLayer('{:cmf_plugin_url('HiTheme://AdminIndex/add')}','编辑站点',{area:['50%','80%'],end:function(){location.reload();}});" >添加站点</a></li>
+        <li><a href="javascript:parent.openIframeLayer('{:url('admin/theme/install')}','安装模板',{area:['80%','80%'],end:function(){location.reload();}});" >安装模板</a></li>
+    </ul>
+    <form class="js-ajax-form" action="" method="post">
+        <div class="table_list">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th width="50">ID</th>
+                        <th width="230">站点域名</th>
+                        <th width="160">电脑端模板</th>
+                        <th width="160">手机端模板</th>
+                        <th>备注</th>
+                        <th width="160">更新时间</th>
+                        <th width="160">创建时间</th>
+                        <th width="70">状态</th>
+                        <th width="95">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <foreach name="datalist" item="vo">
+                    <tr>
+                        <td>{$key+1}</td>
+                        <td><a href="http://{$vo.theme_url}" target="_blank">{$vo.theme_url}</a></td>
+                        <td><span class="label label-default">{$vo.pc_theme}</span></td>
+                        <td><span class="label label-default">{$vo.mobile_theme}</span></td>
+                        <td>{$vo.msg}</td>
+                        <td>{:date('Y-m-d H:i',$vo['update_time'])}</td>
+                        <td>{:date('Y-m-d H:i',$vo['create_time'])}</td>
+                        <td><span class="label {$vo.status?'label-success': 'label-warning'}">{$vo.status?'开启': '关闭'}</span></td>
+                        <td>
+                            <a href="javascript:parent.openIframeLayer('{:cmf_plugin_url('HiTheme://AdminIndex/edit',['id'=>$vo['id']])}','编辑站点',{area:['50%','80%'],end:function(){location.reload();}});" class="btn btn-xs btn-primary">编辑</a>
+                        <!--<a href="{:cmf_plugin_url('HiTheme://AdminIndex/delete',['id'=>$vo['id']])};" class="js-ajax-delete btn btn-danger btn-xs">删除</a>-->
+                        <a class="btn btn-xs btn-danger js-ajax-delete"
+                           href="{:cmf_plugin_url('HiTheme://AdminIndex/delete',array('id'=>$vo['id']))}">{:lang('DELETE')}</a>
+                           
+                           
+                        </td>
+                    </tr>
+                    </foreach>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">{$page}</div>
+    </form>
+    </div>
+</div>
+<include file="public/scripts"/>
+</body>
+</html>

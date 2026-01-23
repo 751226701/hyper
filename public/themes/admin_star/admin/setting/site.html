@@ -1,0 +1,180 @@
+<include file="public@header" />
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-card">
+                <form class="layui-form js-ajax-form" role="form" action="{:url('setting/sitePost')}" method="post">
+                    <div class="layui-tab layui-tab-brief">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">{:lang('WEB_SITE_INFOS')}</li>
+                            <li><a>{:lang('SEO_SETTING')}</a></li>
+                            <li><a>{:lang('User Register Setting')}</a></li>
+                            <li><a>{:lang('CDN Setting')}</a></li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <div class="layui-form-item">
+                                    <label for="input-site-name" class="layui-form-label">{:lang('WEBSITE_NAME')}</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="input-site-name" required
+                                            lay-verify="required" name="options[site_name]"
+                                            value="{$site_info.site_name|default=''}">
+                                    </div>
+                                </div>
+                                <if condition="APP_DEBUG && false">
+                                    <div class="row mb-3">
+                                        <label for="input-default_app"
+                                            class="col-sm-2 col-form-label text-sm-end">{:lang('Default App')}</label>
+                                        <div class="col-md-8 col-sm-10">
+                                            <php>
+                                                $site_default_app=empty($cmf_settings['default_app'])?'demo':$cmf_settings['default_app'];
+                                            </php>
+                                            <select class="form-control" name="cmf_settings[default_app]"
+                                                id="input-default_app">
+                                                <foreach name="apps" item="vo">
+                                                    <php>$default_app_selected = $site_default_app == $vo ? "selected" : "";
+                                                    </php>
+                                                    <option value="{$vo}" {$default_app_selected}>{$vo}</option>
+                                                </foreach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </if>
+                                <div class="layui-form-item">
+                                    <label for="input-site_icp" class="layui-form-label">{:lang('WEBSITE_ICP')}</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="input-site_icp" name="options[site_icp]"
+                                            value="{$site_info.site_icp|default=''}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label for="input-site_icp" class="layui-form-label">{:lang('WEBSITE_GWA')}</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="input-site_gwa" name="options[site_gwa]"
+                                            value="{$site_info.site_gwa|default=''}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label for="input-site_analytics"
+                                        class="layui-form-label">{:lang('WEBSITE_STATISTICAL_CODE')}</label>
+                                    <div class="layui-input-block">
+                                        <textarea class="layui-textarea" id="input-site_analytics"
+                                            name="options[site_analytics]">{$site_info.site_analytics|default=''}</textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div>
+                                        <button type="submit" class="layui-btn layui-btn-fluid js-ajax-submit"
+                                            data-refresh="1">
+                                            <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>
+                                            {:lang('SAVE')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <div class="layui-form-item">
+                                    <label for="input-site_seo_title"
+                                        class="layui-form-label">{:lang('WEBSITE_SEO_TITLE')}</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="input-site_seo_title"
+                                            name="options[site_seo_title]" value="{$site_info.site_seo_title|default=''}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label for="input-site_seo_keywords"
+                                        class="layui-form-label">{:lang('WEBSITE_SEO_KEYWORDS')}</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="input-site_seo_keywords"
+                                            name="options[site_seo_keywords]"
+                                            value="{$site_info.site_seo_keywords|default=''}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label for="input-site_seo_description"
+                                        class="layui-form-label">{:lang('WEBSITE_SEO_DESCRIPTION')}</label>
+                                    <div class="layui-input-block">
+                                        <textarea class="layui-textarea" id="input-site_seo_description"
+                                            name="options[site_seo_description]">{$site_info.site_seo_description|default=''}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <div>
+                                        <button type="submit" class="layui-btn layui-btn-fluid js-ajax-submit"
+                                            data-refresh="0">
+                                            <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>
+                                            {:lang('SAVE')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <div class="layui-form-item">
+                                    <label for="input-banned_usernames" class="layui-form-label">
+                                        {:lang('User Register Verify')}
+                                    </label>
+                                    <div class="layui-input-block">
+                                        <select class="layui-input" name="cmf_settings[open_registration]">
+                                            <option value="0">{:lang('YES')}</option>
+                                            <php>
+                                                $open_registration_selected =
+                                                empty($cmf_settings['open_registration'])?'':'selected';
+                                            </php>
+                                            <option value="1" {$open_registration_selected}>{:lang('NO')}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="form-group" style="display: none;">
+                                        <label for="input-banned_usernames"
+                                            class="col-sm-2 control-label">{:lang('SPECAIL_USERNAME')}</label>
+                                        <div class="col-md-6 col-sm-10">
+                                            <textarea class="form-control" id="input-banned_usernames"
+                                                name="cmf_settings[banned_usernames]">{$cmf_settings.banned_usernames|default=''}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div>
+                                        <button type="submit" class="layui-btn layui-btn-fluid js-ajax-submit"
+                                            data-refresh="1">
+                                            <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>
+                                            {:lang('SAVE')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item">
+                                <div class="layui-form-item">
+                                    <label for="input-cdn_static_root" class="layui-form-label" lay-unselect
+                                        lay-tips="不能以/结尾；设置这个地址后，请将ThinkCMF下的静态资源文件放在其下面； ThinkCMF下的静态资源文件大致包含以下(如果你自定义后，请自行增加)： themes/admin_default/public/assets static themes/default/public/assets 例如未设置cdn前：jquery的访问地址是/static/js/jquery.js, 设置cdn是后它的访问地址就是：静态资源cdn地址/static/js/jquery.js">{:lang('CDN Root')}<i
+                                        class="fa fa-question-circle"></i></label>
+                                    <div class="layui-input-block">
+                                        <input type="text" class="layui-input" id="input-cdn_static_root"
+                                            name="cdn_settings[cdn_static_root]"
+                                            value="{$cdn_settings.cdn_static_root|default=''}">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div>
+                                        <button type="submit" class="layui-btn layui-btn-fluid js-ajax-submit"
+                                            data-refresh="1">
+                                            <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>
+                                            {:lang('SAVE')}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+
+</html>

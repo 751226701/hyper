@@ -1,0 +1,113 @@
+<include file="public@header"/>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        <li><a href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a></li>
+                        <li><a href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a></li>
+                        <li class="layui-this"><a href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a></li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <form class="js-ajax-form" action="" method="post">
+                                <div class="table-toolbar">
+                                    <div class="layui-btn-group">
+                                        <a class="layui-btn layui-btn-sm js-ajax-dialog-btn" href="javascript:"
+                                           data-href="admin/menus/lang/export"
+                                           data-msg="{:lang('EXPORT_ADMIN_MENU_LANG_CONFIRM_MSG')}">
+                                            <i class="layui-icon layui-icon-export"></i> 
+                                            {:lang('ADMIN_MENU_EXPORT_MENU_LANG')}
+                                        </a>
+                                        <a class="layui-btn layui-btn-sm layui-btn-warm" href="{:url('Menu/getActions')}">
+                                            <i class="layui-icon layui-icon-refresh"></i> 
+                                            {:lang('ADMIN_MENU_GETACTIONS')}
+                                        </a>
+                                    </div>
+                                </div>
+                                <table class="layui-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="50">ID</th>
+                                            <th>{:lang('Name')}</th>
+                                            <th width="80">{:lang('Status')}</th>
+                                            <th width="150">{:lang('ACTIONS')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <foreach name="menus" item="vo">
+                                            <tr>
+                                                <td>{$vo.id}</td>
+                                                <td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
+                                                <td>
+                                                    <empty name="vo.status">
+                                                        <span class="layui-badge layui-bg-orange">{:lang('HIDDEN')}</span>
+                                                        <else/>
+                                                        <span class="layui-badge layui-bg-green">{:lang('DISPLAY')}</span>
+                                                    </empty>
+                                                </td>
+                                                <td>
+                                                    <a class="layui-btn layui-btn-xs" 
+                                                       href="{:url('Menu/edit',array('id'=>$vo['id']))}"
+                                                       title="{:lang('EDIT')}">
+                                                        <i class="layui-icon layui-icon-edit"></i>
+                                                    </a>
+                                                    <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete" 
+                                                       href="javascript:void(0);"
+                                                       data-href="admin/menus/{$vo.id}"
+                                                       title="{:lang('DELETE')}">
+                                                        <i class="layui-icon layui-icon-delete"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </foreach>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="__STATIC__/js/admin.js"></script>
+    <script>
+    layui.use(['layer'], function(){
+        var layer = layui.layer;
+    });
+    </script>
+    <style>
+    /* 调整表格样式 */
+    .layui-table {
+        margin: 10px 0;
+    }
+    
+    /* 调整工具栏样式 */
+    .table-toolbar {
+        padding: 10px 0;
+    }
+    
+    /* 调整选项卡样式 */
+    .layui-tab {
+        margin: 0;
+    }
+    .layui-tab-brief > .layui-tab-title {
+        border-bottom-color: #f6f6f6;
+    }
+    .layui-tab-brief > .layui-tab-title .layui-this {
+        color: #009688;
+    }
+    
+    /* 调整按钮样式 */
+    .layui-btn-xs {
+        padding: 0 8px;
+    }
+    .layui-btn-xs i {
+        font-size: 12px;
+    }
+    </style>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{$site_info.site_name|default=''}</title>
+		<meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+		<meta name="description" content="{$site_info.site_seo_description|default=''}">
+		<include file="public@head"/>
+		<hook name="before_head_end"/>
+	</head>
+	<body>
+	    <!-- 预加载 Start -->
+        <!--<div class="se-pre-con"></div>-->
+        <!-- 预加载 Ends -->
+		<include file="public@nav"/>
+
+        <!-- Start Banner 
+        ============================================= -->
+        <div class="banner-area bg-gray auto-height shape multi-heading">
+            <div id="bootcarousel" class="carousel text-center text-light slide carousel-fade animate_text" data-ride="carousel" data-interval="3000">
+    
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner carousel-zoom">
+                    <php>
+                        $top_slide_id=empty($theme_vars['top_slide'])?1:$theme_vars['top_slide'];
+                    </php>
+                    <slides id="$top_slide_id">
+                    <div class="carousel-item">
+                        <div class="slider-thumb bg-cover" style="background-image: url({:cmf_get_image_url($vo.image)});"></div>
+                        <div class="box-table shadow dark">
+                            <div class="box-cell">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-10 offset-lg-1">
+                                            <div class="content">
+                                                <h3 data-animation="animated slideInDown">{$vo.title|default='后台编辑标题'}</h3>
+                                                <h2 data-animation="animated fadeInRight">{$vo.description|default='Ebukat <strong>限时免费</strong>'}</h2>
+                                                <p data-animation="animated slideInLeft">
+                                                    {$vo.content|default='此处请编辑幻灯片内容：构建在线教育业务闭环，促进教育机构业务增长，十万家培新机构都在用的网校系统'}
+                                                </p>
+                                                <a data-animation="animated fadeInUp" class="btn btn-md btn-gradient" href="{$vo.url|default=''}">更多发现</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </slides>
+                    <noslides id="$top_slide_id">
+                    <div class="carousel-item">
+                        <div class="slider-thumb bg-cover" style="background-image: url(__TMPL__/public/assets/img/banner/8.jpg);"></div>
+                        <div class="box-table shadow dark">
+                            <div class="box-cell">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-10 offset-lg-1">
+                                            <div class="content">
+                                                <h3 data-animation="animated slideInDown">互联网在线学习</h3>
+                                                <h2 data-animation="animated fadeInRight">Ebukat <strong>限时免费</strong></h2>
+                                                <p data-animation="animated slideInLeft">
+                                                    构建在线教育业务闭环，促进教育机构业务增长，十万家培新机构都在用的网校系统
+                                                </p>
+                                                <a data-animation="animated fadeInUp" class="btn btn-md btn-gradient" href="#">更多发现</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="slider-thumb bg-cover" style="background-image: url(__TMPL__/public/assets/img/banner/14.jpg);"></div>
+                        <div class="box-table shadow dark">
+                            <div class="box-cell">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-10 offset-lg-1">
+                                            <div class="content">
+                                                <h3 data-animation="animated slideInDown">互联网在线学习</h3>
+                                                <h2 data-animation="animated fadeInRight">Ebukat <strong>限时免费</strong></h2>
+                                                <p data-animation="animated slideInLeft">
+                                                    构建在线教育业务闭环，促进教育机构业务增长，十万家培新机构都在用的网校系统
+                                                </p>
+                                                <a data-animation="animated fadeInUp" class="btn btn-md btn-gradient" href="#">更多发现</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </noslides>
+                </div>
+                <!-- End Wrapper for slides -->
+    
+                <!-- Left and right controls -->
+                <a class="left carousel-control light" href="#bootcarousel" data-slide="prev">
+                    <i class="ti-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control light" href="#bootcarousel" data-slide="next">
+                    <i class="ti-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                </a>
+    
+            </div>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+        
+            //默认第一个显示
+            $(".carousel-inner").each(function(){
+                $(this).find(".carousel-item").first().addClass("active");
+            });
+        </script>
+        <!-- End Banner -->
+    
+        <!-- Star 宫格区
+        ============================================= -->
+        <widget name="services">
+        <div class="default-features-area default-design default-padding bottom-less text-center">
+            <div class="container">
+                <div class="item-box">
+                    <php>
+    					$features = $widget['vars']['features'];
+    				</php>
+                    <div class="row">
+                        <foreach name="features" item="vo">
+                        <div class="col-lg-4 col-md-6 single-item">
+                            <div class="item">
+                                <i class="fas fa-{$vo.icon}"></i>
+                                <h4>{$vo.title}</h4>
+                                <p>
+                                    {$vo.content}
+                                </p>
+                                <!--<a href="{$vo.link}"><i class="fas fa-angle-right"></i> Read More</a>-->
+                            </div>
+                        </div>
+                        </foreach>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End 宫格 -->
+    
+        <!-- Star 公司简介
+        ============================================= -->
+        <widget name="index_about">
+        <div class="about-area reverse default-padding bg-gray">
+            <div class="container">
+                <div class="about-items">
+                    <div class="row">
+                        <div class="col-lg-6 thumb">
+                            <if condition="empty($widget.vars.image_bg)">
+								<img src="__TMPL__/public/assets/img/illustration/4.png" alt="Thumb">
+							<else />
+								<img src="{:cmf_get_image_url($widget.vars.image_bg)}"/>
+							</if>
+                        </div>
+                        <div class="col-lg-6 info">
+                            <h5>{$widget.title}</h5>
+                            <h2>{$widget.vars.sub_title}</h2>
+                            <p style="text-align: left;">
+                                {$widget.vars.content}
+                            </p>
+                            <ul>
+                                <php>
+                					$features = $widget['vars']['features'];
+                				</php>
+                				<foreach name="features" item="vo">
+                                <li>
+                                    <div class="fun-fact">
+                                        <span class="timer" data-to="{$vo.content}" data-speed="3000"></span>
+                                        <span class="medium">{$vo.title}</span>
+                                        <!--<a href="https://src.hyperionrobot.com/download.jpg" download="download.jpg">点击下载文件</a>-->
+                                    </div>
+                                </li>
+                                </foreach>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End 公司简介 -->
+    
+        <!-- Star 闭环
+        ============================================= -->
+        <widget name="index_three">
+        <div class="categories-area reverse carousel-shadow default-padding">
+            <div class="container">
+                <div class="categories-box">
+                    <div class="row">
+    
+                        <div class="col-lg-5 heading">
+                            <h2>{$widget.title}</h2>
+                            <p style="text-align: left;">
+                                {$widget.vars.content}
+                            </p>
+                            <a class="btn btn-md btn-gradient icon-left" target="_blank" href="{$widget.vars.link}"><i class="fas fa-grip-horizontal"></i> {$widget.vars.btn_text}</a>
+                        </div>
+    
+                        <div class="col-lg-7">
+                            <div class="category-items categories-carousel owl-carousel owl-theme text-light text-center">
+                                <php>
+                					$features = $widget['vars']['features'];
+                				</php>
+                				<foreach name="features" item="vo">
+                                <div class="item {$vo.color}">
+                                    <a href="{$vo.link}" target="_blank">
+                                        <i class="{$vo.icon}"></i>
+                                        <div class="info">
+                                            <h5>{$vo.title}</h5>
+                                            <p>{$vo.content}</p>
+                                            <span>View more</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                </foreach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End 闭环 -->
+    
+        <!--  start applicaiton  应用简介
+        ============================================= -->
+        <widget name="index_video">
+        <div class="why-choseus-area default-padding-bottom bottom-less">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="site-heading text-center">
+                            <h5>{$widget.title}</h5>
+                            <h2>{$widget.vars.sub_title}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Fixed BG -->
+            <div class="container">
+                <div class="info">
+                    <div class="row">
+                        <div class="single-item thumb col-lg-12">
+                            <div class="thumb-box">
+                                <if condition="empty($widget.vars.image_bg)">
+    								<img src="__TMPL__/public/assets/img/about/1.jpg">
+    							<else />
+    								<img src="{:cmf_get_image_url($widget.vars.image_bg)}"/>
+    							</if>
+                                <a href="{$widget.vars.link}" class="popup-youtube light video-play-button item-center">
+                                    <i class="fa fa-play"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item-box col-lg-12">
+                            <div class="row">
+                                <php>
+                					$features = $widget['vars']['features'];
+                				</php>
+                				<foreach name="features" item="vo">
+                                <div class="single-item col-lg-4 col-md-4">
+                                    <div class="item">
+                                        <span>0{$key+1}</span>
+                                        <i class="fa fa-{$vo.icon}"></i>
+                                        <h4 style="font-weight: bold; color: #990033; font-size:24px;">{$vo.title}</h4>
+                                        <p>
+                                           {$vo.content}
+                                        </p>
+                                    </div>
+                                </div>
+                                </foreach>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!--  end applicaiton  应用简介 -->
+    
+        <!-- Start information  平台资讯
+        ============================================= -->
+        <widget name="last_case">
+        <php>
+		    $widget_id = empty($widget["vars"]["category_id"])?1:$widget["vars"]["category_id"];
+		    $limit=3;
+		</php>
+        <div class="courses-area trend-layout bg-gray default-padding bottom-less">
+            <div class="container">
+                <div class="heading-left">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <h5>{$widget.title}</h5>
+                            <h2>
+                               {$widget.vars.sub_title}
+                            </h2>
+                        </div>
+                        <div class="col-lg-6 offset-lg-1">
+                            <p>
+                                {$widget.vars.content}
+                            </p>
+                            <a class="btn btn-md btn-dark border" href="{:cmf_url('portal/List/index',array('id'=>$widget_id))}">浏览更多 <i class="fas fa-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="courses-items">
+                    <div class="row">
+                        
+                        <!-- Single item -->
+                        <portal:articles limit="$limit" order="post.published_time DESC" categoryIds="$widget_id">
+                        <div class="single-item col-lg-4 col-md-6">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="{$vo.more.post_link|default='#'}" target="_blank">
+                                        <if condition="empty($vo.more.thumbnail)">
+										    <img src="__TMPL__/public/assets/img/common/picture_2.png" alt="Thumb">
+										<else/>
+											<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+										</if>
+                                    </a>
+                                </div>
+                                <div class="info">
+                                     <!--<div class="top-info">
+                                       <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <span>4.8 (867)</span>
+                                        </div>
+                                         <div class="price">
+                                            $15.00
+                                        </div> 
+                                    </div>-->
+                                    
+                                    
+                                    <!-- 隐藏了作者和栏目名称-------
+                                    <div class="meta">
+                                        <ul>
+                                            <li>
+                                                <if condition="empty($vo.avatar)">
+        										    <img src="__TMPL__/public/assets/img/common/square.png" alt="Advisor">
+        										<else/>
+        											<img src="{:cmf_get_image_url($vo.avatar)}">
+        										</if>
+                                                <a href="javascript:;">{$vo.user.user_nickname}</a> in <a href="#">
+                                                    <php>
+                                                        $category=_wien_getCategoryName($vo['category_id']);
+                                                    </php>
+                                                    {$category.name}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    ------------------------------->
+                                    
+                               
+                                    <h4 style="font-size: 22px;">
+                                        <a href="{$vo.more.post_link|default='#'}" target="_blank">{$vo.post_title}</a>
+                                    </h4>
+                                    <p>
+                                       {$vo.post_excerpt}
+                                    </p>
+                                    <div class="bottom-info">
+                                        <div class="course-info">
+                                            <ul>
+                                                <li><i class="fas fa-clock"></i> {:date('Y-m-d',$vo.published_time)}</li>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <li><i class="fas fa-user"></i> {$vo.post_hits}</li>
+                                                <!--<li><i class="fas fa-list-ul"></i> {$vo.post_like}</li>      隐藏了点赞-->
+                                            </ul>
+                                        </div>
+                                        <!--<div class="enroll">-->
+                                        <!--    <a class="btn btn-theme effect btn-sm" href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">立即报名</a>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </portal:articles>
+                        	
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End INFORMATION   平台资讯 -->
+    
+        <!-- Star 套餐版本
+        ============================================= -->
+        <widget name="index_six">
+        <div class="event-area default-padding bottom-less">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="site-heading text-center">
+                            <h5>{$widget.title}</h5>
+                            <h2>{$widget.vars.sub_title}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="event-area">
+                    <div class="row">
+                        <php>
+        					$features = $widget['vars']['features'];
+        				</php>
+        				<foreach name="features" item="vo">
+                        <div class="single-event col-lg-12">
+                            <div class="event-box">
+                                <div class="row">
+                                    <if condition="empty($vo.image)">
+                                        <div class="col-lg-4 item thumb" style="background-image: url(__TMPL__/public/assets/img/common/square.png);"></div>
+                        			<else/>
+                        			    <div class="col-lg-4 item thumb" style="background-image: url({:cmf_get_image_url($vo.image)});"></div>
+                        			</if>
+                                    <div class="col-lg-3 col-md-5 item">
+                                        <div class="info">
+                                            <h2><strong>活动 {$key+1}</strong></h2>
+                                            <!--<h5>{$vo.time}</h5>-->
+                                            <ul>
+                                                <li>
+                                                    <i class="icon_pin_alt"></i> {$vo.area}
+                                                </li>
+                                                <li>
+                                                    <i class="icon_star_alt"></i> {$vo.address}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-7 item">
+                                        <div class="content">
+                                            <h3>
+                                                <a href="javascript:;" style="color: #990033">{$vo.title}</a>
+                                            </h3>
+                                            <p>{$vo.content}</p>
+                                            <!--<ul>-->
+                                            <!--    <li>-->
+                                            <!--        <a href="advisor-single.html"><img src="__TMPL__/public/assets/img/advisor/6.jpg" alt="Thumb">Kevin & Amanda</a>-->
+                                            <!--    </li>-->
+                                            <!--    <li><i class="fas fa-clock"></i> 8:00 - 16:00</li>-->
+                                            <!--</ul>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </foreach>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End 套餐版本 -->
+    
+        <!-- Star Testimonials
+        ============================================= -->
+        <widget name="testimonials">
+        <div class="testimonials-area carousel-shadow default-padding bottom-less">
+            <!-- Fixed Shape -->
+            <div class="fixed-shape">
+                <img src="__TMPL__/public/assets/img/shape/5.png" alt="Shape">
+            </div>
+            <!-- End Fixed Shape -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="site-heading text-center">
+                            <h5>{$widget.title}</h5>
+                            <h2>{$widget.vars.sub_title}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="testimonial-items text-center">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="testimonials-carousel owl-carousel owl-theme">
+                                <php>
+                					$features = $widget['vars']['features'];
+                				</php>
+                				<foreach name="features" item="vo">
+                                <div class="item">
+                                    <div class="icon">
+                                        <i class="flaticon-quotation"></i>
+                                    </div>
+                                    <div class="content">
+                                        <p>
+                                            {$vo.content} 
+                                        </p>
+                                    </div>
+                                    <div class="provider">
+                                        <div class="thumb">
+                                            <if condition="empty($vo.image)">
+            								    <img src="__TMPL__/public/assets/img/common/square.png">
+            								<else/>
+            									<img src="{:cmf_get_image_url($vo.image)}">
+            								</if>
+                                        </div>
+                                        <div class="info">
+                                            <h5>{$vo.title}</h5>
+                                            <span>{$vo.job}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                </foreach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End Testimonials Area -->
+        
+        <!-- Start DATA BANNER
+        ============================================= -->
+		<widget name="counter">
+        <div class="fun-factor-area overflow-hidden bg-gradient text-light default-padding">
+            <div class="container">
+                <div class="fun-fact-items text-center">
+                    <!-- Fixed BG -->
+                    <div class="fixed-bg contain" style="background-color:#990033; background-image: url(__TMPL__/public/assets/img/map.svg);"></div>
+                    <!-- Fixed BG -->
+                    <div class="row">
+                        <php>
+        					$features = $widget['vars']['features'];
+        				</php>
+        				<foreach name="features" item="vo">
+                        <div class="col-lg-3 col-md-6 item">
+                            <div class="fun-fact">
+                                <div class="counter">
+                                    <!--<div class="timer" data-to="{$vo.number}" data-speed="5000">{$vo.number}</div>-->
+                                    <div class="operator">{$vo.icon}</div>
+                                </div>
+                                <span class="medium">{$vo.title}</span>
+                            </div>
+                        </div>
+                        </foreach>
+                    </div>
+                </div>
+            </div>
+        </div>
+		</widget>
+        <!-- End DATA BANNER -->
+    
+        <!-- Star 更新日志
+        ============================================= -->
+        <widget name="last_news">
+		<php>
+		    $widget["vars"]["category_id"] = empty($widget["vars"]["category_id"])?1:$widget["vars"]["category_id"];
+		    $limit=3;
+		</php>
+        <div class="blog-area default-padding bottom-less">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <div class="site-heading text-center">
+                            <h5>{$widget.title}</h5>
+                            <h2>{$widget.vars.sub_title}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="blog-items">
+                    <div class="row">
+                        <portal:articles limit="$limit" order="post.published_time DESC" categoryIds="$widget.vars.category_id">
+                        <div class="col-lg-4 col-md-6 single-item">
+                        
+                            <div class="item">
+                                <div class="thumb">
+                                    <a class="popup-youtube" href="{$vo.more.post_link|default='#'}" target="_blank">
+                                        <if condition="empty($vo.more.thumbnail)">
+        								    <img src="__TMPL__/public/assets/img/common/news.png">
+        								<else/>
+        									<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+        								</if>
+                                    </a>
+                                    <div class="date">
+                                        <strong>{:date('d',$vo.published_time)} </strong> {:date('M',$vo.published_time)}
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <h4><a class="popup-youtube" href="{$vo.more.post_link|default='#'}" target="_blank">{$vo.post_title}</a></h4>
+                                    <p>
+                                        {$vo.post_excerpt} 
+                                    </p>
+                                </div>
+                                <div class="bottom-info">
+                                    <span><i class="fas fa-user"></i> {$vo.user.user_nickname}</span>
+                                    <a class="btn-more popup-youtube" href="{$vo.more.post_link|default='#'}" target="_blank">查看详情 <i class="arrow_right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        </portal:articles>
+                    </div>
+                </div>
+            </div>
+        </div>
+		</widget>
+        <!-- End 更新日志 -->		
+
+		<include file="public@footer"/>
+		<include file="public@scripts"/>
+		<hook name="before_body_end"/>
+	</body>
+</html>

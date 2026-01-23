@@ -1,0 +1,166 @@
+{
+    "name": "模板全局配置",
+    "action": "public/Config",
+    "description": "模板全局配置文件",
+    "is_public": "1",
+    "order": 0.0,
+    "more": {
+        "vars": {
+            "site_name": {
+                "title": "网站名称",
+                "value": "",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": false
+                }
+            },
+            "site_icp": {
+                "title": "ICP备",
+                "value": "",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": false
+                }
+            },
+            "gn_icp": {
+                "title": "公安网备",
+                "name": "gn_icp",
+                "value": "",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": false
+                }
+            },
+            "site_count": {
+                "title": "统计代码",
+                "name": "site_count",
+                "value": "",
+                "type": "textarea",
+                "tip": "",
+                "rule": {
+                    "require": false
+                }
+            },
+            "enable_mobile": {
+                "title": "手机注册",
+                "value": "ThinkCMF",
+                "type": "select",
+                "value": 1,
+                "options": {
+                    "1": "开启",
+                    "0": "关闭"
+                },
+                "tip": ""
+            },
+            "top_nav": {
+                "title": "顶部导航",
+                "value": "",
+                "type": "text",
+                "dataSource": {
+                    "api": "admin/Nav/index",
+                    "multi": false
+                },
+                "placeholder": "请选择顶部导航ID",
+                "tip": "顶部导航",
+                "rule": {
+                    "require": true
+                }
+            },
+            "company_name": {
+                "title": "企业全称",
+                "value": "WienDesign演示站",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "address": {
+                "title": "公司地址",
+                "value": "上海长宁区宣化路299弄",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "company_info": {
+                "title": "企业简介",
+                "name": "company_info",
+                "value": "公司简介",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "email": {
+                "title": "邮箱",
+                "value": "13916699968@139.com",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "phone": {
+                "title": "电话",
+                "value": "000 0000 0000",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "mobile_phone": {
+                "title": "手机",
+                "value": "+86 139 8888 8888",
+                "type": "text",
+                "tip": "",
+                "rule": {
+                    "require": true
+                }
+            },
+            "qq": {
+                "title": "联系QQ",
+                "value": "1918007008",
+                "type": "text",
+                "tip": "多个 QQ以英文逗号隔开",
+                "rule": {
+                    "require": true
+                }
+            },
+            "logo": {
+                "title": "网站LOGO",
+                "value": "",
+                "type": "image",
+                "tip": "导航栏LOGO设置",
+                "rule": []
+            },
+            "footer_logo": {
+                "title": "底部网站LOGO",
+                "value": "",
+                "type": "image",
+                "tip": "导航栏LOGO设置",
+                "rule": []
+            },
+            "code": {
+                "title": "微信二维码",
+                "value": "",
+                "type": "image",
+                "tip": "微信二维码设置",
+                "rule": []
+            },
+            "code_tow": {
+                "title": "微博二维码",
+                "value": "",
+                "type": "image",
+                "tip": "微信二维码设置",
+                "rule": []
+            }
+        }
+    }
+}

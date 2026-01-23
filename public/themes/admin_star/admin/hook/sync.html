@@ -1,0 +1,30 @@
+<extend name="public@base5"/>
+<block name="head">
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
+</block>
+<block name="main">
+    <div class="wrap">
+        <div class="row">
+            <div class="offset-md-3 col-md-6">
+                <div class="card" style="margin: 10% 0">
+                    <div class="card-header">
+                        <b>{:lang('Sync Hook')}</b>
+                    </div>
+                    <div class="card-body">
+                        <div style="line-height: 60px;">
+                            {:lang('Sync Hook Success')}!
+                        </div>
+                        <div class="text-end">
+                            <a href="javascript:history.back(-1);"
+                               class="btn btn-primary pull-right">{:lang('CLOSE')}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

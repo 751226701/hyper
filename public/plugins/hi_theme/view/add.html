@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <include file="public/head"/>
+    <title>添加站点</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<form action="{:cmf_plugin_url('HiTheme://AdminIndex/add_post')}" method="post" class="form-horizontal js-ajax-form">
+			<table class="table table-hover table-bordered">
+				<tr>
+					<th width="150">站点域名<span class="form-required">*</span></th>
+					<td>
+						<input class="form-control" type="text" name="theme_url" value="" placeholder="不用输入http://" required autocomplete="off" />
+					</td>
+				</tr>
+				<tr>
+					<th>电脑端模板<span class="form-required">*</span></th>
+					<td>
+						<select class="form-control" name="pc_theme">
+							<option value="">请选择模板</option>
+							<foreach name="themes" item="vo">
+								<option value="{$vo.theme}">{$vo.theme|default=''} | {$vo.description|default=''}</option>
+							</foreach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>手机端模板</th>
+					<td>
+						<select class="form-control" name="mobile_theme">
+							<option value="">请选择模板</option>
+							<foreach name="themes" item="vo">
+								<option value="{$vo.theme}">{$vo.theme|default=''} | {$vo.description|default=''}</option>
+							</foreach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>是否开启</th>
+					<td>
+						<select class="form-control" name="status">
+							<option value="1">开启</option>
+							<option value="0">关闭</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>备注</th>
+					<td>
+						<textarea class="form-control" name="msg" placeholder="备注" rows="8"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<button type="submit" class="btn btn-primary js-ajax-submit">保存</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+    <include file="public/scripts"/>
+</body>
+</html>
+

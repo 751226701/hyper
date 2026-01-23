@@ -1,0 +1,62 @@
+<!--
+ * @Desc: RBAC角色编辑
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
+                    <li class="layui-this">{:lang('ADMIN_RBAC_ROLEEDIT')}</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form" action="{:url('rbac/roleEditPost')}">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('ROLE_NAME')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="name" value="{$data.name}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('ROLE_DESCRIPTION')}</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="remark">{$data.remark}</textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('STATUS')}</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="status" value="1" lay-skin="switch" lay-text="{:lang('ENABLED')}|{:lang('DISABLED')}" {$data.status?'checked':''}>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="hidden" name="id" value="{$data.id}">
+                                <button type="submit" class="layui-btn js-ajax-submit" data-refresh="1">
+                                    <i class="layui-icon layui-icon-edit"></i>{:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        return true;
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$article.post_title}</title>
+    <meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+    <meta name="description" content="{$site_info.site_seo_description|default=''}">
+    <include file="public@head"/>
+    <style>
+        #article_content img {
+            height: auto !important;
+            max-width: 100%;
+        }
+
+        #article_content {
+            word-wrap: break-word;
+        }
+    </style>
+    <hook name="before_head_end"/>
+</head>
+<body class="body-white">
+<include file="public@nav"/>
+<div class="blog-area full-blog right-sidebar full-blog default-padding">
+    <div class="container">
+        <div class="row">
+            <div class="blog-content col-lg-8 col-md-12">
+                <div class="tc-box article-box">
+                    <h2>{$article.post_title}</h2>
+                    <div class="article-infobox">
+                        <span>{:date('Y-m-d H:i',$article.published_time)} by {$article.user.user_nickname}</span>
+                        <span>
+    		    			<a href="javascript:;"><i class="fa fa-eye"></i><span>{$article.post_hits}</span></a>
+    						<a href="{:url('portal/Article/doLike',array('id'=>$article['id']))}" class="js-count-btn"><i
+                                    class="fa fa-thumbs-up"></i><span class="count">{$article.post_like}</span></a>
+    						<a href="{:url('user/favorite/add')}"
+                               class="js-favorite-btn"
+                               data-title="{:base64_encode($article.post_title)}"
+                               data-url="{:cmf_url_encode('portal/Article/index',array('id'=>$article['id']))}"
+                               data-table="portal_post"
+                               data-id="{$article['id']}"
+                            >
+    							<i class="fa fa-star-o"></i>
+    						</a>
+    					</span>
+                    </div>
+                    <hr>
+                    <php>
+                        $before_content_hook_param=[
+                        'object_id'=>$article['id'],
+                        'table_name'=>'portal_post',
+                        'object_title'=>$article['post_title'],
+                        'user_id'=>$article['user_id'],
+                        'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                        'object'=>$article
+                        ];
+                    </php>
+                    <hook name="before_content" param="before_content_hook_param"/>
+    
+                    <div id="article_content" style="min-height:150px">
+                        {$article.post_content}
+                    </div>
+                    <if condition="!empty($article['post_source'])">
+                        <div>
+                            <b>注：本文转载自{$article.post_source}，转载目的在于传递更多信息，并不代表本网赞同其观点和对其真实性负责。如有侵权行为，请联系我们，我们会及时删除。</b>
+                        </div>
+                    </if>
+    
+                    <php>
+                        $after_content_hook_param=[
+                        'object_id'=>$article['id'],
+                        'table_name'=>'portal_post',
+                        'object_title'=>$article['post_title'],
+                        'user_id'=>$article['user_id'],
+                        'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                        'object'=>$article
+                        ];
+                    </php>
+                    <hook name="after_content" param="after_content_hook_param"/>
+    
+                    <php>
+                        $comment_hook_param=[
+                        'object_id'=>$article['id'],
+                        'table_name'=>'portal_post',
+                        'object_title'=>$article['post_title'],
+                        'url'=>cmf_url_encode('portal/Article/index',array('id'=>$article['id'],'cid'=>$category['id'])),
+                        'user_id'=>$article['user_id'],
+                        ];
+                        $comment=hook_one('comment',$comment_hook_param);
+                    </php>
+    
+                    <if condition="empty($comment) && cmf_get_current_admin_id()">
+                        <div style="border: 1px dashed #ddd;min-height: 200px;padding-top: 50px;">
+                            <div class="alert alert-warning" role="alert">
+                                此区域这为评论区，请安装评论插件！<br>
+                                <em>注：普通用户不会看到此提示！</em>
+                            </div>
+                        </div>
+                    </if>
+                    {$comment}
+    
+                   
+                </div>
+    
+    
+            </div>
+            <!-- Start Sidebar -->
+                    <div class="sidebar col-lg-4 col-md-12">
+                        <aside>
+                            <!--<div class="sidebar-item search">-->
+                            <!--    <div class="sidebar-info">-->
+                            <!--        <form method="post" action="{:cmf_url('portal/Search/index')}">-->
+                            <!--            <input type="text" class="form-control" value="{:input('param.keyword','')}" name="keyword" id="keyword">-->
+                            <!--            <button type="submit"><i class="fas fa-search"></i></button>-->
+                            <!--        </form>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+                            <!-- 热门文章 -->
+						    <widget name="hottest_articles">
+                            <div class="sidebar-item recent-post">
+                                <div class="title">
+                                    <h4>{$widget.title}</h4>
+                                </div>
+                                <ul>
+                                    <portal:articles limit="5" order="post.post_hits DESC" categoryIds="$widget.vars.category_id">
+                                    <li>
+                                        <div class="thumb">
+                                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">
+                                                <if condition="empty($vo.more.thumbnail)">
+    											    <img src="__TMPL__/public/assets/img/common/news.png">
+    											<else/>
+    												<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+    											</if>
+                                            </a>
+                                        </div>
+                                        <div class="info">
+                                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+                                            <div class="meta-title">
+                                                <span class="post-date"><i class="fas fa-clock"></i> {:date('Y-m-d',$vo.published_time)}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    </portal:articles>
+                                    
+                                </ul>
+                            </div>
+                            </widget>
+                            <!-- 分类 -->
+                            <widget name="categories">
+                            <php>
+                                $productsId=$category['id'];
+                                $subC = _wien_subCategories("$productsId");
+                            </php>
+                            <div class="sidebar-item category">
+                                <div class="title">
+                                    <h4>category 分类列表</h4>
+                                </div>
+                                <div class="sidebar-info">
+                                    <ul>
+                                        <foreach name="subC" item="vo">
+                                            <li><a href="{:cmf_url('portal/List/index',array('id'=>$vo['id']))}">{$vo.name}<!--<span>69</span>--></a></li>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </div>
+                            </widget>
+                            <!-- 热门图片 -->
+						    <widget name="hottest_img">
+                            <div class="sidebar-item gallery">
+                                <div class="title">
+                                    <h4>Gallery 图片</h4>
+                                </div>
+                                <div class="sidebar-info">
+                                    <ul>
+                                        <portal:articles limit="6" order="post.post_hits DESC" categoryIds="$widget.vars.category_id">
+                                        <li>
+                                            <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">
+                                                <if condition="empty($vo.more.thumbnail)">
+    											    <img src="__TMPL__/public/assets/img/common/news.png">
+    											<else/>
+    												<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+    											</if>
+                                            </a>
+                                        </li>
+                                        </portal:articles>
+                                    </ul>
+                                </div>
+                            </div>
+                            </widget>
+                            <!-- 分类 -->
+                                <widget name="categories">
+                                <php>
+                                    $productsId=$category['id'];
+                                    $subC = _wien_subCategories("$productsId");
+                                </php>
+                                <div class="sidebar-item category">
+                                    <div class="title">
+                                        <h4>category 分类列表</h4>
+                                    </div>
+                                    <div class="sidebar-info">
+                                        <ul>
+                                            <foreach name="subC" item="vo">
+                                                <li><a href="{:cmf_url('portal/List/index',array('id'=>$vo['id']))}">{$vo.name}<!--<span>69</span>--></a></li>
+                                            </foreach>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </widget>
+                                <!-- 热门图片 -->
+							    <widget name="hottest_img">
+                                <div class="sidebar-item gallery">
+                                    <div class="title">
+                                        <h4>Gallery 图片</h4>
+                                    </div>
+                                    <div class="sidebar-info">
+                                        <ul>
+                                            <portal:articles limit="6" order="post.post_hits DESC" categoryIds="$widget.vars.category_id">
+                                            <li>
+                                                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo['id']))}">
+                                                    <if condition="empty($vo.more.thumbnail)">
+        											    <img src="__TMPL__/public/assets/img/common/news.png">
+        											<else/>
+        												<img src="{:cmf_get_image_url($vo.more.thumbnail)}">
+        											</if>
+                                                </a>
+                                            </li>
+                                            </portal:articles>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </widget>
+                                <!--<div class="sidebar-item archives">
+                                    <div class="title">
+                                        <h4>Archives</h4>
+                                    </div>
+                                    <div class="sidebar-info">
+                                        <ul>
+                                            <li><a href="#">Aug 2020</a></li>
+                                            <li><a href="#">Sept 2020</a></li>
+                                            <li><a href="#">Nov 2020</a></li>
+                                            <li><a href="#">Dec 2020</a></li>
+                                        </ul>
+                                    </div>
+                                </div>-->
+                                <div class="sidebar-item social-sidebar">
+                                    <div class="title">
+                                        <h4>follow us</h4>
+                                    </div>
+                                    <div class="sidebar-info">
+                                        <ul>
+                                            <li class="facebook">
+                                                <a href="#">
+                                                    <i class="fab fa-qq"></i>
+                                                </a>
+                                            </li>
+                                            <li class="twitter">
+                                                <a href="#">
+                                                    <i class="fab fa-weixin"></i>
+                                                </a>
+                                            </li>
+                                            <li class="pinterest">
+                                                <a href="#">
+                                                    <i class="fab fa-weibo"></i>
+                                                </a>
+                                            </li>
+                                            <li class="g-plus">
+                                                <a href="#">
+                                                    <i class="fab fa-google-plus-g"></i>
+                                                </a>
+                                            </li>
+                                            <li class="linkedin">
+                                                <a href="#">
+                                                    <i class="fab fa-linkedin-in"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- 文章标签 -->
+							    <php>$tags=_wien_tags();</php>
+                                <div class="sidebar-item tags">
+                                    <div class="title">
+                                        <h4>Tags 标签</h4>
+                                    </div>
+                                    <div class="sidebar-info">
+                                        <ul>
+                                            <volist name="tags" id="vo" length="30" >
+        									<li><a href="#">{$vo.name}</a></li>
+        									</volist>
+                                        </ul>
+                                    </div>
+                                </div>
+                        </aside>
+                    </div>
+    
+        </div>
+    </div>
+    
+</div>
+<include file="public@footer"/>
+<include file="public@scripts"/>
+<hook name="before_body_end"/>
+</body>
+</html>

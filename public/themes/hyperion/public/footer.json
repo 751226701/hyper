@@ -1,0 +1,47 @@
+{
+    "name": "通用底部",
+    "action": "public/Footer",
+    "description": "导航条模板文件",
+    "is_public": "1",
+    "order": 10.0,
+    "more": {
+        "vars": {
+            "footer_nav": {
+                "title": "底部导航",
+                "value": "",
+                "type": "text",
+                "dataSource": {
+                    "api": "admin/Nav/index",
+                    "multi": false
+                },
+                "placeholder": "请选择底部导航ID",
+                "tip": "底部导航",
+                "rule": {
+                    "require": true
+                }
+            }
+        },
+        "widgets":{
+			"footer_articles": {
+				"title": "底部文章",
+				"display": "1",
+				"vars": {
+					"category_id": {
+						"title": "文章分类ID",
+						"value": "",
+						"type": "text",
+						"dataSource": {
+							"api": "portal/category/index",
+							"multi": true
+						},
+						"placeholder": "请选择分类",
+						"tip": "",
+						"rule": {
+							"require": true
+						}
+					}
+				}
+			}
+        }
+    }
+}

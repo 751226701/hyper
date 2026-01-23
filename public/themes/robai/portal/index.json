@@ -1,0 +1,604 @@
+{
+    "name": "首页",
+    "action": "portal/Index/index",
+    "description": "首页模板文件",
+    "order": 5.0,
+    "more": {
+        "vars": {
+            "top_slide": {
+                "title": "顶部幻灯片",
+                "value": "",
+                "type": "text",
+                "dataSource": {
+                    "api": "admin/Slide/index",
+                    "multi": false
+                },
+                "placeholder": "请选择顶部幻灯片",
+                "tip": "顶部幻灯片",
+                "rule": {
+                    "require": true
+                }
+            }
+        },
+        "widgets": {
+            "services": {
+                "title": "板块一",
+                "display": "1",
+                "vars": {
+                    "features": {
+                        "title": "详细介绍",
+                        "value": [
+                            {
+                                "title": "专业老师",
+                                "icon": "book-open",
+                                "content": "教师的核心是以学生为重,以服务对象为重,这是一切专业的核心价值。",
+                                "link": ""
+                            },
+                            {
+                                "title": "在线学习",
+                                "icon": "swatchbook",
+                                "content": "在线学习是通过互联网，在一个网络虚拟教室与教师进行网络授课、学习的方式。",
+                                "link": ""
+                            },
+                            {
+                                "title": "奖学金",
+                                "icon": "graduation-cap",
+                                "content": "为资助来自各地的学生、我们设立了奖学金制度，来促进学习与交流。",
+                                "link": ""
+                            }
+                        ],
+                        "type": "array",
+                        "item": {
+                            "title": {
+                                "title": "标题",
+                                "value": "",
+                                "type": "text",
+                                "rule": {
+                                    "require": true
+                                }
+                            },
+                            "icon": {
+                                "title": "图标",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "content": {
+                                "title": "描述",
+                                "value": "",
+                                "type": "textarea"
+                            },
+                            "link": {
+                                "title": "链接",
+                                "value": "",
+                                "type": "text",
+                                "tip": "例：http://blog.wien.ren"
+                            }
+                        },
+                        "tip": ""
+                    }
+                }
+            },
+			"index_about": {
+			    "title": "ABOUT US",
+			    "display": "1",
+			    "vars": {
+					"sub_title": {
+						"title": "副标题",
+						"value": "欢迎来到最大的在线学习资源",
+						"type": "text",
+						"placeholder": "请输入副标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"content": {
+						"title": "描述",
+						"value": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。是指使用电视及互联网等传播媒体的教学模式，它突破了时空的界线，有别于传统的在校住宿的教学模式。使用这种教学模式的学生，通常是业余进修者。",
+						"type": "textarea",
+						"placeholder": "请输入描述",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"image_bg": {
+						"title": "左侧图片",
+						"value": "",
+						"type": "image"
+					},
+					"features": {
+					    "title": "详细介绍",
+					    "value": [
+					        {
+					            "title": "在线课程",
+					            "content": "168"
+					        },
+					        {
+					            "title": "注册学生",
+					            "content": "542"
+					        }
+					    ],
+					    "type": "array",
+					    "item": {
+					        "title": {
+					            "title": "标题",
+					            "value": "",
+					            "type": "text",
+					            "rule": {
+					                "require": true
+					            }
+					        },
+					        "content": {
+					            "title": "描述",
+					            "value": "",
+					            "type": "textarea"
+					        }
+					    },
+					    "tip": ""
+					}
+			    }
+			},
+			"index_three": {
+			    "title": "从最佳类别中选择您最喜欢的主题",
+			    "display": "1",
+			    "vars": {
+					"content": {
+						"title": "描述",
+						"value": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。是指使用电视及互联网等传播媒体的教学模式，它突破了时空的界线，有别于传统的在校住宿的教学模式。使用这种教学模式的学生，通常是业余进修者。",
+						"type": "textarea",
+						"placeholder": "请输入描述",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"btn_text": {
+						"title": "按钮文字",
+						"value": "我们的合作",
+						"type": "text"
+					},
+			        "link": {
+			            "title": "按钮链接",
+			            "value": "http://blog.wien.ren",
+			            "type": "text",
+			            "placeholder": "例：http://blog.wien.ren"
+			        },
+					"features": {
+					    "title": "详细介绍",
+					    "value": [
+					        {
+					            "title": "Civil Engineering",
+					            "icon": "flaticon-innovation",
+					            "content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。",
+					            "color":"malachite",
+					            "link":""
+					        },
+					        {
+					            "title": "Computer Engineering",
+					            "icon": "flaticon-meeting",
+					            "content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。",
+					            "color":"torchred",
+					            "link":""
+					        },
+					        {
+					            "title": "Computer Engineering",
+					            "icon": "flaticon-engineer-1",
+					            "content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。",
+					            "color":"tulip",
+					            "link":""
+					        },
+					        {
+					            "title": "Computer Engineering",
+					            "icon": "flaticon-science",
+					            "content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。",
+					            "color":"mariner",
+					            "link":""
+					        }
+					    ],
+					    "type": "array",
+					    "item": {
+					        "title": {
+					            "title": "标题",
+					            "value": "",
+					            "type": "text",
+					            "rule": {
+					                "require": true
+					            }
+					        },
+					        "icon": {
+					            "title": "图标",
+					            "value": "",
+					            "type": "text"
+					        },
+					        "content": {
+					            "title": "描述",
+					            "value": "",
+					            "type": "textarea"
+					        },
+					        "color": {
+					            "title": "样式",
+					            "value": "",
+					            "type": "text"
+					        },
+					        "link": {
+					            "title": "链接",
+                                "value": "http://blog.wien.ren",
+                                "type": "text",
+                                "placeholder": "请输入链接"
+					        }
+					    },
+					    "tip": ""
+					}
+			    }
+			},
+            "index_video": {
+                "title": "为什么选择我们？",
+                "display": "1",
+                "vars": {
+					"sub_title": {
+						"title": "副标题",
+						"value": "我们这里有您需要的一切<br>在线课程与专业知识",
+						"type": "textarea",
+						"placeholder": "请输入描述",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"image_bg": {
+						"title": "视频背景",
+						"value": "",
+						"type": "image"
+					},
+                    "link": {
+                        "title": "视频链接",
+                        "value": "http://blog.wien.ren",
+                        "type": "text",
+                        "placeholder": "例：http://blog.wien.ren"
+                    },
+					"features": {
+					    "title": "详细介绍",
+					    "value": [
+					        {
+					            "title": "书籍 & 图书馆",
+					            "icon": "book-open",
+					            "content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。使用这种教学模式的学生，通常是业余进修者。"
+					        },
+					        {
+					            "title": "认证教师",
+					            "icon": "swatchbook",
+					            "content": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。使用这种教学模式的学生，通常是业余进修者。"
+					        }
+					    ],
+					    "type": "array",
+					    "item": {
+					        "title": {
+					            "title": "标题",
+					            "value": "",
+					            "type": "text",
+					            "rule": {
+					                "require": true
+					            }
+					        },
+					        "icon": {
+					            "title": "图标",
+					            "value": "",
+					            "type": "text"
+					        },
+					        "content": {
+					            "title": "描述",
+					            "value": "",
+					            "type": "textarea"
+					        }
+					    },
+					    "tip": ""
+					}
+                }
+            },
+			"last_case": {
+			    "title": "POPULAR COURSES",
+			    "display": "1",
+			    "vars": {
+			        "sub_title": {
+			            "title": "副标题",
+			            "value": "最受欢迎的 &<br>热门在线课程",
+			            "type": "textarea",
+			            "placeholder": "请输入副标题",
+			            "tip": "",
+			            "rule": {
+			                "require": false
+			            }
+			        },
+			        "content": {
+			            "title": "描述",
+			            "value": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。使用这种教学模式的学生，通常是业余进修者。",
+			            "type": "textarea",
+			            "placeholder": "请输入描述",
+			            "tip": "",
+			            "rule": {
+			                "require": false
+			            }
+			        },
+			        "category_id": {
+			            "title": "文章分类ID",
+			            "value": "",
+			            "type": "text",
+			            "dataSource": {
+			                "api": "portal/Category/index",
+			                "multi": true
+			            },
+			            "placeholder": "请选择分类",
+			            "tip": "注：可多选，建议单选，因分类跳转",
+			            "rule": {
+			                "require": true
+			            }
+			        }
+			    }
+			},
+            "index_six": {
+                "title": "NEW EVENT",
+                "display": "1",
+                "vars": {
+					"sub_title": {
+						"title": "副标题",
+						"value": "即将举行的教育活动<br>丰富你的知识",
+						"type": "textarea",
+						"placeholder": "请输入描述",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+					"features": {
+					    "title": "详细介绍",
+					    "value": [
+					        {
+					            "image":"",
+					            "title": "Discussion: Explorations of new approaches",
+					            "content": "Pulled coming wooded tended it answer remain me be. So landlord by we unlocked sensible it. Fat cannot use denied excuse son law.",
+					            "time": "2021-10-01 09:30",
+					            "area": "陕西省西安市碑林区",
+					            "address": "长安中路198号长安大厦4-2311室"
+					        },
+					        {
+					            "image":"",
+					            "title": "Social Science & Humanities for Students",
+					            "content": "Pulled coming wooded tended it answer remain me be. So landlord by we unlocked sensible it. Fat cannot use denied excuse son law.",
+					            "time": "2021-12-21 09:30",
+					            "area": "陕西省西安市碑林区",
+					            "address": "长安中路198号长安大厦4-2311室"
+					        }
+					    ],
+					    "type": "array",
+					    "item": {
+							"image": {
+								"title": "图片",
+								"value": "",
+								"type": "image"
+							},
+					        "title": {
+					            "title": "标题",
+					            "value": "",
+					            "type": "text",
+					            "rule": {
+					                "require": true
+					            }
+					        },
+					        "content": {
+					            "title": "描述",
+					            "value": "",
+					            "type": "textarea"
+					        },
+					        "time": {
+					            "title": "活动时间",
+					            "value": "",
+					            "type": "datetime"
+					        },
+					        "area": {
+					            "title": "区域",
+					            "value": "",
+					            "type": "text"
+					        },
+					        "address": {
+					            "title": "地址",
+					            "value": "",
+					            "type": "text"
+					        }
+					    },
+					    "tip": ""
+					}
+                }
+            },
+            "index_from": {
+                "title": "表单",
+                "display": "1",
+                "vars": {
+					"sub_title": {
+						"title": "副标题",
+						"value": "免费获取 50 多门在线课程！",
+						"type": "textarea",
+						"placeholder": "请输入描述",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+			        "content": {
+			            "title": "描述",
+			            "value": "远程教育，在教育部已出台的一些文件中，也称现代远程教育为网络教育，是成人教育学历中的一种。<br>是指使用电视及互联网等传播媒体的教学模式，它突破了时空的界线，有别于传统的在校住宿的教学模式。<br>使用这种教学模式的学生，通常是业余进修者。",
+			            "type": "textarea",
+			            "placeholder": "请输入描述",
+			            "tip": "",
+			            "rule": {
+			                "require": false
+			            }
+			        },
+					"image_bg": {
+						"title": "背景",
+						"value": "",
+						"type": "image"
+					},
+                    "time": {
+                        "title": "截至时间",
+                        "value": "2022-12-31 24:00",
+                        "type": "datetime",
+                        "rule": { 
+                            "require": true
+                        },
+                        "message":{
+                        	"require":"不能为空"
+                        }
+                    }
+                }
+            },
+            "testimonials": {
+                "title": "TESTIMONIALS",
+                "display": "1",
+                "vars": {
+					"sub_title": {
+						"title": "副标题",
+						"value": "What People say about<br>Our quality.",
+						"type": "textarea",
+						"placeholder": "请输入副标题",
+						"tip": "",
+						"rule": {
+							"require": false
+						}
+					},
+                    "features": {
+                        "title": "详细内容",
+                        "value": [
+                            {
+								"title":"Busel park",
+								"image":"",
+								"job":"Student",
+								"content":"Objection estimable discourse procuring he he remaining on distrusts. Simplicity affronting inquietude for now sympathize age. She meant new their could defer child."
+							},
+							{
+								"title":"Jnoes Sari",
+								"image":"",
+								"job":"Programmer",
+								"content":"Objection estimable discourse procuring he he remaining on distrusts. Simplicity affronting inquietude for now sympathize age. She meant new their could defer child."
+							},
+							{
+								"title":"Busel park",
+								"image":"",
+								"job":"Student",
+								"content":"Objection estimable discourse procuring he he remaining on distrusts. Simplicity affronting inquietude for now sympathize age. She meant new their could defer child."
+							}
+                        ],
+                        "type": "array",
+                        "item": {
+                            "title": {
+                                "title": "姓名",
+                                "value": "",
+                                "type": "text"
+                            },
+							"image": {
+								"title": "图片",
+								"value": "",
+								"type": "image"
+							},
+                            "job": {
+                                "title": "职称",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "content": {
+                                "title": "内容",
+                                "value": "",
+                                "type": "text"
+                            }
+                        },
+                        "tip": ""
+                    }
+                }
+            },
+            "counter": {
+                "title": "计数器",
+                "display": "1",
+                "vars": {
+                    "features": {
+                        "title": "详细内容",
+                        "value": [
+                            {
+                                "title": "在线学生 & 老师",
+                                "icon": "M",
+                                "number": "62"
+                            },
+                            {
+                                "title": "在线学员",
+                                "icon": "K",
+                                "number": "154"
+                            },
+                            {
+                                "title": "新增课程",
+                                "icon": "+",
+                                "number": "100"
+                            },
+                            {
+                                "title": "实际毕业率",
+                                "icon": "%",
+                                "number": "90"
+                            }
+                        ],
+                        "type": "array",
+                        "item": {
+                            "title": {
+                                "title": "标题",
+                                "value": "",
+                                "type": "text",
+                                "rule": {
+                                    "require": true
+                                }
+                            },
+                            "icon": {
+                                "title": "图标",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "number": {
+                                "title": "数字",
+                                "value": "",
+                                "type": "number"
+                            }
+                        },
+                        "tip": ""
+
+                    }
+                }
+            },
+            "last_news": {
+                "title": "BLOG",
+                "display": "1",
+                "vars": {
+                    "sub_title": {
+                        "title": "描述",
+                        "value": "来自我们的最新消息",
+                        "type": "textarea",
+                        "placeholder": "请输入描述",
+                        "tip": "",
+                        "rule": {
+                            "require": false
+                        }
+                    },
+                    "category_id": {
+                        "title": "文章分类ID",
+                        "value": "",
+                        "type": "text",
+                        "dataSource": {
+                            "api": "portal/Category/index",
+                            "multi": true
+                        },
+                        "placeholder": "请选择分类",
+                        "tip": "",
+                        "rule": {
+                            "require": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

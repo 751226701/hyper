@@ -1,0 +1,54 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Route/index')}">{:lang('ADMIN_ROUTE_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Route/add')}">{:lang('ADMIN_ROUTE_ADD')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active">{:lang('ADMIN_ROUTE_EDIT')}</a>
+            </li>
+        </ul>
+        <form method="put" class="js-ajax-form margin-top-20" action="admin/routes/{$id}">
+            <div class="row mb-3">
+                <label for="input-full_url" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('Full Url')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-full_url" name="full_url" value="{$full_url}">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="input-url" class="col-sm-2 col-form-label text-sm-end">
+                    <span class="form-required">*</span>{:lang('Short Url')}
+                </label>
+                <div class="col-md-8 col-sm-10">
+                    <input type="text" class="form-control" id="input-url" name="url" value="{$url}">
+                    <div class="form-text"><span id="url-vars"></span> {:lang('SHORT_URL_HELP_BLOCK_TEXT')}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="input-status" class="col-sm-2 col-form-label text-sm-end">{:lang('Status')}</label>
+                <div class="col-md-8 col-sm-10">
+                    <select class="form-control" name="status" id="input-status">
+                        <option value="1">{:lang('Enable')}</option>
+                        <php>$status_selected=$status?"":"selected";</php>
+                        <option value="0" {$status_selected}>{:lang('Disable')}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="offset-md-2 col-sm-10">
+                    <input type="hidden" name="id" value="{$id}">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">
+                        <i class="fa fa-save fa-fw"></i> {:lang('SAVE')}
+                    </button>
+                    <a class="btn btn-secondary" href="{:url('Route/index')}">{:lang('BACK')}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</block>

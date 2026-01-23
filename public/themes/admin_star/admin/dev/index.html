@@ -1,0 +1,112 @@
+<include file="public@header" />
+<style>
+    .dev-menu-wrap {
+        margin-bottom: 15px;
+    }
+</style>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-page-header">
+                <div class="layui-card">
+                    <div class="layui-page-header-content">
+                        <div class="layui-tab layui-tab-brief">
+                            <ul class="layui-tab-title" id="tabHeader">
+                                <li class="layui-this">开发面板</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-page-content">
+                <div style="margin-top: 20px;">
+                    <div class="col-md-3 dev-menu-wrap">
+                        <a lay-href="{:url('Menu/index')}" class="btn btn-primary layui-btn-fluid">
+                            <i class="layui-icon layui-icon-time"></i>&nbsp; {:lang('ADMIN_MENU_INDEX')}
+                        </a>
+                    </div>
+                    <div class="col-md-3 dev-menu-wrap">
+                        <a class="layui-btn layui-btn-normal layui-btn-fluid" onclick="syncUserAction(1)">
+                            <i class="layui-icon layui-icon-refresh"></i> {:lang('USER_ADMINUSERACTION_SYNC')}
+                        </a>
+                    </div>
+                    <div class="col-md-3 dev-menu-wrap">
+                        <a lay-href="{:url('admin/Hook/index')}"
+                            class="btn btn-info layui-btn-fluid"><i class="layui-icon layui-icon-link"></i>&nbsp;{:lang('ADMIN_HOOK_INDEX')}</a>
+                    </div>
+                    <div class="col-md-3 dev-menu-wrap">
+                            <a class="layui-btn layui-btn-normal layui-btn-fluid" onclick="syncUserAction(2)">
+                                <i class="layui-icon layui-icon-refresh"></i> {:lang('ADMIN_HOOK_SYNC')}
+                            </a>
+                    </div>
+
+                    <php>
+                        $sub_menus=\app\admin\service\DevService::devMenus();
+                        $default_menus = [
+                        'admin/Menu/index' => ['app' => 'admin', 'controller' => 'Menu', 'action' =>
+                        'index'],
+                        'user/AdminUserAction/sync' => ['app' => 'user', 'controller' => 'AdminUserAction',
+                        'action'
+                        =>
+                        'sync'],
+                        'admin/Hook/index' => ['app' => 'admin', 'controller' => 'Hook', 'action' =>
+                        'index'],
+                        'admin/Hook/sync' => ['app' => 'admin', 'controller' => 'Hook', 'action' => 'sync'],
+                        ];
+                    </php>
+                    <foreach name="sub_menus" item="sub_menu">
+                        <php>
+                            $url=$sub_menu['app'].'/'.$sub_menu['controller'].'/'.$sub_menu['action'];
+                            if(isset($default_menus[$url])){continue;}
+                        </php>
+                        <div class="col-md-3 dev-menu-wrap">
+                            <php>
+                                if (strpos($sub_menu['app'], 'plugin/') === 0) {
+                                $pluginName = str_replace('plugin/', '', $sub_menu['app']);
+                                $url = cmf_plugin_url($pluginName .
+                                "://".$sub_menu['controller'].'/'.$sub_menu['action']);
+                                }else{
+                                $url=url($url);
+                                }
+
+                                $lang_key=strtoupper($sub_menu['app']).'_'.strtoupper($sub_menu['controller']).'_'.strtoupper($sub_menu['action']);
+                                $menu_lang_name=lang($lang_key);
+                                $menu_name=$menu_lang_name===$lang_key?$sub_menu['name']:$menu_lang_name;
+                            </php>
+                            <a href="javascript:parent.openapp('{$url}','{$sub_menu.id}admin','{$menu_name}')"
+                                class="btn btn-default btn-block">{$menu_name}</a>
+                        </div>
+                    </foreach>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+    <script>
+    function syncUserAction(v) {
+        layui.use(['layer'], function(){
+            var layer = layui.layer;
+            if (v == 1) {
+                url = "{:url('user/AdminUserAction/sync')}";
+            } else {
+                url = "{:url('admin/Hook/sync')}";
+            }
+            // 发起ajax请求
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(res) {
+                    layer.msg('同步成功');
+                },
+                error: function() {
+                    layer.msg('同步失败');
+                }
+            });
+        });
+    }
+    </script>
+</body>
+
+</html>

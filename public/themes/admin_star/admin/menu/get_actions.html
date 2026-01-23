@@ -1,0 +1,36 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <div id="error_tips">
+            <h2>{:lang('App menu imported successful',['app'=>$app])}</h2>
+            <div class="error_cont">
+                <ul>
+                    <if condition="!empty($new_menus)">
+                        <foreach name="new_menus" item="vo">
+                            <li>{$vo}</li>
+                        </foreach>
+                        <else/>
+                        <li>{:lang('App has no new menu to import',['app'=>$app])}</li>
+                    </if>
+                </ul>
+                <if condition="!empty($next_app)">
+                    <script>
+                        setTimeout(function () {
+                            location.href = "{:url('admin/Menu/getActions',array('app'=>$next_app))}";
+                        }, 1000);
+                    </script>
+                    <div class="error_return">
+                        <a href="{:url('admin/Menu/getActions',array('app'=>$next_app))}"
+                           class="btn btn-primary">{:lang('Next App')}</a>
+                        <a href="{:url('admin/Menu/index')}" class="btn btn-secondary" style="margin-left: 10px;">{:lang('BACK')}</a>
+                    </div>
+                    <else/>
+                    <div>{:lang('Import successful')}</div>
+                    <div class="error_return">
+                        <a href="{:url('Menu/index')}" class="btn btn-default">{:lang('BACK')}</a>
+                    </div>
+                </if>
+            </div>
+        </div>
+    </div>
+</block>

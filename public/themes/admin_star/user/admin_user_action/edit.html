@@ -1,0 +1,84 @@
+<!--
+ * @Desc: 用户操作编辑
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('AdminUserAction/index')}">{:lang('USER_ADMINUSERACTION_INDEX')}</a></li>
+                    <li class="layui-this">{:lang('USER_ADMINUSERACTION_EDIT')}</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="PUT" class="layui-form js-ajax-form" action="admin/user/actions/{$id}">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Score change')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="score" value="{$score}">
+                                <div class="layui-form-mid layui-text-em">{:lang('SCORE_CHANGE_HELP_TEXT')}</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Coin change')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="coin" value="{$coin}">
+                                <div class="layui-form-mid layui-text-em">{:lang('COIN_CHANGE_HELP_TEXT')}</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Number of rewards')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="reward_number" value="{$reward_number}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Reward cycle')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="cycle_time" value="{$cycle_time}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Reward cycle type')}</label>
+                            <div class="layui-input-block">
+                                <select name="cycle_type" lay-verify="required">
+                                    <option value="0">{:lang('Not limited')}</option>
+                                    <option value="1">{:lang('Day')}</option>
+                                    <option value="2">{:lang('Hour')}</option>
+                                    <option value="3">{:lang('Forever')}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <input type="hidden" name="id" value="{$id}">
+                                <button type="submit" class="layui-btn js-ajax-submit" lay-submit>
+                                    <i class="layui-icon layui-icon-success"></i> {:lang('SAVE')}
+                                </button>
+                                <a class="layui-btn layui-btn-primary" href="{:url('AdminUserAction/index')}">
+                                    {:lang('BACK')}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    
+    // 设置选中值
+    $('select[name=cycle_type]').val("{$cycle_type}");
+    form.render('select');
+});
+</script>
+</body>
+</html>

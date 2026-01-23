@@ -1,0 +1,97 @@
+<!--
+ * @Desc: 
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:33
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="#" data-toggle="tab">{:lang('ADMIN_SETTING_ADMIN')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="PUT" class="layui-form js-ajax-form" role="form" action="admin/setting/admin">
+                        <div class="layui-form-item">
+                            <label for="input-site-name" class="layui-form-label">{:lang('Admin Name')}</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="input-site-name"
+                                    name="admin_settings[admin_name]"
+                                    value="{$admin_settings.admin_name|default=''}">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label for="input-admin_url_password" class="layui-form-label">
+                                {:lang('Admin URL Password')}
+                                <a href="http://www.thinkcmf.com/faq.html?url=https://www.kancloud.cn/thinkcmf/faq/493509"
+                                lay-tips="{:lang('ADMIN_URL_PASSWORD_HELP_TEXT')}{:lang('ADMIN_URL_PASSWORD_SAFE_TIP_TEXT')}"
+                                target="_blank"><i class="fa fa-question-circle"></i></a>
+                            </label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" id="input-admin_url_password"
+                                    name="admin_settings[admin_password]"
+                                    value="{$admin_settings.admin_password|default=''}"/>
+                                <php>
+                                    $root=cmf_get_root();
+                                    $root=empty($root)?'':'/'.$root;
+                                    $site_domain = cmf_get_domain().$root;
+                                </php>
+                                <div class="layui-form-mid layui-word-aux">
+                                    {:lang('Admin login address')}: <span id="js-site-admin-url">{$site_domain}/{$admin_settings.admin_password|default='admin'}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label for="input-site_admin_theme" class="layui-form-label">{:lang('WEBSITE_ADMIN_THEME')}</label>
+                            <div class="layui-input-block">
+                                <php>
+                                    $site_admin_theme=empty($admin_settings['admin_theme'])?'':$admin_settings['admin_theme'];
+                                </php>
+                                <select class="layui-input" name="admin_settings[admin_theme]"
+                                        id="input-site_admin_theme">
+                                    <foreach name="admin_themes" item="vo">
+                                        <php>$admin_theme_selected = $site_admin_theme == $vo ? "selected" : "";</php>
+                                        <option value="{$vo}" {$admin_theme_selected}>{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label for="input-site_adminstyle" class="layui-form-label">{:lang('WEBSITE_ADMIN_THEME_STYLE')}</label>
+                            <div class="layui-input-block">
+                                <php>
+                                    $site_admin_style=empty($admin_settings['admin_style'])?cmf_get_admin_style('arcoadmin'):$admin_settings['admin_style'];
+                                </php>
+                                <select class="layui-input" name="admin_settings[admin_style]"
+                                        id="input-site_adminstyle">
+                                    <foreach name="admin_styles" item="vo">
+                                        <php>$admin_style_selected = $site_admin_style == $vo ? "selected" : "";</php>
+                                        <option value="{$vo}" {$admin_style_selected}>{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn js-ajax-submit" data-refresh="1">
+                                    <i class="layui-icon layui-icon-success" style="color: #FFF;"></i>
+                                    {:lang('SAVE')}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

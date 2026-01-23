@@ -1,0 +1,67 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Menu/index')}">{:lang('ADMIN_MENU_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('Menu/add')}">{:lang('ADMIN_MENU_ADD')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('Menu/lists')}">{:lang('ADMIN_MENU_LISTS')}</a>
+            </li>
+        </ul>
+        <form class="form-horizontal js-ajax-form" action="" method="post">
+            <div class="table-actions">
+                <a class="btn btn-primary btn-sm js-ajax-dialog-btn"
+                   href="javascript:"
+                   data-href="admin/menus/lang/export"
+                   data-msg="{:lang('EXPORT_ADMIN_MENU_LANG_CONFIRM_MSG')}">{:lang('ADMIN_MENU_EXPORT_MENU_LANG')}</a>
+                <a class="btn btn-warning btn-sm" href="{:url('Menu/getActions')}">{:lang('ADMIN_MENU_GETACTIONS')}</a>
+            </div>
+            <table class="table table-hover table-bordered table-list">
+                <thead>
+                <tr>
+                    <th width="50">ID</th>
+                    <th>{:lang('Name')}</th>
+                    <th width="50">{:lang('Status')}</th>
+                    <th width="80">{:lang('ACTIONS')}</th>
+                </tr>
+                </thead>
+                <foreach name="menus" item="vo">
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.name}:{$vo.app}/{$vo.controller}/{$vo.action}</td>
+                        <td>
+                            <empty name="vo.status">
+                                <span class="badge text-bg-warning">{:lang('HIDDEN')}</span>
+                                <else/>
+                                <span class="badge text-bg-success">{:lang('DISPLAY')}</span>
+                            </empty>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-primary" href="{:url('Menu/edit',array('id'=>$vo['id']))}"
+                               title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
+                            <a class="btn btn-xs btn-danger js-ajax-delete" href="javascript:void(0);"
+                               data-href="admin/menus/{$vo.id}"
+                               title="{:lang('DELETE')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </foreach>
+                <tfoot>
+                <tr>
+                    <th width="50">ID</th>
+                    <th>{:lang('Name')}</th>
+                    <th width="50">{:lang('Status')}</th>
+                    <th width="80">{:lang('ACTIONS')}</th>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+</block>

@@ -1,0 +1,53 @@
+<!--
+ * @Desc: Add slide
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('Slide/index')}">{:lang('ADMIN_SLIDE_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('Slide/add')}">{:lang('ADMIN_SLIDE_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form" action="admin/slides">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                <span class="layui-badge-dot"></span> {:lang('Name')}
+                            </label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="name" lay-verify="required" 
+                                       placeholder="{:lang('Name')}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{:lang('Description')}</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="remark" 
+                                          placeholder="{:lang('Description')}"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn js-ajax-submit">
+                                    <i class="layui-icon layui-icon-success" style="color: #FFF;"></i> {:lang('ADD')}
+                                </button>
+                                <a class="layui-btn layui-btn-primary" href="{:url('Slide/index')}">
+                                    {:lang('BACK')}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

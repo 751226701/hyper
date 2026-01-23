@@ -1,0 +1,147 @@
+<!-- Star Footer
+============================================= -->
+<footer class="bg-dark text-light">
+    <div class="container d-none d-sm-block">
+        <div class="f-items default-padding" style="padding-bottom: 10px;">
+            <div class="row">
+                
+                <!--  隐藏原版 
+                <div class="col-lg-4 col-md-4 item">
+                    <div class="f-item about">
+                        <a class="logo" href="__ROOT__/">
+							<if condition="empty($theme_vars.footer_logo)">
+								<img src="__TMPL__/public/assets/img/logo-light.png" alt="Logo" style="width: 20%">
+							<else/>
+								<img class="img-responsive" src="{:cmf_get_image_url($theme_vars.footer_logo)}" style="width: 20%"/>
+							</if>
+                        </a>
+                        <p style="color: darkgray; font-size: 14px;">
+                            {$theme_vars.company_info}
+                        </p>
+                    </div>
+                </div>
+                -->
+                
+                <div class="col-lg-4 col-md-4 item">
+                    <div class="f-item link">
+                        <h4 class="widget-title" style="color: darkgray;">商务合作</h4>
+                        <php>
+							$footer_nav=empty($theme_vars['footer_nav'])?4:$theme_vars['footer_nav'];
+						</php>
+						<navigation nav-id="4" root="ul" id="" class="" >
+							<navigationMenu root="li" class="">
+								<a href="{$menu.href|default=''}" target="{$menu.target|default=''}" style="color: darkgray;">{$menu.name|default=''}</a>
+							</navigationMenu>
+						</navigation>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-4 item">
+                    <div class="f-item link">
+                        <h4 class="widget-title" style="color: darkgray;">&nbsp;</h4>
+                        <php>
+							$footer_nav=empty($theme_vars['footer_nav'])?2:$theme_vars['footer_nav'];
+						</php>
+						<navigation nav-id="$footer_nav" root="ul" id="" class="" >
+							<navigationMenu root="li" class="">
+								<a href="{$menu.href|default=''}" target="{$menu.target|default=''}" style="color: darkgray;">{$menu.name|default=''}</a>
+							</navigationMenu>
+						</navigation>
+                    </div>
+                </div>
+                
+                
+                <!--<div class="col-lg-3 col-md-6 item">-->
+                    
+                <!--    <widget name="footer_articles">-->
+                <!--    <div class="f-item link">-->
+                <!--        <h4 class="widget-title">最新资讯</h4>-->
+                <!--        <ul>-->
+                <!--            <portal:articles limit="4" order="post.published_time DESC" categoryIds="$widget.vars.category_id">-->
+                <!--            <li>-->
+                <!--                <a href="{:cmf_url('portal/Article/index',array('id'=>$vo.id))}">{$vo.post_title}</a>-->
+                <!--            </li>-->
+                <!--            </portal:articles>-->
+                <!--        </ul>-->
+                <!--    </div>-->
+                <!--    </widget>-->
+                <!--</div>-->
+
+                <div class="col-lg-4 col-md-4 item">
+                    <div class="f-item contact">
+                        <h4 class="widget-title" style="color: darkgray;">联系我们</h4>
+                        <div class="address">
+                            <ul>
+                                <li>
+                                    <!--<strong>Email:</strong> {$theme_vars.email}-->
+                                    <img src="https://src.hyperionrobot.com/hyper-web/hyper_ewm.jpg" alt="微信二维码" style="max-width: 35%" />
+                                </li>
+                                <!--<li>-->
+                                <!--    <strong>Contact:</strong> {$theme_vars.mobile_phone}-->
+                                <!--</li>-->
+                            </ul>
+                        </div>
+                        <!--<div class="opening-info">-->
+                        <!--    <h5>营业时间</h5>-->
+                        <!--    <ul>-->
+                        <!--        <li> <span> 周一至周五 :  </span>-->
+                        <!--          <div class="float-right"> 早6.00 - 晚10.00 </div>-->
+                        <!--        </li>-->
+                        <!--        <li> <span> 周末 : </span>-->
+                        <!--          <div class="float-right closed"> 休息 </div>-->
+                        <!--        </li>-->
+                        <!--    </ul>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p style="color: darkgray;">
+                        Copyright &copy; 2026 &nbsp;&nbsp;{$theme_vars.company_name} &nbsp;&nbsp;All rights reserve.
+                    </p>  
+                    <p style="color: darkgray;">
+						 <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener" style="color: darkgray;">{$theme_vars.site_icp|default=''}</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://beian.mps.gov.cn/#/query/webSearch" target="_blank" style="color: darkgray;">{$theme_vars.gn_icp|default=''}</a>
+					</p>    
+                </div>
+                <div class="col-lg-6 text-right link">
+                    <ul>
+                        <links>
+                        <li>
+                            <a class="nav-link" href="{$vo.url|default=''}" style="color: darkgray; font-weight: normal;" target="{$vo.target|default=''}">{$vo.name|default=''}</a>
+                        </li>
+                        </links>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Footer Bottom -->
+</footer>
+<!-- End Footer-->
+<!-- 统计/推送代码 -->
+<div class="tj">
+    <php>$site_count = htmlspecialchars_decode($theme_vars['site_count']);</php>
+    {$site_count|default=''}
+</div>
+<!--微信分享配置-->
+<php>
+    //$articleMore = $article['more'] ?? [];// 文章缩略图.
+    
+    $title = !empty($article['post_title']) ? $article['post_title'] : $site_info['site_seo_title'];
+    $desc = !empty($article['post_excerpt']) ? $article['post_excerpt'] : $site_info['site_seo_description'];
+    
+    $param = [
+     'title'=> $title,   // 分享标题
+     'desc'=> $desc,            // 分享描述
+     // 'imgUrl' => $articleMore['thumbnail'] ?? '' 分享图标 地址带域名 http https
+     'imgUrl' => 'https://www.hyperionrobot.com/themes/hyperion/public/assets/img/logo.png'
+    ];
+
+</php>
+<hook name="before_footer_end" param="param" />

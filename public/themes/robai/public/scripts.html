@@ -1,0 +1,55 @@
+<!-- jQuery Frameworks
+============================================= -->
+<script src="__TMPL__/public/assets/js/jquery-1.12.4.min.js"></script>
+<script src="__TMPL__/public/assets/js/popper.min.js"></script>
+<script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
+<script src="__TMPL__/public/assets/js/jquery.appear.js"></script>
+<script src="__TMPL__/public/assets/js/jquery.easing.min.js"></script>
+<script src="__TMPL__/public/assets/js/jquery.magnific-popup.min.js"></script>
+<script src="__TMPL__/public/assets/js/modernizr.custom.13711.js"></script>
+<script src="__TMPL__/public/assets/js/owl.carousel.min.js"></script>
+<script src="__TMPL__/public/assets/js/wow.min.js"></script>
+<script src="__TMPL__/public/assets/js/progress-bar.min.js"></script>
+<script src="__TMPL__/public/assets/js/isotope.pkgd.min.js"></script>
+<script src="__TMPL__/public/assets/js/imagesloaded.pkgd.min.js"></script>
+<script src="__TMPL__/public/assets/js/count-to.js"></script>
+<script src="__TMPL__/public/assets/js/YTPlayer.min.js"></script>
+<script src="__TMPL__/public/assets/js/jquery.nice-select.min.js"></script>
+<script src="__TMPL__/public/assets/js/loopcounter.js"></script>
+<script src="__TMPL__/public/assets/js/bootsnav.js"></script>
+<script src="__TMPL__/public/assets/js/main.js"></script>
+
+
+<script src="__STATIC__/js/frontend.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+	$(function(){
+	    
+		$("#main-menu a").each(function() {
+			if ($(this)[0].href == String(window.location)) {
+				$(this).parentsUntil("#main-menu>ul>li").addClass("active");
+			}
+		})
+	    
+	    
+		$.post("{:url('user/index/isLogin')}",{},function(data){
+			if(data.code==1){
+				if(data.data.user.avatar){
+				}
+
+				//$("#main-menu-user span.user-nickname").text(data.data.user.user_nickname?data.data.user.user_nickname:data.data.user.user_login);
+				$("#main-menu-user li.login").show();
+                $("#main-menu-user li.offline").hide();
+
+			}
+
+			if(data.code==0){
+                $("#main-menu-user li.login").hide();
+				$("#main-menu-user li.offline").show();
+			}
+
+		});
+
+       
+	});
+</script>

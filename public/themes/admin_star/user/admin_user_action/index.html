@@ -1,0 +1,67 @@
+<!--
+ * @Desc: User action management
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">{:lang('USER_ADMINUSERACTION_INDEX')}</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form">
+                        <php>$cycle_types=['0'=>lang('Not limited'),'1'=>lang('Day'),'2'=>lang('Hour'),'3'=>lang('Forever')]</php>
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>{:lang('User action')}</th>
+                                    <th>{:lang('Score change')}</th>
+                                    <th>{:lang('Coin change')}</th>
+                                    <th>{:lang('Number of rewards/period')}</th>
+                                    <th width="80">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <foreach name="actions" item="vo">
+                                    <tr>
+                                        <td>{$vo.name} {$vo.action}</td>
+                                        <td>{$vo.score}</td>
+                                        <td>{$vo.coin}</td>
+                                        <td>
+                                            <eq name="vo.cycle_type" value="0">
+                                                {:lang('Not limited')}
+                                                <else/>
+                                                <eq name="vo.cycle_type" value="3">
+                                                    {:lang('X times',['times'=>$vo.reward_number])}/{$cycle_types[$vo['cycle_type']]}
+                                                    <else/>
+                                                    {:lang('X times',['times'=>$vo.reward_number])}/{$vo.cycle_time}{$cycle_types[$vo['cycle_type']]}
+                                                </eq>
+                                            </eq>
+                                        </td>
+                                        <td>
+                                            <a class="layui-btn layui-btn-xs" href="{:url('AdminUserAction/edit')}?id={$vo.id}"
+                                               lay-tips="{:lang('EDIT')}">
+                                                <i class="layui-icon layui-icon-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                            </tbody>
+                        </table>
+                        <div class="layui-laypage">
+                            {$page}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

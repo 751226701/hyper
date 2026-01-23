@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{$page.post_title}</title>
+		<meta name="keywords" content="{$page.post_keywords}"/>
+		<meta name="description" content="{$page.post_excerpt}">
+		<include file="public@head"/>
+		<hook name="before_head_end"/>
+	</head>
+	<body>
+		<include file="public@nav"/>
+		
+        <!-- Start Breadcrumb 
+        ============================================= -->
+        <div class="breadcrumb-area bg-gray text-center shadow dark text-light bg-cover" style="background-image: url(__TMPL__/public/assets/img/banner/10.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <h1>{$page.post_title}</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="__ROOT__/"><i class="fas fa-home"></i> 首页</a></li>
+                            <li class="active">{$page.post_title}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb -->
+    
+        <!-- Star Faq
+        ============================================= -->
+        <widget name="page_one">
+        <div class="faq-area default-padding">
+            <div class="container">
+                <div class="faq-items">
+                    <div class="row align-center">
+    
+                        <div class="col-lg-10 offset-lg-1">
+                            <div class="faq-content wow fadeInUp">
+                                <div class="accordion" id="accordionExample">
+                                    <php>
+                    					$features = $widget['vars']['features'];
+                    				</php>
+                    				<foreach name="features" item="vo">
+                                    <div class="card">
+                                        <div class="card-header" id="heading{$key}">
+                                            <h4 class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse{$key}" aria-expanded="true" aria-controls="collapse{$key}">
+                                                  {$vo.title}
+                                            </h4>
+                                        </div>
+                                        <div id="collapse{$key}" class="collapse" aria-labelledby="heading{$key}" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <p>
+                                                    {$vo.content}
+                                                </p>
+                                                <div class="ask-question">
+                                                    <span>Still no luck?</span> <a href="{$vo.links}">Ask a question</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </foreach>
+                                    <script>
+                                        //默认第一个显示
+                                        $("#accordionExample").each(function(){
+                                            $(this).find(".collapse").first().addClass("show");
+                                            $(this).find(".mb-0").first().removeClass("collapsed");
+                                        });
+                                    </script>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </widget>
+        <!-- End Faq -->
+		
+		<include file="public@footer"/>
+		<include file="public@scripts"/>
+		<hook name="before_body_end"/>
+	</body>
+</html>

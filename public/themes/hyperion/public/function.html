@@ -1,0 +1,132 @@
+<?php
+use app\portal\model\PortalPostModel;
+use app\portal\model\PortalCategoryModel;
+use app\portal\model\PortalTagModel;
+use think\Db;
+/**
+ * 返回指定所有标签
+ */
+if (!function_exists('_wien_tags')) {
+    function _wien_tags()
+    {
+        $portalTagModel = new PortalTagModel();
+        $tags = $portalTagModel->alias('tag')->select();
+        return $tags;
+    }
+}
+/**
+ * 返回指定分类下的子分类
+ */
+if (!function_exists('_wien_subCategories')) {
+    function _wien_subCategories($categoryId,$field='*')
+    {
+        $PortalCategoryModel = new PortalCategoryModel();
+
+        $where = [
+            'status'      => 1,
+            'delete_time' => 0,
+            'parent_id'   => $categoryId
+        ];
+
+        return $PortalCategoryModel->field($field)->where($where)->select();
+    }
+}
+/**
+ * 返回指定分类及一级子分类ID字符串
+ */
+if (!function_exists('_wien_allSubCategoriesIds')) {
+    function _wien_allSubCategoriesIds($categoryId)
+    {
+        $PortalCategoryModel = new PortalCategoryModel();
+        $where = [
+            'status' => 1,
+            'delete_time' => 0,
+            'parent_id' => $categoryId
+        ];
+        $order = [
+            'list_order' => 'desc',
+        ];
+        $data = $PortalCategoryModel->where($where)->order($order)->select();
+        $ids = "";
+        foreach ($data as $t) {
+            $ids = $ids . "," . $t['id'];
+        }
+        $cid_list = $categoryId . $ids;
+        return $cid_list;
+    }
+}
+/**
+ * 获取指定分类的父级分类id
+ */
+if (!function_exists('_wien_parentCategoriesId')) {
+    function _wien_parentCategoriesId($categoryId)
+    {
+
+        $portalCategoryModel = new PortalCategoryModel();
+
+        $path = $portalCategoryModel->where(['id' => $categoryId])->value('path');
+
+        //根据"-"分割成数组
+        $var=explode("-",$path);
+        //取倒数第二个数字
+        $parentId=$var[count($var)-2];
+
+        return $parentId;
+    }
+}
+/**
+ * 获取指定页面id的内容
+ */
+if (!function_exists('_wien_getPage')) {
+    function _wien_getPage($pageId)
+    {
+        $PortalPostModel = new PortalPostModel();
+        $where = [
+            'post_type'     => 2,
+            'delete_time'   => 0,
+            'id'   => $pageId
+        ];
+        return $PortalPostModel->where($where)->select();
+    }
+}
+/**
+ * 获取指定id的分类名
+ */
+if (!function_exists('_wien_getCategoryName')) {
+    function _wien_getCategoryName($id)
+    {
+        $portalCategoryModel = new PortalCategoryModel();
+        $where = [
+            'delete_time'   => 0,
+            'id'   => $id
+        ];
+        return $portalCategoryModel->where($where)->find();
+    }
+}
+
+
+
+
+use app\discuss\model\DiscussCategoryModel;
+
+/**
+ * 获取指定分类的父级分类id
+ */
+if (!function_exists('_wien_discussParentCategoriesId')) {
+    function _wien_discussParentCategoriesId($categoryId)
+    {
+
+        $discussCategoryModel = new DiscussCategoryModel();
+
+        $path = $discussCategoryModel->where(['id' => $categoryId])->value('path');
+
+        //根据"-"分割成数组
+        $var=explode("-",$path);
+        //取倒数第二个数字
+        $parentId=$var[count($var)-2];
+
+        return $parentId;
+    }
+}
+
+?>

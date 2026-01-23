@@ -1,0 +1,83 @@
+<!--
+ * @Desc: RBAC权限管理
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('rbac/index')}">{:lang('ADMIN_RBAC_INDEX')}</a></li>
+                    <li><a href="{:url('rbac/roleAdd')}">{:lang('ADMIN_RBAC_ROLEADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form">
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th width="30">ID</th>
+                                    <th>{:lang('ROLE_NAME')}</th>
+                                    <th>{:lang('ROLE_DESCRIPTION')}</th>
+                                    <th>{:lang('STATUS')}</th>
+                                    <th width="160">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <foreach name="roles" item="vo">
+                                <tr>
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.name}</td>
+                                    <td>{$vo.remark}</td>
+                                    <td>
+                                        <switch name="vo.status">
+                                            <case value="1">
+                                                <span class="layui-badge layui-bg-green">{:lang('ENABLED')}</span>
+                                            </case>
+                                            <case value="0">
+                                                <span class="layui-badge">{:lang('DISABLED')}</span>
+                                            </case>
+                                        </switch>
+                                    </td>
+                                    <td>
+                                        <a class="layui-btn layui-btn-xs"
+                                           href="{:url('rbac/authorize',array('id'=>$vo['id']))}"
+                                           title="{:lang('ADMIN_RBAC_AUTHORIZE')}"
+                                           data-toggle="tooltip">
+                                            <i class="layui-icon layui-icon-auz"></i>
+                                        </a>
+                                        <a class="layui-btn layui-btn-xs layui-btn-normal"
+                                           href="{:url('rbac/roleEdit',array('id'=>$vo['id']))}"
+                                           title="{:lang('EDIT')}"
+                                           data-toggle="tooltip">
+                                            <i class="layui-icon layui-icon-edit"></i>
+                                        </a>
+                                        <eq name="vo.id" value="1">
+                                            <button class="layui-btn layui-btn-xs layui-btn-disabled" disabled>
+                                                <i class="layui-icon layui-icon-delete"></i>
+                                            </button>
+                                        <else/>
+                                            <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                               href="{:url('rbac/roleDelete',array('id'=>$vo['id']))}"
+                                               title="{:lang('DELETE')}"
+                                               data-toggle="tooltip">
+                                                <i class="layui-icon layui-icon-delete"></i>
+                                            </a>
+                                        </eq>
+                                    </td>
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

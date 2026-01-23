@@ -1,0 +1,124 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('AdminTag/index')}">标签管理</a></li>
+                    <li><a href="{:url('AdminTag/add')}">添加标签</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <!-- 搜索表单 -->
+                    <div class="table-toolbar">
+                        <div class="layui-inline">
+                            <form class="layui-form" method="get" action="{:url('AdminTag/index')}">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <div class="layui-input-inline" style="width: 200px;">
+                                            <input type="text" class="layui-input" name="keyword" value="{$keyword|default=''}" 
+                                                   placeholder="请输入标签名称">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <button class="layui-btn"><i class="layui-icon layui-icon-search"></i>搜索</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <form method="post" class="js-ajax-form">
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>状态</th>
+                                    <th width="160">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <foreach name="tags" item="vo">
+                                    <tr>
+                                        <td title="ID:{$vo.id}">{$vo.name}</td>
+                                        <td>
+                                            <eq name="vo.status" value="1">
+                                                <span class="layui-badge layui-bg-green">{$arrStatus[$vo['status']]}</span>
+                                            <else/>
+                                                <span class="layui-badge layui-bg-orange">{$arrStatus[$vo['status']]}</span>
+                                            </eq>
+                                        </td>
+                                        <td>
+                                            <div class="layui-btn-group">
+                                                <eq name="vo.status" value="1">
+                                                    <a class="layui-btn layui-btn-xs layui-btn-warm js-ajax-dialog-btn"
+                                                       href="{:url('AdminTag/upStatus',['id'=>$vo['id'],'status'=>0])}">
+                                                        <i class="layui-icon layui-icon-pause"></i>禁用
+                                                    </a>
+                                                <else/>
+                                                    <a class="layui-btn layui-btn-xs layui-btn-normal js-ajax-dialog-btn"
+                                                       href="{:url('AdminTag/upStatus',['id'=>$vo['id'] ,'status'=>1])}">
+                                                        <i class="layui-icon layui-icon-play"></i>启用
+                                                    </a>
+                                                </eq>
+                                                <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                                   href="{:url('AdminTag/delete',['id'=>$vo['id']])}">
+                                                    <i class="layui-icon layui-icon-delete"></i>删除
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                            </tbody>
+                        </table>
+                    </form>
+                    
+                    <!-- 分页 -->
+                    <div id="pagination" style="text-align: center;">
+                        {$page|default=''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<style>
+/* 移除选项卡边框 */
+.layui-tab {
+    margin: 0;
+}
+.layui-tab-brief > .layui-tab-title {
+    border-bottom-color: #f6f6f6;
+}
+
+/* 工具栏样式 */
+.table-toolbar {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.table-toolbar .layui-form-item {
+    margin-bottom: 0;
+}
+.table-toolbar .layui-inline {
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+/* 调整表格样式 */
+.layui-table {
+    margin: 0;
+}
+
+/* 调整分页样式 */
+#pagination {
+    margin-top: 10px;
+}
+</style>
+</body>
+</html>

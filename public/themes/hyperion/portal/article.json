@@ -1,0 +1,74 @@
+{
+    "name": "文章页",
+    "action": "portal/Article/index",
+    "description": "文章页模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+			
+        },
+        "widgets":{
+			"hottest_articles": {
+				"title": "Hot 热门文章",
+				"display": "1",
+				"vars": {
+					"category_id": {
+						"title": "文章分类ID",
+						"value": "",
+						"type": "text",
+						"dataSource": {
+							"api": "portal/category/index",
+							"multi": true
+						},
+						"placeholder": "请选择分类",
+						"tip": "",
+						"rule": {
+							"require": true
+						}
+					}
+				}
+			},
+            "categories": {
+                "title": "Categories",
+                "display": "1",
+                "vars": {
+                    "category_id": {
+                        "title": "文章分类ID",
+                        "value": "",
+                        "type": "text",
+                        "dataSource": {
+                            "api": "portal/Category/index",
+                            "multi": true
+                        },
+                        "placeholder": "请选择分类",
+                        "tip": "只单选，选择父级分类id",
+                        "rule": {
+                            "require": true
+                        }
+                    }
+                }
+            },
+			"hottest_img": {
+				"title": "Hot 热门图片",
+				"display": "1",
+				"vars": {
+					"category_id": {
+						"title": "文章分类ID",
+						"value": "",
+						"type": "text",
+						"dataSource": {
+							"api": "portal/category/index",
+							"multi": true
+						},
+						"placeholder": "请选择分类",
+						"tip": "",
+						"rule": {
+							"require": true
+						}
+					}
+				}
+			}
+			
+        }
+    }
+}

@@ -1,0 +1,53 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active">{:lang('USER_ADMINUSERACTION_INDEX')}</a>
+            </li>
+        </ul>
+        <form method="post" class="js-ajax-form margin-top-20">
+            <php>$cycle_types=['0'=>lang('Not limited'),'1'=>lang('Day'),'2'=>lang('Hour'),'3'=>lang('Forever')]</php>
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>{:lang('User action')}</th>
+                    <th>{:lang('Score change')}</th>
+                    <th>{:lang('Coin change')}</th>
+                    <th>{:lang('Number of rewards/period')}</th>
+                    <th width="80">{:lang('ACTIONS')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="actions" item="vo">
+                    <php></php>
+                    <tr>
+                        <td>{$vo.name} {$vo.action}</td>
+                        <td>{$vo.score}</td>
+                        <td>{$vo.coin}</td>
+                        <th>
+                            <eq name="vo.cycle_type" value="0">
+                                {:lang('Not limited')}
+                                <else/>
+                                <eq name="vo.cycle_type" value="3">
+                                    {:lang('X times',['times'=>$vo.reward_number])}/{$cycle_types[$vo['cycle_type']]}
+                                    <else/>
+                                    {:lang('X times',['times'=>$vo.reward_number])}/{$vo.cycle_time}{$cycle_types[$vo['cycle_type']]}
+                                </eq>
+                            </eq>
+                        </th>
+                        <td>
+                            <a class="btn btn-xs btn-primary" href="{:url('AdminUserAction/edit')}?id={$vo.id}"
+                               title="{:lang('EDIT')}"
+                               data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+            <div class="pagination">{$page}</div>
+        </form>
+    </div>
+</block>

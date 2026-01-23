@@ -1,0 +1,104 @@
+<extend name="public@base5"/>
+<block name="main">
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="{:url('SlideItem/index',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_INDEX')}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{:url('SlideItem/add',['slide_id'=>$slide_id])}">{:lang('ADMIN_SLIDEITEM_ADD')}</a>
+            </li>
+        </ul>
+        <form method="post" class="js-ajax-form margin-top-10" action="admin/slide/items/list/order">
+            <div class="table-actions">
+                <button class="btn btn-primary btn-sm js-ajax-submit" type="submit"
+                        title="{:lang('Sort')}" data-toggle="tooltip">
+                    <i class="fa fa-sort-numeric-asc fa-fw"></i>
+                </button>
+            </div>
+            <php>
+                $status = [lang('HIDDEN'), lang('DISPLAY')];
+                $target = [''=>'','_blank'=>lang('_blank'), '_self'=>lang('_self'), '_parent'=>lang('_parent'), '_top'=>lang('_top')];
+            </php>
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th width="50">{:lang('SORT')}</th>
+                    <th width="50">ID</th>
+                    <th>{:lang('Title')}</th>
+                    <th>{:lang('Description')}</th>
+                    <th>{:lang('Url')}</th>
+                    <th>{:lang('Url Target')}</th>
+                    <th>{:lang('Image')}</th>
+                    <th>{:lang('Status')}</th>
+                    <th width="110">{:lang('ACTIONS')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <foreach name="result" item="vo">
+                    <tr>
+                        <td>
+                            <input name="list_orders[{$vo.id}]" class="input-order" type="text"
+                                   value="{$vo.list_order}">
+                        </td>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.title}</td>
+                        <td>{$description = mb_substr($vo['description'], 0, 48,'utf-8')}</td>
+                        <td>{$vo.url}</td>
+                        <td>{$target[$vo.target]}</td>
+                        <td>
+                            <if condition="!empty($vo['image'])">
+                                <a href="javascript:imagePreviewDialog('{:cmf_get_image_preview_url($vo.image)}');">
+                                    <i class="fa fa-photo fa-fw"></i>
+                                </a>
+
+                            </if>
+                        </td>
+                        <td>
+                            <empty name="vo.status">
+                            <span class="badge text-bg-secondary">
+                                {:lang('HIDDEN')}
+                            </span>
+                                <else/>
+                                <span class="badge text-bg-success">
+                                {:lang('DISPLAY')}
+                            </span>
+                            </empty>
+                        </td>
+                        <td>
+                            <if condition="empty($vo['status']) eq 1">
+                                <a href="javascript:"
+                                   data-href="admin/slide/items/{$vo.id}/status/1"
+                                   class="btn btn-xs btn-success js-ajax-dialog-btn"
+                                   data-msg="{:lang('SHOW_SLIDE_ITEM_CONFIRM_MSG')}"
+                                   title="{:lang('DISPLAY')}" data-toggle="tooltip">
+                                    <i class="fa fa-eye fa-fw"></i>
+                                </a>
+                                <else/>
+                                <a href="javascript:"
+                                   data-href="admin/slide/items/{$vo.id}/status/0"
+                                   class="btn btn-xs btn-warning js-ajax-dialog-btn"
+                                   data-msg="{:lang('HIDE_SLIDE_ITEM_CONFIRM_MSG')}"
+                                   title="{:lang('HIDE')}" data-toggle="tooltip">
+                                    <i class="fa fa-eye-slash fa-fw"></i>
+                                </a>
+                            </if>
+                            <a class="btn btn-xs btn-primary" href="{:url('SlideItem/edit',array('id'=>$vo['id']))}"
+                               title="{:lang('EDIT')}" data-toggle="tooltip">
+                                <i class="fa fa-edit fa-fw"></i>
+                            </a>
+                            <a href="javascript:"
+                               data-href="admin/slide/items/{$vo.id}"
+                               class="btn btn-xs btn-danger js-ajax-delete"
+                               title="{:lang('DELETE')}" data-toggle="tooltip">
+                                <i class="fa fa-trash fa-fw"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>
+            </table>
+        </form>
+
+    </div>
+</block>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        body, html, #allmap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        #suggestId {
+            position: absolute;
+            z-index: 9999;
+            right: 20px;
+            top: 20px;
+            line-height: 32px;
+            padding: 0 10px;
+            width: 300px;
+            border: 1px solid #e4e6e7;
+
+        }
+
+        #suggestId:focus {
+            outline: none;
+        }
+    </style>
+    <title>点击地图获取当前经纬度</title>
+</head>
+<body>
+<input id="lng_input" type="hidden" value="{$lng}"/>
+<input id="lat_input" type="hidden" value="{$lat}"/>
+<input id="address_input" type="hidden" value="中国北京"/>
+<input id="city_input" type="hidden"/>
+<input id="province_input" type="hidden"/>
+<input id="district_input" type="hidden"/>
+<div style="text-align: center;padding: 20px;">
+    请先去应用中心>插件管理安装地图插件，或去应用中心>插件市场下载安装地图插件
+</div>
+<div id="allmap"></div>
+<script type="text/javascript">
+    function confirm() {
+        var data = {};
+        data.lng = document.getElementById("lng_input").value;
+        data.lat = document.getElementById("lat_input").value;
+        data.address = document.getElementById("address_input").value;
+        data.city = document.getElementById("city_input").value;
+        data.province = document.getElementById("province_input").value;
+        data.district = document.getElementById("district_input").value;
+
+        return data;
+    }
+</script>
+
+</body>
+</html>

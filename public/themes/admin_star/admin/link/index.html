@@ -1,0 +1,128 @@
+<!--
+ * @Desc: Link management
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief js-check-wrap">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('Link/index')}">{:lang('ADMIN_LINK_INDEX')}</a></li>
+                    <li><a href="{:url('Link/add')}">{:lang('ADMIN_LINK_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="layui-form js-ajax-form" action="admin/links/list/order">
+                        <div class="layui-btn-group">
+                            <button class="layui-btn layui-btn-xs js-ajax-submit" type="submit" title="{:lang('Sort')}">
+                                <i class="layui-icon layui-icon-sort"></i> {:lang('Sort')}
+                            </button>
+                            <button class="layui-btn layui-btn-xs layui-bg-green js-ajax-submit" type="submit"
+                                    data-action="admin/links/status/1" data-subcheck="true"
+                                    title="{:lang('DISPLAY')}" data-toggle="tooltip">
+                                    {:lang('DISPLAY')}
+                            </button>
+                            <button class="layui-btn layui-btn-xs layui-btn-warm js-ajax-submit" type="submit"
+                                    data-action="admin/links/status/0" data-subcheck="true"
+                                    title="{:lang('HIDE')}" data-toggle="tooltip">
+                                    {:lang('HIDDEN')}
+                            </button>
+                        </div>
+                        <php>$status=array("1"=>lang('DISPLAY'),"0"=>lang('HIDDEN'));</php>
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th width="16">
+                                        <input type="checkbox" lay-skin="primary" lay-filter="allChoose" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                                    </th>
+                                    <th width="100">{:lang('SORT')}</th>
+                                    <th width="50">ID</th>
+                                    <th>{:lang('Name')}</th>
+                                    <th>{:lang('Url')}</th>
+                                    <th>{:lang('Description')}</th>
+                                    <th>{:lang('Status')}</th>
+                                    <th width="150">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <foreach name="links" item="vo">
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" lay-skin="primary" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.id}">
+                                    </td>
+                                    <td>
+                                        <input name="list_orders[{$vo.id}]" class="layui-input layui-input-sm" type="text"
+                                               value="{$vo.list_order}">
+                                    </td>
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.name}</td>
+                                    <td><a href="{$vo.url}" target="_blank">{$vo.url}</a></td>
+                                    <td>{$vo.description}</td>
+                                    <td>
+                                        <empty name="vo.status">
+                                            <span class="layui-badge layui-bg-gray">{:lang('HIDDEN')}</span>
+                                        <else/>
+                                            <span class="layui-badge layui-bg-green">{:lang('DISPLAY')}</span>
+                                        </empty>
+                                    </td>
+                                    <td>
+                                        <if condition="empty($vo['status']) eq 1">
+                                            <a class="layui-btn layui-btn-xs layui-btn-normal js-ajax-dialog-btn"
+                                               href="javascript:"
+                                               data-href="admin/links/{$vo.id}/status/1"
+                                               data-msg="{:lang('SHOW_LINK_CONFIRM_MSG')}"
+                                               title="{:lang('DISPLAY')}" data-toggle="tooltip">
+                                                <i class="layui-icon layui-icon-eye"></i>
+                                            </a>
+                                        <else/>
+                                            <a class="layui-btn layui-btn-xs layui-btn-warm js-ajax-dialog-btn"
+                                               href="javascript:"
+                                               data-href="admin/links/{$vo.id}/status/0"
+                                               data-msg="{:lang('HIDE_LINK_CONFIRM_MSG')}"
+                                               title="{:lang('HIDE')}" data-toggle="tooltip">
+                                                <i class="layui-icon layui-icon-eye-invisible"></i>
+                                            </a>
+                                        </if>
+                                        <a class="layui-btn layui-btn-xs"
+                                           href="{:url('Link/edit',array('id'=>$vo['id']))}"
+                                           title="{:lang('EDIT')}" data-toggle="tooltip">
+                                            <i class="layui-icon layui-icon-edit"></i>
+                                        </a>
+                                        <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                           href="javascript:"
+                                           data-href="admin/links/{$vo.id}"
+                                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                                            <i class="layui-icon layui-icon-delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    layui.use(['form'], function(){
+        var form = layui.form;
+        
+        // 全选
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).closest('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+        
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{$page.post_title}</title>
+		<meta name="keywords" content="{$page.post_keywords}"/>
+		<meta name="description" content="{$page.post_excerpt}">
+		<link rel="stylesheet" href="__STATIC__/css/hypercss.css" />
+		<link rel="stylesheet" href="__STATIC__/css/index.css?v=3.11.1" />     <!---用于VDITOR--->
+		<link rel="stylesheet" href="https://src.hyperionrobot.com/hyper-web/hyperbrain.css">
+		<include file="public@head"/>
+		<style>
+		    .article-box{margin:50px 0;}
+			#article_content img {
+				height: auto !important;
+				max-width: 100%;
+			}
+		</style>
+		<hook name="before_head_end"/>
+	</head>
+	<body>
+		<include file="public@nav"/>
+        <!-- Start Breadcrumb 
+        ============================================= -->
+        <div class="breadcrumb-area bg-gray text-center shadow dark text-light bg-cover" style="background-image: url(https://src.hyperionrobot.com/hyper-web/banner_product.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <h1>{$page.post_title}</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="__ROOT__/"><i class="fas fa-home"></i> 首页</a></li>
+                            <li class="active">{$page.post_title}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb -->
+		<div class="container">
+			<div class="article-box">
+				<h3>{$page.post_title|default=''}</h3>
+				<hr>
+				
+
+				<!--用于VDITOR的内容页-->
+				<div id="article_content">
+                    <div id="vditor"></div>
+                </div>
+			</div>
+		</div>
+		<include file="public@footer"/>
+		<include file="public@scripts"/>
+		<hook name="before_body_end"/>
+		
+		<!-- 开始：用于Vditor的script -->
+		<script src="__STATIC__/js/index.min.js?v=3.11.1"></script>
+
+        <script>
+            $(document).ready(() => {
+                const triggerPreview = () => {
+                    const buttons = document.querySelectorAll('.vditor-toolbar button');
+                    buttons.forEach((button) => { 
+                        if (button.getAttribute('data-type') === 'preview') {
+                            button.click();
+                            button.style.display = 'none';
+                        }
+                    });
+                    const actions = document.querySelectorAll('.vditor-preview__action');
+                    actions.forEach((action) => { 
+                        action.style.display = 'none';
+                    });
+                }
+                const contentData = `{$page.post_content}`;
+
+                const vditor = new Vditor('vditor', {
+                    // 设置为只读模式
+                    readonly: true,
+                    // 禁用缓存
+                    cache: {
+                        enable: false
+                    },
+                    // 禁用大纲
+                    outline: {
+                        enable: false
+                    },
+                    // 禁用计数器
+                    counter: {
+                        enable: false
+                    },
+                    // 禁用提示功能
+                    hint: {
+                        enable: false
+                    },
+                    // 初始内容
+                    value: contentData,
+                    mode: "sv",
+                    toolbar: [
+                        "preview"
+                    ],
+                    toolbarConfig: {
+                        pin: false,
+                    },
+                    // 主题设置
+                    theme: 'light',
+                    // 支持数学公式
+                    math: {
+                        engine: 'katex'
+                    },
+                    // 支持图表和流程图
+                    chart: true,
+                    mermaid: true,
+                    // 初始化完成后的回调
+                    after: function () {
+                        triggerPreview();
+                    }
+                });
+            });
+           
+        </script>
+        <!-- 结束：用于Vditor的script -->
+	</body>
+</html>

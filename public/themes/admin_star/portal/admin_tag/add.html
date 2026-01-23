@@ -1,0 +1,81 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('AdminTag/index')}">{:lang('ADMIN_TAG_INDEX')}</a></li>
+                    <li class="layui-this"><a href="{:url('AdminTag/add')}">{:lang('ADMIN_TAG_ADD')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <form class="layui-form layui-form-pane js-ajax-form" method="post" action="{:url('AdminTag/addPost')}">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="form-required">*</span>标签名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" class="layui-input" name="name" lay-verify="required" 
+                                       placeholder="请输入标签名称">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-block">
+                                <select name="status" class="layui-select">
+                                    <foreach name="arrStatus" key="k" item="vo">
+                                        <option value="{$k}">{$vo}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn js-ajax-submit">
+                                    <i class="layui-icon layui-icon-ok"></i>{:lang("SAVE")}
+                                </button>
+                                <a class="layui-btn layui-btn-primary" href="{:url('index')}">
+                                    <i class="layui-icon layui-icon-return"></i>{:lang("BACK")}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    form.render();
+});
+</script>
+<style>
+/* 移除选项卡边框 */
+.layui-tab {
+    margin: 0;
+}
+.layui-tab-brief > .layui-tab-title {
+    border-bottom-color: #f6f6f6;
+}
+
+/* 调整表单样式 */
+.layui-form {
+    margin: 15px;
+    max-width: 800px;
+}
+
+.layui-form-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 必填项标记样式 */
+.form-required {
+    color: red;
+    margin-right: 3px;
+}
+</style>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>联系我们</title>
+		<meta name="keywords" content="{$site_info.site_seo_keywords|default=''}"/>
+		<meta name="description" content="{$site_info.site_seo_description|default=''}">
+		<include file="public@head"/>
+		<script src="//api.map.baidu.com/api?v=1.4"></script>
+		<hook name="before_head_end"/>
+		<style>
+			img {max-width: none;}
+		</style>
+	</head>
+	<body>
+		<include file="public@nav"/>
+		<!-- Start Breadcrumb 
+        ============================================= -->
+        <!--<div class="breadcrumb-area bg-gray text-center shadow dark text-light bg-cover" style="background-image: url(__TMPL__/public/assets/img/banner/17.jpg);">-->
+        <div class="breadcrumb-area bg-gray text-center shadow dark text-light bg-cover" style="background-image: url(https://src.hyperionrobot.com/hyper-web/banner_contact.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <h1>{$page.post_title}</h1>
+                        <ul class="breadcrumb">
+                            <li><a href="__ROOT__/"><i class="fas fa-home"></i> 首页</a></li>
+                            <li class="active">{$page.post_title}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Breadcrumb -->
+    
+        <!-- Start Contact Area
+        ============================================= -->
+        <div class="contact-area default-padding-top">
+            <div class="container">
+                <div class="contact-items">
+                    <div class="row align-center">
+                        <div class="col-lg-4 left-item">
+                            <div class="info-items">
+                                <!-- Single Item -->
+                                <div class="item">
+                                    <div class="icon">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="info">
+                                        <h5>Location</h5>
+                                        <p>
+                                            {$theme_vars.address}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- End Single Item -->
+                                <!-- Single Item -->
+                                <div class="item">
+                                    <div class="icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div class="info">
+                                        <h5>Call</h5>
+                                        <p>
+                                            {$theme_vars.phone}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- End Single Item -->
+                                <!-- Single Item -->
+                                <div class="item">
+                                    <div class="icon">
+                                        <i class="fas fa-envelope-open"></i>
+                                    </div>
+                                    <div class="info">
+                                        <h5>Email</h5>
+                                        <p>
+                                            {$theme_vars.email}
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- End Single Item -->
+                            </div>
+                        </div>
+                        <div class="col-lg-8 right-item">
+                            <!--<h5>需要帮助?</h5>-->
+                            <h2>联系我们</h2>
+                           <php>$guestbook=hook_one('guestbook');</php>
+                            <if condition="empty($guestbook) && cmf_get_current_admin_id()">
+                                <div style="border: 1px dashed #ddd;min-height: 300px;padding-top: 100px;">
+                                    <div class="alert alert-warning" role="alert">
+                                        此区域这为留言区，请安装留言插件！<br>
+                                        <em>注：普通用户不会看到此提示！</em>
+                                    </div>
+                                </div>
+                            </if>
+                            {$guestbook}
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Contact -->
+    
+        <!-- Star Google Maps
+        ============================================= -->
+        <div class="maps-area" style="position: relative;z-index: -10;">
+            <div id="mapCanvas" class="google-maps" style="height: 500px;">
+                <php>
+					$company_location=empty($theme_vars['company_location'])?'120.67,31.12':$theme_vars['company_location'];
+					$company_location=explode(',',$company_location);
+					$company_location_lng=$company_location[0];
+					$company_location_lat=$company_location[1];
+				</php>
+				<script type="text/javascript">
+					var map   = new BMap.Map("mapCanvas"); // 创建Map实例
+					var point = new BMap.Point("{$company_location_lng}", "{$company_location_lat}"); // 创建点坐标
+					map.centerAndZoom(point, 15); // 初始化地图,设置中心点坐标和地图级别。
+					//map.enableScrollWheelZoom(); //启用滚轮放大缩小
+					//添加缩放控件
+					map.addControl(new BMap.NavigationControl());
+					map.addControl(new BMap.ScaleControl());
+					map.addControl(new BMap.OverviewMapControl());
+		
+					var marker = new BMap.Marker(point); // 创建标注
+					map.addOverlay(marker); // 将标注添加到地图中
+					var infoWindow = new BMap.InfoWindow("{$theme_vars.baidu_map_info_window_text|htmlspecialchars_decode|default=''}"); // 创建信息窗口对象
+					marker.openInfoWindow(infoWindow);
+				</script>
+            </div>
+        </div>
+        <!-- End Google Maps -->
+    		
+		<include file="public@footer"/>
+		<include file="public@scripts"/>
+		<hook name="before_body_end"/>
+	</body>
+</html>

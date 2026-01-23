@@ -1,0 +1,33 @@
+{
+    "name": "图片列表页",
+    "action": "portal/List/index",
+    "description": "图片列表模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+            "header_pc":{
+                "title": "Header图-电脑端",
+                "value": "",
+                "type": "image",
+                "placeholder": "",
+                "tip": "",
+                "rule": {
+                    "require": false
+                }
+            },
+            "header_wap":{
+                "title": "Header图-移动端",
+                "value": "",
+                "type": "image",
+                "placeholder": "",
+                "tip": "",
+                "rule": {
+                    "require": false
+                }
+            }
+        },
+        "widgets":{
+
+        }
+    }
+}

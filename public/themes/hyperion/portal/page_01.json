@@ -1,0 +1,14 @@
+{
+    "name": "页面_01",
+    "action": "portal/Page/index",
+    "description": "页面_01模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+
+        },
+        "widgets":{
+			
+        }
+    }
+}

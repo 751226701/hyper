@@ -1,0 +1,201 @@
+
+
+/* 产品介绍 */
+.flex-container {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+.flex-title {
+    color: #333333;
+    font-weight: normal;
+    margin: 0;
+}
+
+
+/* 产品特点*/
+.features-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 30px 0;
+}
+.feature-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 15px;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+/* 第一行三个项目 - 正常宽度 */
+.row-three .feature-item {
+    flex: 1;
+}
+/* 第二行两个项目 - 宽度增加一倍 */
+.row-two .feature-item {
+    flex: 2; /* 宽度是第一行的两倍 */
+    max-width: calc(50% - 10px);
+}
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+.feature-title {
+    color: #333;
+    font-weight: normal;
+    font-size: 1.1em;
+    margin: 0 0 10px 0;
+}
+.feature-desc {
+    color: #666;
+    font-size: 0.9em;
+    line-height: 1.5;
+    margin: 0;
+}
+
+
+
+/* 历史版本 */
+.download-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 30px;
+    margin: 20px 0;
+    border: 1px solid #dee2e6;
+}
+
+.version-section {
+    margin-bottom: 25px;
+}
+
+.version-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.version-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 4px solid #3498db;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.version-item.latest {
+    border-left-color: #e74c3c;
+    background: linear-gradient(135deg, #fff 0%, #fff5f5 100%);
+}
+
+.version-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.version-name {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1em;
+}
+
+.version-date {
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+.download-links {
+    display: flex;
+    gap: 10px;
+}
+
+.dl-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.85em;
+    transition: all 0.3s;
+}
+
+.dl-link:hover {
+    background: #2980b9;
+    transform: translateY(-1px);
+}
+
+.dl-link.update-notes {
+    background: #9b59b6;
+}
+
+.dl-link.update-notes:hover {
+    background: #8e44ad;
+}
+
+.badge {
+    background: #e74c3c;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7em;
+    margin-left: 8px;
+}
+
+
+
+/* 售后服务 */
+.service-simple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.contact-simple {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.contact-simple a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.contact-simple a:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+}

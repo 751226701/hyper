@@ -1,0 +1,130 @@
+<html>
+<link rel="icon" href="__TMPL__/public/assets/images/favicon.png" type="image/png">
+<link rel="shortcut icon" href="__TMPL__/public/assets/images/favicon.png" type="image/png">
+<link href="__TMPL__/public/assets/simpleboot3/themes/simpleboot3/bootstrap.min.css" rel="stylesheet">
+<link href="__TMPL__/public/assets/simpleboot3/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"
+      type="text/css">
+<!-- 引入 layui.css -->
+<link href="__TMPL__/public/assets/layui/css/layui.css" rel="stylesheet">
+<link href="__TMPL__/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <form method="post" class="js-ajax-form" action="{:url('AdminCategory/listorders')}">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="16">
+                    <!--<label>-->
+                    <!--    <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">-->
+                    <!--</label>-->
+                </th>
+                <th width="50">ID</th>
+                <th>分类名称</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--
+            <foreach name="categories" item="vo">
+                <tr>
+                    <td>
+                        <php>$checked = in_array($vo['id'],$selectedIds)?'checked':'';</php>
+                        <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                               value="{$vo.id}" data-name="{$vo.name}" {$checked}>
+                    </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.description}</td>
+                </tr>
+            </foreach>
+            -->
+            {$categories_tree}
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+
+
+
+
+    <script src="__TMPL__/public/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="__TMPL__/public/assets/js/jquery-migrate-1.2.1.js"></script>
+    <script src="__STATIC__/js/wind.js"></script>
+    <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
+    <script src="__TMPL__/public/assets/layui/layui.js"></script>
+    <script>
+        Wind.alias({noty:'__TMPL__/public/assets/js/noty-2.4.1.js'})
+    </script>
+    
+    
+    <script>
+        Wind.css('artDialog');
+        Wind.css('layer');
+        layui.config({
+            base: '__TMPL__/public/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use('index');
+    </script>
+
+
+
+
+<script>
+
+    $('.js-check').click(function (e) {
+        var itemTr = $(this).parents(".data-item-tr").siblings().first().find('input');
+        if ($(this).is(':checked')) {
+            itemTr.prop('checked', true);
+        }
+    });
+    
+    $('.data-item-tr').click(function (e) {
+
+        //console.log(e);
+        var $this = $(this);
+        if ($(e.target).is('input')) {
+            return;
+        }
+        
+        var $input = $this.find('input');
+     
+        var $finput = $this.siblings().first().find('input');
+        console.log($finput);
+        
+        if ($input.is(':checked')) {
+            $input.prop('checked', false);
+            //$finput.prop('checked', false);
+        } else {
+            $input.prop('checked', true);
+            $finput.prop('checked', true);
+        }
+    });
+ 
+    
+    
+    function confirm() {
+        var selectedCategoriesId   = [];
+        var selectedCategoriesName = [];
+        var selectedCategories     = [];
+        $('.js-check:checked').each(function () {
+            var $this = $(this);
+            selectedCategoriesId.push($this.val());
+            selectedCategoriesName.push($this.data('name'));
+
+            selectedCategories.push({
+                id: $this.val(),
+                name: $this.data('name')
+            });
+        });
+
+        return {
+            selectedCategories: selectedCategories,
+            selectedCategoriesId: selectedCategoriesId,
+            selectedCategoriesName: selectedCategoriesName
+        };
+    }
+</script>
+</body>
+</html>

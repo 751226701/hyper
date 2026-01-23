@@ -1,0 +1,83 @@
+ <!-- <style>
+.lead{font-size:18px;}
+.form-control{border-right:0;border-top:0;border-left:0;border-bottom:1px solid #eaeaea;}
+.guestbook-btn{border:1px solid #eee;background-color:#00a885;color:#fff;padding:8px 20px;border-radius:3px;}
+</style>
+<div class="guestbook">
+<p class="lead">{$config['desc']}</p>
+<div class="alert alert-success" role="alert" id="MessageSent" style="display:none">
+    {$config['messagesent']}
+</div>
+<form id="guestbook-form" role="form">
+<div class="row">
+  <div class="form-group col-md-6">
+   <label for="name">{:lang('name')}</label> 
+    <input type="text" class="form-control" id="name" name="name" placeholder="{:lang('name')}*">
+  </div>
+  <div class="form-group col-md-6">
+     <label for="phone">{:lang('phone')}</label><span class="require-item">*</span> 
+    <input type="text" class="form-control" id="phone" name="phone" placeholder="{:lang('phone')}*">
+  </div>
+</div>
+<div class="form-group">
+   <label for="message">{:lang('message')}</label> 
+  <textarea class="form-control" rows="6" id="message" name="message" placeholder="{:lang('message')}*"></textarea>
+</div>
+<input type="hidden" id="siteUrl" name="siteUrl" readonly="readonly">
+<script>document.getElementById('siteUrl').value=window.location.href;</script>
+<button type="submit" id="guestbook-submit" value="{:lang('submit')}" class="guestbook-btn">{:lang('submit')}</button>
+</form>
+</div>-->
+
+<form class="js-ajax-form" action="{:cmf_plugin_url('Guestbook://Index/addMsg')}" method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <input class="form-control" id="name" name="name" placeholder="您的姓名..." type="text">
+                <span class="alert-error"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <input class="form-control" id="email" name="email" placeholder="您的邮件..." type="text">
+                <span class="alert-error"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <input class="form-control" id="phone" name="phone" placeholder="您的电话(必填)..." type="text">
+                <span class="alert-error"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group comments">
+                <textarea class="form-control" id="message" name="message" placeholder="详细内容..."></textarea>
+            </div>
+        </div>
+    </div>
+    <!--<div class="row">-->
+    <!--    <div class="col-lg-12">-->
+    <!--        <input class="form-control" id="captcha" name="captcha" type="text" placeholder="验证码" style="float: left; width: 160px;"/>-->
+    <!--        <captcha height="38" width="160" font-size="20"/>-->
+    <!--    </div>-->
+    <!--</div>-->
+    
+    <input type="hidden" id="siteUrl" name="siteUrl" readonly="readonly">
+    <script>document.getElementById('siteUrl').value=window.location.href;</script>
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="submit" name="submit" id="submit" class="js-ajax-submit">
+                立即提交 <i class="fa fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+    <!-- Alert Message -->
+    <div class="col-lg-12 alert-notification">
+        <div id="message" class="alert-msg"></div>
+    </div>
+</form>
+

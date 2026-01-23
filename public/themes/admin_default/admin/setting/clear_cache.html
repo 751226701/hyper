@@ -1,0 +1,42 @@
+<extend name="public@base5"/>
+<block name="head">
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
+</block>
+<block name="main">
+    <div class="wrap">
+        <div class="row">
+            <div class="offset-md-3 col-md-6">
+                <div class="card" style="margin-top: 10%">
+                    <div class="card-header">
+                        <b>{:lang('CACHE_CLEARED')}</b>
+                    </div>
+                    <div class="card-body">
+                        <div style="line-height: 60px;">
+                            {:lang('CACHE_CLEARED')}
+                        </div>
+                        <div class="text-end">
+                            <a href="javascript:close_app();" class="btn btn-primary">{:lang('CLOSE')}</a>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        var closeTimeout = setTimeout(function () {
+            parent.close_current_app();
+        }, 3000);
+
+        function close_app() {
+            clearTimeout(closeTimeout);
+            parent.close_current_app();
+        }
+    </script>
+</block>

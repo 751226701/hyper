@@ -1,0 +1,67 @@
+{
+    "name": "页面_02",
+    "action": "portal/Page/index",
+    "description": "页面_02模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+
+        },
+        "widgets":{
+			"page_one": {
+				"title": "板块一",
+				"display": "1",
+				"vars": {
+					"features": {
+						"title": "详细信息",
+						"value": [
+							{
+								"title": "Why is collaborative learning so important?",
+								"content":"Companions shy had solicitude favourable own. Which could saw guest man now heard but. Lasted my coming uneasy marked so should. Gravity letters it amongst herself dearest an windows by. Wooded ladies she basket season age her uneasy saw. Discourse unwilling am no described dejection incommode no listening of. Before nature his parish boy.",
+								"links":""
+							},
+							{
+								"title": "Do you offer free trials?",
+								"content":"Companions shy had solicitude favourable own. Which could saw guest man now heard but. Lasted my coming uneasy marked so should. Gravity letters it amongst herself dearest an windows by. Wooded ladies she basket season age her uneasy saw. Discourse unwilling am no described dejection incommode no listening of. Before nature his parish boy.",
+								"links":""
+							},
+							{
+								"title": "What kind of support do you offer?",
+								"content":"Companions shy had solicitude favourable own. Which could saw guest man now heard but. Lasted my coming uneasy marked so should. Gravity letters it amongst herself dearest an windows by. Wooded ladies she basket season age her uneasy saw. Discourse unwilling am no described dejection incommode no listening of. Before nature his parish boy.",
+								"links":""
+							},
+							{
+								"title": "Can I share my courses with non-registered users?",
+								"content":"Companions shy had solicitude favourable own. Which could saw guest man now heard but. Lasted my coming uneasy marked so should. Gravity letters it amongst herself dearest an windows by. Wooded ladies she basket season age her uneasy saw. Discourse unwilling am no described dejection incommode no listening of. Before nature his parish boy.",
+								"links":""
+							}
+						],
+						"type": "array",
+						"item": {
+							"title": {
+								"title": "标题",
+								"value": "",
+								"type": "text",
+								"rule": {
+									"require": true
+								}
+							},
+							"content": {
+								"title": "照片",
+								"value": "",
+								"type": "textarea"
+							},
+        					"links": {
+        						"title": "链接",
+        						"value": "",
+        						"type": "text",
+                                "tip": "备注"
+        					}
+						},
+						"tip": ""
+					}
+				}
+			}
+        }
+    }
+}

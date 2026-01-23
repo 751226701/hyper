@@ -1,0 +1,83 @@
+<!--
+ * @Desc: 资源管理
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('AdminAsset/index')}">{:lang('USER_ADMINASSET_INDEX')}</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <php>$statuses=[lang('Unavailable'), lang('Available')];</php>
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th width="50">ID</th>
+                                <th>{:lang('User')}</th>
+                                <th>{:lang('File size')}</th>
+                                <th>{:lang('File name')}</th>
+                                <th>{:lang('Thumbnail')}</th>
+                                <th>{:lang('File path')}</th>
+                                <th>{:lang('STATUS')}</th>
+                                <th width="150">{:lang('ACTIONS')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <php>
+                                $asset_img_suffixes=['bmp','jpg','jpeg','png','gif','tiff'];/*TODO ADD MORE*/
+                            </php>
+                            <foreach name="assets" item="vo">
+                                <tr>
+                                    <td>{$vo.id}</td>
+                                    <td>
+                                        ID:{$vo.user_id} {$vo.user_login} {$vo.user_nickname}
+                                    </td>
+                                    <td>{$vo.file_size/1024|round}KB</td>
+                                    <td>{$vo.filename}</td>
+                                    <td>
+                                        <if condition="in_array(strtolower($vo['suffix']),$asset_img_suffixes)">
+                                            <a href="javascript:parent.imagePreviewDialog('{:cmf_get_image_preview_url($vo['file_path'])}');">
+                                                <i class="layui-icon layui-icon-picture"></i>
+                                            </a>
+                                        </if>
+                                    </td>
+                                    <td>
+                                        {$vo.file_path}
+                                        <if condition="!file_exists('upload/'.$vo['file_path'])">
+                                            <span class="layui-badge">&nbsp;&nbsp;{:lang('File missing')}</span>
+                                        </if>
+                                    </td>
+                                    <td>
+                                        <if condition="$vo['status'] eq 1">
+                                            <span class="layui-badge layui-bg-green">{$statuses[$vo['status']]}</span>
+                                        <else/>
+                                            <span class="layui-badge">{$statuses[$vo['status']]}</span>
+                                        </if>
+                                    </td>
+                                    <td>
+                                        <a class="layui-btn layui-btn-xs layui-btn-danger js-ajax-delete"
+                                           href="javascript:"
+                                           data-href="admin/assets/{$vo.id}" 
+                                           title="{:lang('DELETE')}" data-toggle="tooltip">
+                                            <i class="layui-icon layui-icon-delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
+                    <div class="pagination">{$page|default=''}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+</body>
+</html>

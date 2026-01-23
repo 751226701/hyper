@@ -1,0 +1,84 @@
+{
+    "name": "招聘页面",
+    "action": "portal/Page/index",
+    "description": "招聘页面页面模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+			
+        },
+        "widgets":{
+            "page_job": {
+                "title": "左侧_招聘板块",
+                "display": "1",
+                "vars": {
+                    "features": {
+                        "title": "详细信息",
+                        "value": [
+                            {
+                                "title": "运维工程师",
+                                "category": "技术",
+                                "location": "北京",
+                                "duties": "主要负责公司的服务器配置、维护、监控和优化",
+                                "skill": "1、2年以上软件开发公司运维经验，有阿里云运维经验优先；<br>2、Linux基础知识扎实。熟悉linux命令操作，熟练编写shell脚本。会用正则、sed、grep处理文本；<br>3、熟练配置Nginx 、Tomcat、Java server、redis、mongodb、mq中间件等应用相关软件的部署、配置与优化维护；<br>4、网络知识扎实。熟悉常用的协议的工作原理，熟悉网络设备的安装配置和维护。<br>"
+                            },
+                            {
+                                "title": "WEB前端工程师",
+                                "category": "技术",
+                                "location": "西安",
+                                "duties": "1. 产品前端架构设计；<br>2. 前端Web系统的开发和维护。",
+                                "skill": "1、2年以上软件开发公司运维经验，有阿里云运维经验优先；<br>2、Linux基础知识扎实。熟悉linux命令操作，熟练编写shell脚本。会用正则、sed、grep处理文本；<br>3、熟练配置Nginx 、Tomcat、Java server、redis、mongodb、mq中间件等应用相关软件的部署、配置与优化维护；<br>4、网络知识扎实。熟悉常用的协议的工作原理，熟悉网络设备的安装配置和维护。<br>"
+                            },
+							{
+                                "title": "运维工程师",
+                                "category": "技术",
+                                "location": "北京",
+                                "duties": "主要负责公司的服务器配置、维护、监控和优化",
+                                "skill": "1、2年以上软件开发公司运维经验，有阿里云运维经验优先；<br>2、Linux基础知识扎实。熟悉linux命令操作，熟练编写shell脚本。会用正则、sed、grep处理文本；<br>3、熟练配置Nginx 、Tomcat、Java server、redis、mongodb、mq中间件等应用相关软件的部署、配置与优化维护；<br>4、网络知识扎实。熟悉常用的协议的工作原理，熟悉网络设备的安装配置和维护。<br>"
+                            },
+                            {
+                                "title": "PHP后端",
+                                "category": "技术",
+                                "location": "西安",
+                                "duties": "1. 产品前端架构设计；<br>2. 前端Web系统的开发和维护。",
+                                "skill": "1、2年以上软件开发公司运维经验，有阿里云运维经验优先；<br>2、Linux基础知识扎实。熟悉linux命令操作，熟练编写shell脚本。会用正则、sed、grep处理文本；<br>3、熟练配置Nginx 、Tomcat、Java server、redis、mongodb、mq中间件等应用相关软件的部署、配置与优化维护；<br>4、网络知识扎实。熟悉常用的协议的工作原理，熟悉网络设备的安装配置和维护。<br>"
+                            }
+                        ],
+                        "type": "array",
+                        "item": {
+                            "title": {
+                                "title": "招聘职位",
+                                "value": "",
+                                "type": "text",
+                                "rule": {
+                                    "require": true
+                                }
+                            },
+                            "category": {
+                                "title": "职位类别",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "location": {
+                                "title": "工作地点",
+                                "value": "",
+                                "type": "text"
+                            },
+                            "duties": {
+                                "title": "岗位职责",
+                                "value": "",
+                                "type": "textarea"
+                            },
+                            "skill": {
+                                "title": "技能要求",
+                                "value": "",
+                                "type": "textarea"
+                            }
+                        },
+                        "tip": ""
+                    }
+                }
+            }
+        }
+    }
+}

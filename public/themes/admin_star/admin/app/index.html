@@ -1,0 +1,99 @@
+<!--
+ * @Desc: 应用管理
+ * @Author: Patrick Star
+ * @Date: 2024-12-16 16:59:34
+-->
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><a href="{:url('admin/App/index')}">{:lang('ADMIN_APP_INDEX')}</a></li>
+                    <if condition="class_exists('\app\admin\controller\AppStoreController')">
+                        <li><a href="{:url('AppStore/apps')}">{:lang('ADMIN_APPSTORE_APPS')}</a></li>
+                    </if>
+                </ul>
+                <div class="layui-tab-content">
+                    <form method="post" class="js-ajax-form">
+                        <php>
+                            $status=array("1"=>lang('Enabled'),"0"=>lang('Disabled'),"3"=>lang('Not Installed'));
+                        </php>
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>{:lang('NAME')}</th>
+                                    <th>{:lang('Key')}</th>
+                                    <th>{:lang('Description')}</th>
+                                    <th>{:lang('Author')}</th>
+                                    <th>{:lang('Version')}</th>
+                                    <th>{:lang('STATUS')}</th>
+                                    <th width="150">{:lang('ACTIONS')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <foreach name="apps" item="vo">
+                                    <tr>
+                                        <td>{$vo.title}</td>
+                                        <td><span class="layui-badge layui-bg-blue">{$vo.name}</span></td>
+                                        <td>{$vo.description}</td>
+                                        <td>{$vo.author}</td>
+                                        <td><span class="layui-badge layui-bg-green">{$vo.version}</span></td>
+                                        <td>
+                                            <empty name="vo.installed">
+                                                <span class="layui-badge layui-bg-orange">{:lang('Not Installed')}</span>
+                                            <else/>
+                                                <span class="layui-badge layui-bg-green">{:lang('Installed')}</span>
+                                            </empty>
+                                        </td>
+                                        <td>
+                                            <empty name="vo.installed">
+                                                <a class="layui-btn layui-btn-xs js-ajax-dialog-btn"
+                                                   href="javascript:void(0);"
+                                                   data-href="admin/apps/{$vo.name}"
+                                                   data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}"
+                                                   title="{:lang('Install')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-add-1"></i>
+                                                </a>
+                                            <else/>
+                                                <a class="layui-btn layui-btn-xs layui-btn-normal js-ajax-dialog-btn"
+                                                   href="javascript:void(0);"
+                                                   data-href="admin/apps/{$vo.name}"
+                                                   data-method="PUT"
+                                                   data-msg="{:lang('UPDATE_APP_CONFIRM_MSG')}"
+                                                   title="{:lang('Update')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-refresh"></i>
+                                                </a>
+                                                <a class="layui-btn layui-btn-xs layui-btn-danger"
+                                                   href="javascript:doOpenUninstallAppDialog('{$vo.name}')"
+                                                   data-msg="{:lang('INSTALL_APP_CONFIRM_MSG')}"
+                                                   title="{:lang('Uninstall')}" data-toggle="tooltip">
+                                                    <i class="layui-icon layui-icon-delete"></i>
+                                                </a>
+                                            </empty>
+                                        </td>
+                                    </tr>
+                                </foreach>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+    function doOpenUninstallAppDialog(name) {
+        parent.openIframeLayer("{:url('App/uninstall')}?name=" + name, "{:lang('App uninstall')}", {
+            area: ['450px', '600px'],
+            end: function () {
+                window.location.reload();
+            }
+        })
+    }
+</script>
+</body>
+</html>

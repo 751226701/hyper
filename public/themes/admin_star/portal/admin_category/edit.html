@@ -1,0 +1,226 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li><a href="{:url('AdminCategory/index')}">分类管理</a></li>
+                    <li><a href="{:url('AdminCategory/add')}">添加分类</a></li>
+                    <li class="layui-this">编辑分类</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-row">
+                        <div class="layui-col-md2">
+                            <ul class="layui-menu">
+                                <li class="layui-menu-item-checked">
+                                    <a href="#A" data-toggle="tab">基本属性</a>
+                                </li>
+                                <li>
+                                    <a href="#B" data-toggle="tab">SEO设置</a>
+                                </li>
+                                <li>
+                                    <a href="#C" data-toggle="tab">模板设置</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="layui-col-md8">
+                            <form class="layui-form layui-form-pane js-ajax-form" action="{:url('AdminCategory/editPost')}" method="post">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="A">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label"><span class="form-required">*</span>上级</label>
+                                            <div class="layui-input-block">
+                                                <select class="layui-select" name="parent_id" id="input-parent">
+                                                    <option value="0">作为一级分类</option>
+                                                    {$categories_tree}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label"><span class="form-required">*</span>分类名称</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="name" value="{$name}" lay-verify="required">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">分类别名</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="alias" value="{$alias|default=''}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">描述</label>
+                                            <div class="layui-input-block">
+                                                <textarea class="layui-textarea" name="description">{$description}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">缩略图</label>
+                                            <div class="layui-input-block">
+                                                <input type="hidden" name="more[thumbnail]" value="{$more.thumbnail|default=''}" id="js-thumbnail-input">
+                                                <a href="javascript:uploadOneImage('图片上传','#js-thumbnail-input');">
+                                                    <if condition="empty($more.thumbnail)">
+                                                        <img src="__TMPL__/public/assets/images/default-thumbnail.png"
+                                                             id="js-thumbnail-input-preview"
+                                                             style="cursor: pointer;max-width:100px;max-height:100px;"/>
+                                                    <else/>
+                                                        <img src="{:cmf_get_image_preview_url($more.thumbnail)}"
+                                                             id="js-thumbnail-input-preview"
+                                                             style="cursor: pointer;max-width:100px;max-height:100px;"/>
+                                                    </if>
+                                                </a>
+                                                <input type="button" class="layui-btn layui-btn-sm layui-btn-normal" 
+                                                       onclick="$('#js-thumbnail-input-preview').attr('src','__TMPL__/public/assets/images/default-thumbnail.png');$('#js-thumbnail-input').val('');return false;"
+                                                       value="取消图片">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="B">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">SEO标题</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="seo_title" value="{$seo_title}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">SEO关键字</label>
+                                            <div class="layui-input-block">
+                                                <input type="text" class="layui-input" name="seo_keywords" value="{$seo_keywords}">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">SEO描述</label>
+                                            <div class="layui-input-block">
+                                                <textarea class="layui-textarea" name="seo_description">{$seo_description}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="C">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label"><span class="form-required">*</span>列表模板</label>
+                                            <div class="layui-input-block">
+                                                <select class="layui-select" name="list_tpl" id="input-list_tpl">
+                                                    <foreach name="list_theme_files" item="vo">
+                                                        <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
+                                                    </foreach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label"><span class="form-required">*</span>文章模板</label>
+                                            <div class="layui-input-block">
+                                                <select class="layui-select" name="one_tpl" id="input-one_tpl">
+                                                    <foreach name="article_theme_files" item="vo">
+                                                        <php>$value=preg_replace('/^portal\//','',$vo['file']);</php>
+                                                        <option value="{$value}">{$vo.name} {$vo.file}.html</option>
+                                                    </foreach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <input type="hidden" name="id" value="{$id}">
+                                    <div class="form-fixed-footer">
+                                        <button type="submit" class="layui-btn js-ajax-submit" data-refresh="0">
+                                            <i class="layui-icon layui-icon-success"></i> {:lang('SAVE')}
+                                        </button>
+                                        <a class="layui-btn layui-btn-primary" href="{:url('AdminCategory/index')}">
+                                            {:lang('BACK')}
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/admin.js?v={$_static_version}"></script>
+<script>
+layui.use(['form'], function(){
+    var form = layui.form;
+    
+    // 设置默认选中的模板
+    $('#input-list_tpl').val("{$list_tpl|default=''}");
+    $('#input-one_tpl').val("{$one_tpl|default=''}");
+    
+    form.render();
+});
+
+// 添加列表组样式
+$(function(){
+    $('.layui-menu li').click(function(){
+        $('.layui-menu li').removeClass('layui-menu-item-checked');
+        $(this).addClass('layui-menu-item-checked');
+    });
+});
+</script>
+<style>
+
+/* 移除选项卡边框 */
+.layui-tab {
+    margin: 0;
+}
+
+.layui-tab-brief > .layui-tab-title {
+    border-bottom-color: #f6f6f6;
+}
+
+/* 列表组样式 */
+.layui-menu {
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    margin-right: 15px;
+}
+.layui-menu li {
+    position: relative;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e6e6e6;
+    cursor: pointer;
+}
+.layui-menu li:last-child {
+    border-bottom: none;
+}
+.layui-menu li a {
+    display: block;
+    color: #666;
+    text-decoration: none;
+}
+.layui-menu-item-checked {
+    background-color: #f2f2f2;
+}
+
+
+/* 调整布局样式 */
+.layui-tab-content {
+    padding: 15px 0;  /* 移除左右内边距 */
+}
+.layui-tab-content .layui-row {
+    margin: 0;  /* 移除负边距 */
+}
+.layui-col-md2, .layui-col-md8 {
+    padding: 0 15px;
+}
+.tab-content {
+    background: #fff;
+    padding-bottom: 20px;
+    min-height: 300px;
+}
+.layui-menu, .tab-content {
+    margin-top: 0;
+}
+
+/* 调整表单样式 */
+.layui-form-item:last-child {
+    margin-bottom: 0;
+}
+</style>
+</body>
+</html>
