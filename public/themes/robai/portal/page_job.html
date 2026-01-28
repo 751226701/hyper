@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{$page.post_title}</title>
+		<title>{$page.post_title} {$theme_vars.site_name|default=''}</title>
 		<meta name="keywords" content="{$page.post_keywords}"/>
 		<meta name="description" content="{$page.post_excerpt}">
 		<include file="public@head"/>

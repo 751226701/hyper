@@ -1,8 +1,8 @@
-<?php /*a:7:{s:72:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/portal/index.html";i:1768883401;s:71:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/head.html";i:1765520921;s:75:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/function.html";i:1768462231;s:73:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/config.html";i:1759133767;s:70:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/nav.html";i:1768899266;s:73:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/footer.html";i:1769077938;s:74:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/scripts.html";i:1768562960;}*/ ?>
+<?php /*a:7:{s:72:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/portal/index.html";i:1769523491;s:71:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/head.html";i:1765520921;s:75:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/function.html";i:1768462231;s:73:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/config.html";i:1759133767;s:70:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/nav.html";i:1768899266;s:73:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/footer.html";i:1769077938;s:74:"/www/wwwroot/www.hyperionrobot.com/public/themes/robai/public/scripts.html";i:1768562960;}*/ ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo (isset($site_info['site_name']) && ($site_info['site_name'] !== '')?$site_info['site_name']:''); ?></title>
+		<title><?php echo (isset($theme_vars['site_name']) && ($theme_vars['site_name'] !== '')?$theme_vars['site_name']:$site_info['site_name']); ?></title>
 		<meta name="keywords" content="<?php echo (isset($site_info['site_seo_keywords']) && ($site_info['site_seo_keywords'] !== '')?$site_info['site_seo_keywords']:''); ?>"/>
 		<meta name="description" content="<?php echo (isset($site_info['site_seo_description']) && ($site_info['site_seo_description'] !== '')?$site_info['site_seo_description']:''); ?>">
 		

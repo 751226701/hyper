@@ -305,7 +305,8 @@
 @media (min-width: 768px) {
   .navbar-nav {
     float: left;
-    margin: 0;
+    /*margin: 0;*/
+    margin-right: 580px;    /* 应客户需求修改顶部导航位置为居中 */
   }
 
   .navbar-nav > li {

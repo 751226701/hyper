@@ -1,8 +1,8 @@
-<?php /*a:7:{s:77:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/portal/article.html";i:1765511356;s:74:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/head.html";i:1765520921;s:78:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/function.html";i:1768462231;s:76:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/config.html";i:1759133767;s:73:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/nav.html";i:1768895638;s:76:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/footer.html";i:1769078028;s:77:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/scripts.html";i:1768896081;}*/ ?>
+<?php /*a:7:{s:77:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/portal/article.html";i:1769524853;s:74:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/head.html";i:1765520921;s:78:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/function.html";i:1768462231;s:76:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/config.html";i:1759133767;s:73:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/nav.html";i:1768895638;s:76:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/footer.html";i:1769078028;s:77:"/www/wwwroot/www.hyperionrobot.com/public/themes/hyperion/public/scripts.html";i:1768896081;}*/ ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo $article['post_title']; ?></title>
+		<title><?php echo $article['post_title']; ?> <?php echo (isset($theme_vars['site_name']) && ($theme_vars['site_name'] !== '')?$theme_vars['site_name']:''); ?></title>
 		<meta name="keywords" content="<?php echo (isset($site_info['site_seo_keywords']) && ($site_info['site_seo_keywords'] !== '')?$site_info['site_seo_keywords']:''); ?>"/>
 		<meta name="description" content="<?php echo (isset($site_info['site_seo_description']) && ($site_info['site_seo_description'] !== '')?$site_info['site_seo_description']:''); ?>">
 		<link rel="stylesheet" href="/static/css/index.css?v=3.11.1" />     <!---用于VDITOR--->
