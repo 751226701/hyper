@@ -15,5 +15,4 @@ Vagrantfile
 /config
 /docker/redis/data
 /docker/mysql/data
-data/runtime/cache/
-data/runtime/session/
+data/runtime
